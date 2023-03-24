@@ -1,0 +1,768 @@
+﻿<!-- delete doctor Modal -->
+<div id="delete_doctor" class="modal fade delete-modal" role="dialog" style="z-index: 9999;">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<img src="~/assets/img/sent.png" alt="" width="50" height="46">
+				<h3>Voulez vous vraiment supprimer ce profil ?</h3>
+				<div class="m-t-20">
+					<a href="#" class="btn btn-white" data-bs-dismiss="modal">Non </a>
+					<button type="submit" class="btn btn-danger" onclick="Submit_Delete_doctor()" data-id="" id="delete-doctor-btn">Oui</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add doctor modal-->
+<div class="modal fade bd-example-modal-lg" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Medecins </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Ajouter un Medecin</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="Doctor" asp-action="AddDoctor" id="add-doctor-form" method="post">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Ajouter un medecin</h4>
+											</div>
+										</div>
+										<input type="hidden" id="addontime" value="true">
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Nom" id="Nom" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Prenom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Prenom" id="Prenom" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Matricule<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Matricule" id="Matricule"  required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Telephone<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Telephonea" id="Telephonea" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Email <span class="login-danger">*</span></label>
+												<input class="form-control" type="email" name="Email" id="Email"  required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms cal-icon">
+												<label>Date de naissance<span class="login-danger">*</span></label>
+												<input class="form-control datetimepicker" name="DateN" id="DateN" oninvalid="this.setCustomValidity('Veuillez entrer une date de la forme jj/mm/aaaa.')"  pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" type="text" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Lieu de naissance <span class="login-danger">*</span></label>
+												<input class="form-control" name="LieuN" id="LieuN" type="text"  required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Situation Conjugale<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Celibataire" required>Célibataire
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Marie">Marié(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Divorce">Divorcé(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Veuf">Veuf(e)
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Sexe<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Homme" required>Homme
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Femme">Femme
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-sm-12">
+											<div class="form-group local-forms">
+												<label>Addresse<span class="login-danger">*</span></label>
+												<textarea class="form-control" name="Adresse" id="Adresse" rows="3" cols="30" required></textarea>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Ville<span class="login-danger">*</span></label>
+												<input class="form-control" name="Ville" id="Ville" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Code Postal<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="CodePostal" id="CodePostale" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary submit-form me-2" id="submit-btn">Ajouter</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit modal-->
+<div class="modal fade bd-example-modal-lg" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9992;" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Medecins </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Modifier un Medecin</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="Doctor" asp-action="SubmitEditDoctor" id="edit-doctor-form" method="post">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Ajouter un medecin</h4>
+											</div>
+										</div>
+										<input type="hidden" id="Id">
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Nom" placeholder=Nom required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Prenom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Prenom" placeholder=Prenom required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Matricule<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Matricule" placeholder="Matricule" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Telephone<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="telephone" required >
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Email <span class="login-danger">*</span></label>
+												<input class="form-control" type="email" id="Email" placeholder="Email" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms cal-icon">
+												<label>Date de naissance<span class="login-danger">*</span></label>
+												<input class="form-control datetimepicker" id="DateN" oninvalid="this.setCustomValidity('Veuillez entrer une date de la forme jj/mm/aaaa.')"  pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" type="text" placeholder="DateN" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Lieu de naissance <span class="login-danger">*</span></label>
+												<input class="form-control" id="LieuN" type="text" placeholder="LieuN" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Situation Conjugale<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" id="Celibatairee" class="form-check-input" value="Celibataire" required>Célibataire
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" id="Marie" class="form-check-input" value="Marie">Marié(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" id="Divorce" class="form-check-input" value="Divorce">Divorcé(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" id="Veuf" class="form-check-input" value="Divorce">Veuf(e)
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-4">
+											<div class="form-group select-gender">
+												<label class="gen-label" id="Sexe">Sexe<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" id="HSexe" name="Sexe" class="form-check-input" value="Homme">Homme
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" id="FSexe" name="Sexe" class="form-check-input" value="Femme">Femme
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-sm-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Adresse<span class="login-danger">*</span></label>
+												<textarea class="form-control" id="Adresse" rows="3" cols="30" placeholder=Adresse required></textarea>
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Ville<span class="login-danger">*</span></label>
+												<input class="form-control" id="Ville" placeholder=Ville required>
+											</div>
+										</div>
+
+										<div class="col-12 col-md-4 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Code Postal<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="CodePostal" placeholder=CodePostal required>
+											</div>
+										</div>
+										
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Cancel</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Profil modal-->
+<div class="modal fade bd-example-modal-lg" id="profil-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9991;" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">Medecins </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Profil Medecin</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+
+				<div class="good-morning-blk" style="border-radius: 18px;">
+					<div class="row">
+						<div class="col-md-6" style="margin:11px;">
+							<div class="morning-user">
+								<h2><span id="Name"></span>  Profil :</h2>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="doctor-submit text-end" style="margin: 10px;">
+								<button type="button" class="btn btn-primary" id="edit-profil-btn" onclick="edit_doctor_btn()">Edit</button>
+								<button type="button" class="btn btn-primary cancel-form" id="delete-profil-btn" onclick="delete_doctor_btn()">Supprimer</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="doctor-personals-grp">
+							<div class="card">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span>Données Personel</a>
+											</li>
+										</ul>
+									</div>
+									<div class="personal-list-out">
+										<div class="row" style="margin: 19px 0px;">
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Matricule</h2>
+													<h3 id=""><span id="matricule"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Telephone</h2>
+													<h3 id=""><span id="telephone"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Email</h2>
+													<h3 id=""><span id="email"></span></h3>
+												</div>
+											</div>
+										</div>
+										<div class="row"  style="margin: 19px 0px;">
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Sexe</h2>
+													<h3 id=""><span id="sexe"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Date de naissance</h2>
+													<h3 id=""><span id="dateN"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Lieux de naissance</h2>
+													<h3 id=""><span id="lieuN"></span></h3>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="margin: 19px 0px;">
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Situation Conjugale</h2>
+													<h3 id=""><span id="situationC"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Ville</h2>
+													<h3 id=""><span id="VilleAdresse"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Code Postal</h2>
+													<h3 id=""><span id="codePostal"></span></h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="doctor-list-blk">
+					<div class="row">
+						<div class="col-xl-6 col-md-6" style="margin-bottom: 20px;">
+							<div class="doctor-widget border-right-bg">
+								<div class="doctor-box-icon flex-shrink-0">
+									<img src="~/assets/img/icons/doctor-dash-01.svg" alt="">
+								</div>
+								<div class="doctor-content dash-count flex-grow-1">
+									<h4><span class="counter-up">30</span><span>/85</span><span class="status-green">+60%</span></h4>
+									<h5>Appointments</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-6">
+							<div class="doctor-widget border-right-bg">
+								<div class="doctor-box-icon flex-shrink-0">
+									<img src="~/assets/img/icons/doctor-dash-02.svg" alt="">
+								</div>
+								<div class="doctor-content dash-count flex-grow-1">
+									<h4><span class="counter-up">20</span><span>/125</span><span class="status-pink">-20%</span></h4>
+									<h5>Consultations</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-6">
+							<div class="doctor-widget border-right-bg">
+								<div class="doctor-box-icon flex-shrink-0">
+									<img src="~/assets/img/icons/doctor-dash-03.svg" alt="">
+								</div>
+								<div class="doctor-content dash-count flex-grow-1">
+									<h4><span class="counter-up">12</span><span>/30</span><span class="status-green">+40%</span></h4>
+									<h5>Operations</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-6">
+							<div class="doctor-widget">
+								<div class="doctor-box-icon flex-shrink-0">
+									<img src="~/assets/img/icons/doctor-dash-04.svg" alt="">
+								</div>
+								<div class="doctor-content dash-count flex-grow-1">
+									<h4>$<span class="counter-up">530</span><span></span><span class="status-green">+50%</span></h4>
+									<h5>Earnings</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="doctor-personals-grp">
+							<div class="card">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="/assets/img/icons/menu-icon-02.svg" alt=""></span>Plus de Detaille</a>
+											</li>
+										</ul>
+									</div>
+									<div class="about-me-list">
+										<ul class="list-space">
+											<li>
+												<h4>Operation Done</h4>
+												<span>30+</span>
+											</li>
+											<li>
+												<h4>Designation</h4>
+												<span>Sr. Doctor</span>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="doctor-personals-grp">
+							<div class="card">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="/assets/img/icons/menu-icon-02.svg" alt=""></span>Skills</a>
+											</li>
+										</ul>
+									</div>
+									<div class="skill-blk">
+										<div class="skill-statistics">
+											<div class="skills-head">
+												<h5>Operations</h5>
+												<p>45%</p>
+											</div>
+											<div class="progress mb-0">
+												<div class="progress-bar bg-operations" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+										<div class="skill-statistics">
+											<div class="skills-head">
+												<h5>Patient Care</h5>
+												<p>85%</p>
+											</div>
+											<div class="progress mb-0">
+												<div class="progress-bar bg-statistics" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+										<div class="skill-statistics">
+											<div class="skills-head">
+												<h5>Endoscopic </h5>
+												<p>65%</p>
+											</div>
+											<div class="progress mb-0">
+												<div class="progress-bar bg-endoscopic" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+										<div class="skill-statistics">
+											<div class="skills-head">
+												<h5>Patient Visit </h5>
+												<p>90%</p>
+											</div>
+											<div class="progress mb-0">
+												<div class="progress-bar bg-visit" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="doctor-personals-grp">
+							<div class="card">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span>Specialité</a>
+											</li>
+										</ul>
+									</div>
+									<div class="personal-activity">
+										<div class="personal-icons status-grey">
+											<img src="~/assets/img/icons/medal-01.svg" alt="">
+										</div>
+										<div class="views-personal">
+											<h4>Proffesionals</h4>
+											<h5>Certified Skin Treatment</h5>
+										</div>
+									</div>
+									<div class="personal-activity">
+										<div class="personal-icons status-green">
+											<img src="~/assets/img/icons/medal-02.svg" alt="">
+										</div>
+										<div class="views-personal">
+											<h4>Certified</h4>
+											<h5>Cold Laser Operation</h5>
+										</div>
+									</div>
+									<div class="personal-activity mb-0">
+										<div class="personal-icons status-orange">
+											<img src="~/assets/img/icons/medal-03.svg" alt="">
+										</div>
+										<div class="views-personal">
+											<h4>Medication Laser</h4>
+											<h5>Hair Lose Product</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex">
+						<div class="struct-point">
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>New Patients</h5>
+									<h3>56<span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
+								</div>
+							</div>
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>Old Patients</h5>
+									<h3>35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex">
+						<div class="struct-point">
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>New Patients</h5>
+									<h3>56<span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
+								</div>
+							</div>
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>Old Patients</h5>
+									<h3>35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> 
+				<div class="row">
+					<div class="col-12 col-lg-12 col-xl-12 d-flex">
+						<div class="card flex-fill comman-shadow">
+							<div class="card-header">
+								<h4 class="card-title d-inline-block">Recent Appointments</h4> <a href="appointments.html" class="patient-views float-end">Show all</a>
+							</div>
+							<div class="card-body">
+								<div class="teaching-card">
+									<ul class="steps-history">
+										<li>08:00</li>
+										<li>09:00</li>
+										<li>10:00</li>
+										<li>11:00</li>
+									</ul>
+									<ul class="activity-feed">
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity hide-activity">
+												<ul class="doctor-date-list mb-2">
+													<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Benjamin Bruklin</span></li>
+													<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Andrea Lalema</span></li>
+													<li class=" dropdown ongoing-blk ">
+														<a href="#" class="dropdown-toggle  active-doctor" data-bs-toggle="dropdown">
+															<i class="fas fa-circle me-2 active-circles"></i>08:00 <span>Andrea Lalema</span><span class="ongoing-drapt">Ongoing <i class="feather-chevron-down ms-2"></i></span>
+														</a>
+														<ul class="doctor-sub-list dropdown-menu">
+															<li class="patient-new-list dropdown-item">Patient<span>Marie kennedy</span><a href="javascript:;" class="new-dot status-green"><i class="fas fa-circle me-1 fa-2xs"></i>New</a></li>
+															<li class="dropdown-item">Time<span>8:30 - 9:00 (30min)</span></li>
+															<li class="schedule-blk mb-0 pt-2 dropdown-item">
+																<ul class="nav schedule-time">
+																	<li><a href="javascript:;"><img src="~/assets/img/icons/trash.svg" alt=""></a></li>
+																	<li><a href="javascript:;"><img src="~/assets/img/icons/profile.svg" alt=""></a></li>
+																	<li><a href="javascript:;"><img src="~/assets/img/icons/edit.svg" alt=""></a></li>
+																</ul>
+																<a class="btn btn-primary appoint-start">Start Appointment</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity">
+												<ul class="doctor-date-list mb-2">
+													<li><i class="fas fa-circle me-2"></i>09:00 <span>Galaviz Lalema</span></li>
+													<li><i class="fas fa-circle me-2"></i>09:20 <span>Benjamin Bruklin</span></li>
+													<li><i class="fas fa-circle me-2"></i>09:40 <span>Jenny Smith</span></li>
+												</ul>
+											</div>
+										</li>
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity">
+												<ul class="doctor-date-list mb-2">
+													<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
+													<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
+												</ul>
+											</div>
+										</li>
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity">
+												<ul class="doctor-date-list mb-2">
+													<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
+													<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
+												</ul>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Search modal-->
+<div class="modal fade bd-example-modal-lg" id="search-doctor-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px;">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-heading">
+											<h4>Recherche :</h4>
+										</div>
+									</div>
+									<div class="col-6 col-md-6 col-xl-6">
+										<div class="form-group local-forms">
+											<label>Recherche par Nom :</label>
+											<input class="form-control" type="text" name="search-nom" id="search-nom"  required>
+										</div>
+									</div>
+									<div class="col-6 col-md-6 col-xl-6">
+										<div class="form-group local-forms">
+											<label>Recherche par Prenom :</label>
+											<input class="form-control" type="text" name="search-prenom" id="search-prenom"  required>
+										</div>
+									</div>
+									<div class="col-6 col-md-6 col-xl-6">
+										<div class="form-group local-forms">
+											<label>Recherche par Matricule :</label>
+											<input class="form-control" type="text" name="search-matricule" id="search-matricule" required>
+										</div>
+									</div>
+									<div class="col-6 col-md-6 col-xl-6">
+										<div class="form-group local-forms">
+											<label>Recherche par Email :</label>
+											<input class="form-control" type="text" name="search-email" id="search-email"  required>
+										</div>
+									</div>
+									<div class="table-responsive" id="table-copy" style="padding: 15px;">
+									</div>
+									<div class="col-12" style=" margin: 30px 15px;">
+										<div class="doctor-submit text-end">
+											<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

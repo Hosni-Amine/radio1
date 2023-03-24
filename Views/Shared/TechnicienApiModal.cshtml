@@ -1,0 +1,487 @@
+﻿<!-- delete technicien Modal -->
+<div id="delete_technicien" class="modal fade delete-modal" style="z-index: 9999;" role="dialog">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<img src="~/assets/img/sent.png" alt="" width="50" height="46">
+				<h3>Voulez-vous vraiment supprimer ce profil ?</h3>
+				<div class="m-t-20">
+					<button type="submit" class="btn btn-danger" onclick="Submit_Delete_technicien()" data-id="" id="delete-technicien-btn">Oui</button>
+					<a href="#" class="btn btn-white" data-bs-dismiss="modal">Non</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add Technicien modal-->
+<div class="modal fade bd-example-modal-lg" id="add-tech-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content"  style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Techniciens </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Ajouter un Technicien</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row" style="background-image: url('~/wwwroot/assets/img/morning-img-03.png');">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="Technicien" asp-action="AddTechnicien" id="add-tech-form" method="post">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Ajouter un Technicien</h4>
+											</div>
+										</div>
+										<input type="hidden" id="addontime" value="true">
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Nom" id="Nom" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Prenom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Prenom" id="Prenom" placeholder="" required>
+											</div>
+										</div>
+										
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Sexe<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Homme" required>Homme
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Femme">Femme
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary submit-form me-2" id="submit-btn">Ajouter</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal" >Cancel</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit Technicien modal-->
+<div class="modal fade bd-example-modal-lg" id="edit-tech-modal" style="z-index: 9993;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Techniciens </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Modifier un Technicien</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="Technicien" asp-action="SubmitEditTechnicien" id="edit-tech-form" method="post">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Modifier un Technicien</h4>
+											</div>
+										</div>
+										<input type="hidden" id="Id">
+										<div class="col-12 col-md-12 col-xl-12" style="margin-top: 25px;">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Nom" placeholder=Nom required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12 " style="margin-top: 25px;">
+											<div class="form-group local-forms">
+												<label>Prenom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Prenom" placeholder=Prenom required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12" style="margin-top: 25px;">
+											<div class="form-group select-gender">
+												<label class="gen-label" id="Sexe">Sexe<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" id="HSexet" name="Sexe" class="form-check-input" value="Homme" )>Homme
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" id="FSexet" name="Sexe" class="form-check-input" value="Femme" )>Femme
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary" id="submit-btn">Editer</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Profil modal-->
+<div class="modal fade bd-example-modal-lg" id="profil-tech-modal" style="z-index: 9992;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">Techniciens </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Profil Technicien</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+
+				<div class="good-morning-blk" style="border-radius: 18px;">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="morning-user">
+								<h2>Bonjour , <span id="Name"></span></h2>
+								<p>jespere que vous  aimerai ce template</p>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="doctor-submit text-end" style="margin: 10px;">
+								<button type="button" class="btn btn-primary cancel-form" id="edit-profil-btn" onclick="edit_tech_btn()">Edit</button>
+								<button type="button" class="btn btn-primary" id="delete-profil-btn" onclick="delete_tech_btn()">Supprimer</button>
+							</div>
+						</div>
+						@*<div class="col-md-6 position-blk">
+						<div class="morning-img">
+						<img src="~/assets/img/morning-img-02.png" alt="">
+						</div>
+						</div>*@
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="doctor-personals-grp">
+							<div class="card">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span>Données Personel</a>
+											</li>
+										</ul>
+									</div>
+									<div class="personal-list-out">
+										<div class="row">
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Nom</h2>
+													<h3 id=""><span id="Nom"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Prenom</h2>
+													<h3 id="Prenom"><span id=""></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Sexe</h2>
+													<h3 id=""><span id="Sexe"></span></h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="doctor-list-blk">
+					<div class="row">
+						<div class="col-xl-6 col-md-6" style="margin-bottom: 20px;">
+							<div class="doctor-widget border-right-bg">
+								<div class="doctor-box-icon flex-shrink-0">
+									<img src="~/assets/img/icons/doctor-dash-01.svg" alt="">
+								</div>
+								<div class="doctor-content dash-count flex-grow-1">
+									<h4><span class="counter-up">30</span><span>/85</span><span class="status-green">+60%</span></h4>
+									<h5>Appointments</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-6">
+							<div class="doctor-widget border-right-bg">
+								<div class="doctor-box-icon flex-shrink-0">
+									<img src="~/assets/img/icons/doctor-dash-02.svg" alt="">
+								</div>
+								<div class="doctor-content dash-count flex-grow-1">
+									<h4><span class="counter-up">20</span><span>/125</span><span class="status-pink">-20%</span></h4>
+									<h5>Consultations</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex">
+						<div class="struct-point">
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>New Patients</h5>
+									<h3>56<span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
+								</div>
+							</div>
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>Old Patients</h5>
+									<h3>35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex">
+						<div class="struct-point">
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>New Patients</h5>
+									<h3>56<span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
+								</div>
+							</div>
+							<div class="card patient-structure">
+								<div class="card-body">
+									<h5>Old Patients</h5>
+									<h3>35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-12  col-xl-12">
+						<div class="row">
+							<div class="col-12 col-md-12  col-xl-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title d-inline-block">Recent Appointments</h4> <a href="appointments.html" class="patient-views float-end">Show all</a>
+									</div>
+									<div class="card-body p-0 table-dash">
+										<div class="table-responsive">
+											<table class="table mb-0 border-0 custom-table">
+												<tbody>
+													<tr>
+														<td class="table-image appoint-doctor">
+															<img width="28" height="28" class="rounded-circle" src="~/assets/img/profiles/avatar-02.jpg" alt="">
+															<h2>Dr.Jenny Smith</h2>
+														</td>
+														<td class="appoint-time text-center">
+															<h6>Today 5:40 PM</h6>
+															<span>Typoid Fever</span>
+														</td>
+														<td>
+															<button class="check-point status-green me-1"><i class="feather-check"></i></button>
+															<button class="check-point status-pink "><i class="feather-x"></i></button>
+														</td>
+													</tr>
+													<tr>
+														<td class="table-image appoint-doctor">
+															<img width="28" height="28" class="rounded-circle" src="~/assets/img/profiles/avatar-03.jpg" alt="">
+															<h2>Dr.Angelica Ramos</h2>
+														</td>
+														<td class="appoint-time text-center">
+															<h6>Today 5:40 PM</h6>
+															<span>Typoid Fever</span>
+														</td>
+														<td>
+															<button class="check-point status-green me-1"><i class="feather-check"></i></button>
+															<button class="check-point status-pink "><i class="feather-x"></i></button>
+														</td>
+													</tr>
+													<tr>
+														<td class="table-image appoint-doctor">
+															<img width="28" height="28" class="rounded-circle" src="~/assets/img/profiles/avatar-04.jpg" alt="">
+															<h2>Dr.Martin Doe</h2>
+														</td>
+														<td class="appoint-time text-center">
+															<h6>Today 5:40 PM</h6>
+															<span>Typoid Fever</span>
+														</td>
+														<td>
+															<button class="check-point status-green me-1"><i class="feather-check"></i></button>
+															<button class="check-point status-pink "><i class="feather-x"></i></button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-12 col-xl-12 d-flex">
+						<div class="card flex-fill comman-shadow">
+							<div class="card-header">
+								<h4 class="card-title d-inline-block">Recent Appointments</h4> <a href="appointments.html" class="patient-views float-end">Show all</a>
+							</div>
+							<div class="card-body">
+								<div class="teaching-card">
+									<ul class="steps-history">
+										<li>08:00</li>
+										<li>09:00</li>
+										<li>10:00</li>
+										<li>11:00</li>
+									</ul>
+									<ul class="activity-feed">
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity hide-activity">
+												<ul class="doctor-date-list mb-2">
+													<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Benjamin Bruklin</span></li>
+													<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Andrea Lalema</span></li>
+													<li class=" dropdown ongoing-blk ">
+														<a href="#" class="dropdown-toggle  active-doctor" data-bs-toggle="dropdown">
+															<i class="fas fa-circle me-2 active-circles"></i>08:00 <span>Andrea Lalema</span><span class="ongoing-drapt">Ongoing <i class="feather-chevron-down ms-2"></i></span>
+														</a>
+														<ul class="doctor-sub-list dropdown-menu">
+															<li class="patient-new-list dropdown-item">Patient<span>Marie kennedy</span><a href="javascript:;" class="new-dot status-green"><i class="fas fa-circle me-1 fa-2xs"></i>New</a></li>
+															<li class="dropdown-item">Time<span>8:30 - 9:00 (30min)</span></li>
+															<li class="schedule-blk mb-0 pt-2 dropdown-item">
+																<ul class="nav schedule-time">
+																	<li><a href="javascript:;"><img src="~/assets/img/icons/trash.svg" alt=""></a></li>
+																	<li><a href="javascript:;"><img src="~/assets/img/icons/profile.svg" alt=""></a></li>
+																	<li><a href="javascript:;"><img src="~/assets/img/icons/edit.svg" alt=""></a></li>
+																</ul>
+																<a class="btn btn-primary appoint-start">Start Appointment</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity">
+												<ul class="doctor-date-list mb-2">
+													<li><i class="fas fa-circle me-2"></i>09:00 <span>Galaviz Lalema</span></li>
+													<li><i class="fas fa-circle me-2"></i>09:20 <span>Benjamin Bruklin</span></li>
+													<li><i class="fas fa-circle me-2"></i>09:40 <span>Jenny Smith</span></li>
+												</ul>
+											</div>
+										</li>
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity">
+												<ul class="doctor-date-list mb-2">
+													<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
+													<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
+												</ul>
+											</div>
+										</li>
+										<li class="feed-item d-flex align-items-center">
+											<div class="dolor-activity">
+												<ul class="doctor-date-list mb-2">
+													<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
+													<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
+												</ul>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Search modal-->
+<div class="modal fade bd-example-modal-lg" id="search-tech-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content"  style="padding: 30px 30px 0px 30px;">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-12">
+											<div class="form-heading">
+												<h4>Recherche :</h4>
+											</div>
+										</div>
+									<div class="col-6 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Recherche par Nom</label>
+											<input class="form-control" type="text" name="search-nom" id="search-nom"  required>
+											</div>
+										</div>
+									<div class="col-6 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Recherche par Prenom</label>
+											<input class="form-control" type="text" name="search-prenom" id="search-prenom" required>
+											</div>
+										</div>
+									<div class="table-responsive" id="table-tech-copy" style="padding: 15px;">
+									</div>
+									<div class="col-12" style=" margin: 30px 15px;">
+										<div class="doctor-submit text-end">
+											<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,117 @@
+﻿@model dynamic
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+	Layout = "_HomePageLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Preclinic - Gestionnaire des Techniciens</title>
+</head>
+<body>
+	<div class="main-wrapper">
+		<div class="page-wrapper">
+			<div class="content">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Techniciens </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Liste des Techniciens</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card card-table show-entire">
+							<div class="card-body">
+								<!-- Table Header -->
+								<div class="page-table-header mb-2">
+									<div class="row align-items-center">
+										<div class="col">
+											<div class="doctor-table-blk">
+												<h3>liste de Techniciens</h3>
+												<div class="doctor-search-blk">
+													<div class="top-nav-search table-search-blk">
+														<div class="top-nav-search table-search-blk">
+															<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+														</div>
+													</div>
+													<div class="add-group">
+														<button type="submit" class="btn btn-primary doctor-refresh ms-2" onclick="search_tech()">
+															<img src="~/assets/img/icons/search.svg" alt="">
+														</button>
+														<a asp-area="" asp-controller="Technicien" asp-action="TechnicienList" class="btn btn-primary doctor-refresh ms-2"><img src="~/assets/img/icons/re-fresh.svg" alt=""></a>
+														<a href="#" onclick="add_tech_btn()" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-auto text-end float-end ms-auto download-grp">
+											<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-01.svg" alt=""></a>
+											<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-02.svg" alt=""></a>
+											<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-03.svg" alt=""></a>
+											<a href="javascript:;"><img src="~/assets/img/icons/pdf-icon-04.svg" alt=""></a>
+
+										</div>
+									</div>
+								</div>
+								<!-- /Table Header -->
+
+								<div class="table-responsive" id="tech-table" style="padding: 15px;">
+									<table class="table border-0 custom-table comman-table datatable mb-0" >
+										<thead>
+											<tr>
+												<th>Nom</th>
+												<th>Prenom</th>
+												<th>Sexe</th>
+												<th>Date d'ajout</th>
+												<th></th>
+											</tr>
+										</thead>
+										@if (Model.Techniciens != null)
+										{
+											<tbody>
+												@foreach (var item in Model.Techniciens)
+												{
+													<tr>
+														<td>@item.Nom</td>
+														<td>@item.Prenom</td>
+														<td>@item.Sexe</td>
+														<td>@item.DateCreation</td>
+														<td class="text-end" id="last-td">
+															<div class="dropdown dropdown-action">
+																<a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+																<div class="dropdown-menu dropdown-menu-end">
+																	<a class="dropdown-item" href="#" onclick="edit_tech_btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
+																	<a class="dropdown-item" href="#" onclick="delete_tech_btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+																</div>
+															</div>
+														</td>
+													</tr>
+												}
+											</tbody>
+										}
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@Html.Partial("TechnicienApiModal")
+	@Html.Partial("modalpopup")
+
+</body>
+</html>
+
+
