@@ -12,8 +12,9 @@ function Submit_Login() {
 		type: 'POST',
 		data: user,
 		success: function (response) {
-			console.log(response.user.id);
-			console.log(response.user.role);
+			localStorage.setItem("Id", response.user.id);
+			localStorage.setItem("Role", response.user.role);
+			localStorage.setItem("UserName", response.user.UserName);
 			$('#success-modal-text').text("Utilisateur identifier");
 			$('#sign-in-modal').modal('hide');
 			$('#success-modal').modal('show');
@@ -33,15 +34,6 @@ function Submit_Login() {
 		}
 	})
 }
-
-
-
-function HomePageLoad(){
-
-}
-
-
-
 
 
 
