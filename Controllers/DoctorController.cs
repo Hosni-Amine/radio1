@@ -17,12 +17,10 @@ namespace radio1.Controllers
 		/// <param name="search"></param>
 		/// <param name="searchon"></param>
 		/// <returns>retourne une list de medecin </returns>
-		public IActionResult DoctorList(int userId)
+		public IActionResult DoctorList()
         {
-			var user = UsersBLL.GetById(userId);
 		    var doctors = DoctorBLL.GetAll();
-			var viewModel = new { User = user, Doctors = doctors };
-			return View(viewModel);
+			return View(doctors);
 		}
 
 		/// <summary>
