@@ -12,19 +12,33 @@ function Submit_Login() {
 		type: 'POST',
 		data: user,
 		success: function (response) {
-			localStorage.setItem("Id", response.user.id);
-			localStorage.setItem("Role", response.user.role);
-			localStorage.setItem("UserName", response.user.UserName);
-			$('#success-modal-text').text("Utilisateur identifier");
-			$('#sign-in-modal').modal('hide');
-			$('#success-modal').modal('show');
-			setTimeout(function () {
-				$('#success-modal').modal('hide');
-				window.location.href = '/Account/HomePage?User_Id=' + response.user.id;
-			}, 1500);
+			console.log(response);
+			if (response.user.role != null)
+			{
+				localStorage.setItem("Id", response.user.id);
+				localStorage.setItem("Role", response.user.role);
+				localStorage.setItem("UserName", response.user.userName);
+				$('#success-modal-text').text("Utilisateur identifier");
+				$('#sign-in-modal').modal('hide');
+				$('#success-modal').modal('show');
+				setTimeout(function () {
+					$('#success-modal').modal('hide');
+					window.location.href = '/Account/HomePage?User_Id=' + response.user.id;
+				}, 1500);
+			}
+			else
+			{
+				$('#error-modal-text').text("Mot de passe Incorrect !");
+				$('#sign-in-modal').modal('hide');
+				$('#error-modal').modal('show');
+				setTimeout(function () {
+					$('#error-modal').modal('hide');
+					$('#sign-in-modal').modal('show');
+				}, 1500);
+			}
 		},
 		error: function (error) {
-			$('#error-modal-text').text("L'utilisateur avec cest données n'existe pas !");
+			$('#error-modal-text').text("Nom d'utilisateur incorrect !");
 			$('#sign-in-modal').modal('hide');
 			$('#error-modal').modal('show');
 			setTimeout(function () {

@@ -9,6 +9,7 @@ using radio1.Models.DAL;
 using radio1.Models.BLL;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using System.Numerics;
+using NuGet.Common;
 
 namespace radio1.Controllers
 {
@@ -37,7 +38,10 @@ namespace radio1.Controllers
 				{
 					return user;
 				}
-				return null;
+				else
+				{
+					return usertest;
+				}
 			}
 			else
 			{
@@ -79,22 +83,29 @@ namespace radio1.Controllers
 		/// Methode qui va ajouter le token genérer au cookies s'il y a une authentification
 		/// </summary>
 		/// <param name="user"></param>
-		/// <returns>le Id de l'utilisateur</returns>
+		/// <returns>objet utilisateur</returns>
 		[AllowAnonymous]
 		[HttpPost]
-		public IActionResult Login (Users user)
+		public IActionResult Login(Users user)
 		{
 			Users _user = AuthenticateUser(user);
-			if(_user != null)
-			{
-				var token = GenerateToken(_user);
-				var cookieOptions = new CookieOptions
+			if (_user != null)
+			{ 
+				if (_user.Role != null)
 				{
-					HttpOnly = true,
-					Secure = false, 
-				};
-				Response.Cookies.Append("poupa_donuts", token, cookieOptions);
-				return Ok ( new{ user = _user, token = token });
+					var token = GenerateToken(_user);
+					var cookieOptions = new CookieOptions
+					{
+						HttpOnly = true,
+						Secure = false,
+					};
+					Response.Cookies.Append("poupa_donuts", token, cookieOptions);
+					return Json(new { user = _user, token = token });
+				}
+				else
+				{
+					return Json(new { user = _user });
+				}
 			}
 			return BadRequest();
 		}

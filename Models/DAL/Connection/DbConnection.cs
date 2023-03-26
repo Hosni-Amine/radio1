@@ -120,6 +120,9 @@ namespace radio1.Models.DAL.Connection
             return command;
         }
 
+
+
+
 		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Users user)
 		{
 			SqlCommand command = new SqlCommand(sqlstr, connection);
