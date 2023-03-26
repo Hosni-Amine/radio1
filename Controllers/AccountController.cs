@@ -92,8 +92,9 @@ namespace radio1.Controllers
 					Secure = false, 
 				};
 				Response.Cookies.Append("poupa_donuts", token, cookieOptions);
+				return Ok ( new{ user = _user , token = token });
 			}
-			return Json( _user.Id);
+			return BadRequest();
 		}
 
 
@@ -105,22 +106,17 @@ namespace radio1.Controllers
 		/// <param name="objet"></param>
 		/// <param name="user"></param>
 		/// <returns>Message personalisée des resultats </returns>
-		[AllowAnonymous]
-		[HttpPost]
+	
 		public IActionResult AddTech_User(Technicien technicien , Users user)
 		{
 			var msg = UsersBLL.AddTech_User(technicien, user);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
-		}
-		[AllowAnonymous]
-		[HttpPost]
+		}	
 		public IActionResult AddDoctor_User(Doctor doctor, Users user)
 		{
 			var msg = UsersBLL.AddDoctor_User(doctor, user);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
-		[AllowAnonymous]
-		[HttpPost]
 		public IActionResult AddAdmin_User(Users user)
 		{
 			var msg = UsersBLL.AddAdmin_User(user);
@@ -147,6 +143,7 @@ namespace radio1.Controllers
 			{
 				technicien= TechnicienBLL.GetByUserId(user.Id);
 			}
+			
 			var viewModel = new { User = user, Doctor = doctor, Technicien = technicien };
 			return View(viewModel);
 		}

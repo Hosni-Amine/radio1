@@ -96,7 +96,7 @@
 				</div>
 			</a>
 			<div class="dropdown-menu">
-				<a class="dropdown-item" href='@Url.Action("HomePage", "Account", new { User_Id = Model.User.Id})'>Mon Profil</a>
+				<a class="dropdown-item" href='#' onclick="HomePageLoad()">Mon Profil</a>
 				<a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
 				<a class="dropdown-item" href="settings.html">Settings</a>
 				<a class="dropdown-item" href="login.html">Logout</a>
@@ -109,10 +109,10 @@
 	<div class="dropdown mobile-user-menu float-end">
 		<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 		<div class="dropdown-menu dropdown-menu-end">
-			<a class="dropdown-item" href="profile.html">My Profile</a>
-			<a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-			<a class="dropdown-item" href="settings.html">Settings</a>
-			<a class="dropdown-item" href="login.html">Logout</a>
+			<a class="dropdown-item" href="profile.html">My onclick=HomePageLoad()</a>
+			<a class="dropdown-item" href="edit-profile.html">Edit onclick=HomePageLoad()</a>
+			<a class="dropdown-item" href="settings.html">onclick=HomePageLoad()</a>
+			<a class="dropdown-item" href="login.html">onclick=HomePageLoad()</a>
 		</div> 
 	</div>
 </div>
@@ -124,7 +124,7 @@
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-01.svg" alt=""></span> <span> Profil </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href='@Url.Action("HomePage", "Account", new { User_Id = Model.User.Id})'>Mon Profil</a></li>
+						<li><a href='#' onclick="HomePageLoad()">Mon Profil</a></li>
 					</ul>
 				</li>
 				<li class="submenu">

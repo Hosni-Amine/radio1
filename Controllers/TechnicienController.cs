@@ -14,12 +14,10 @@ namespace radio1.Controllers
 		/// <param name="search"></param>
 		/// <param name="searchon"></param>
 		/// <returns>retourne une list de Technicien </returns>
-		public IActionResult TechnicienList(int userId)
+		public IActionResult TechnicienList()
 		{
-			var user = UsersBLL.GetById(userId);
 			var techniciens = TechnicienBLL.GetAll();
-			var viewModel = new { User = user, Techniciens = techniciens };
-			return View(viewModel);
+			return View(techniciens);
 		}
 
 
