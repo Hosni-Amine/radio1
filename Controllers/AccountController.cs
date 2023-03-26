@@ -47,6 +47,7 @@ namespace radio1.Controllers
 
 
 
+
 		/// <summary>
 		/// Methode qui genére un jwt token avec un payload qui contient les données de l'utilisateur
 		/// </summary>
@@ -73,6 +74,7 @@ namespace radio1.Controllers
 
 
 
+
 		/// <summary>
 		/// Methode qui va ajouter le token genérer au cookies s'il y a une authentification
 		/// </summary>
@@ -92,7 +94,7 @@ namespace radio1.Controllers
 					Secure = false, 
 				};
 				Response.Cookies.Append("poupa_donuts", token, cookieOptions);
-				return Ok ( new{ user = _user , token = token });
+				return Ok ( new{ user = _user, token = token });
 			}
 			return BadRequest();
 		}
@@ -106,7 +108,6 @@ namespace radio1.Controllers
 		/// <param name="objet"></param>
 		/// <param name="user"></param>
 		/// <returns>Message personalisée des resultats </returns>
-	
 		public IActionResult AddTech_User(Technicien technicien , Users user)
 		{
 			var msg = UsersBLL.AddTech_User(technicien, user);
@@ -122,6 +123,7 @@ namespace radio1.Controllers
 			var msg = UsersBLL.AddAdmin_User(user);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
+
 
 
 

@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@Model IEnumerable<radio1.Models.Entities.Doctor>
 
 @using Microsoft.AspNetCore.Mvc.Rendering
 @{
@@ -81,10 +81,10 @@
 												<th></th>
 											</tr>
 										</thead>
-										@if (Model.Doctors != null)
+										@if (Model != null)
 										{
 											<tbody>
-												@foreach (var item in Model.Doctors)
+												@foreach (var item in Model)
 												{
 													<tr>
 														<td>@item.Nom</td> 

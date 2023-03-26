@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model IEnumerable<radio1.Models.Entities.Technicien>  
 @using Microsoft.AspNetCore.Mvc.Rendering
 @{
 	Layout = "_HomePageLayout";
@@ -76,10 +76,10 @@
 												<th></th>
 											</tr>
 										</thead>
-										@if (Model.Techniciens != null)
+										@if (Model != null)
 										{
 											<tbody>
-												@foreach (var item in Model.Techniciens)
+												@foreach (var item in Model)
 												{
 													<tr>
 														<td>@item.Nom</td>

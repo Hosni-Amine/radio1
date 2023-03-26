@@ -12,13 +12,14 @@ function Submit_Login() {
 		type: 'POST',
 		data: user,
 		success: function (response) {
-			console.log(response);
+			console.log(response.user.id);
+			console.log(response.user.role);
 			$('#success-modal-text').text("Utilisateur identifier");
 			$('#sign-in-modal').modal('hide');
 			$('#success-modal').modal('show');
 			setTimeout(function () {
 				$('#success-modal').modal('hide');
-				window.location.href = '/Account/HomePage?User_Id=' + response;
+				window.location.href = '/Account/HomePage?User_Id=' + response.user.id;
 			}, 1500);
 		},
 		error: function (error) {
@@ -32,6 +33,14 @@ function Submit_Login() {
 		}
 	})
 }
+
+
+
+function HomePageLoad(){
+
+}
+
+
 
 
 
