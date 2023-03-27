@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Http;
 using radio1.Models.BLL;
 using radio1.Models.DAL;
 using radio1.Models.Entities;
+using System.Data;
 
 namespace radio1.Controllers
 {
-	
+	[Authorize(Roles = "Admin")]
 	public class DoctorController : Controller
     {
 		/// <summary>

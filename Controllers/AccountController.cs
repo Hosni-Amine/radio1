@@ -7,13 +7,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using radio1.Models.DAL;
 using radio1.Models.BLL;
-using Microsoft.DotNet.Scaffolding.Shared.Project;
-using System.Numerics;
-using NuGet.Common;
+
 
 namespace radio1.Controllers
 {
-
+	
 	public class AccountController : Controller
 	{
 		private readonly IConfiguration _config; 
@@ -65,8 +63,8 @@ namespace radio1.Controllers
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-					new Claim(type: "Id", value: user.Id.ToString()),
-					new Claim(type: "Role", value: user.Role)
+					new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+					new Claim(ClaimTypes.Role,user.Role)
 				}),
 				Expires = DateTime.Now.AddMinutes(60),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
@@ -141,25 +139,33 @@ namespace radio1.Controllers
 		/// <summary>
 		/// Methode qui initialise l'objet de retour associer au lutilisateur
 		/// </summary>
-		/// <param name="User_Id"></param>
 		/// <returns>Object reference</returns>
 		[Authorize]
-		public IActionResult HomePage(int User_Id)
+		public IActionResult HomePage()
 		{
-			var user = UsersBLL.GetById(User_Id);
-			Doctor doctor = null;
-			Technicien technicien = null;
-			if (user.Role == "Doctor")
+			var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+			if (userIdClaim != null) 
 			{
-				doctor= DoctorBLL.GetByUserId(user.Id);
+				int userId = Int32.Parse(userIdClaim.Value);
+				var user = UsersBLL.GetById(userId);
+				Doctor doctor = null;
+				Technicien technicien = null;
+				if (user.Role == "Doctor")
+				{
+					doctor = DoctorBLL.GetByUserId(user.Id);
+				}
+				else if (user.Role == "Technicien")
+				{
+					technicien = TechnicienBLL.GetByUserId(user.Id);
+				}
+				var viewModel = new { User = user, Doctor = doctor, Technicien = technicien };
+				return View(viewModel);
 			}
-			else if (user.Role == "Technicien")
+			else
 			{
-				technicien= TechnicienBLL.GetByUserId(user.Id);
+				return RedirectToAction("Index", "Home");
 			}
 			
-			var viewModel = new { User = user, Doctor = doctor, Technicien = technicien };
-			return View(viewModel);
 		}
 	}
 }

@@ -34,7 +34,6 @@
 	<div class="main-wrapper">
 		@Html.Partial("modalpopup")
 		@Html.Partial("bars")
-		@Html.Partial("notificationbox")
 		@Html.Partial("DoctorApiModal")
 		@RenderBody()
 	</div>
@@ -71,13 +70,15 @@
 	<script src="~/assets/js/app.js"></script>
 	<script src="~/MyJS/Technicien.js"></script>
 	<script src="~/MyJS/Doctor.js"></script>
+	<script src="~/MyJS/User.js"></script>
+
+	
+		<script>
+			
+	</script>
+
 	<script>
-		var UserName = localStorage.getItem("UserName");
-		var id = localStorage.getItem("Id");
-		var role = localStorage.getItem("Role");
-		document.getElementById("Id").textContent = "Utilisateur : " + UserName;
-		document.getElementById("Role").textContent = "Role : " + role;
-		function HomePageLoad() {window.location.href = '/Account/HomePage?User_Id=' + id;}
+	
 	</script>
 </body>
 </html>

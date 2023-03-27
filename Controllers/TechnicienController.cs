@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using radio1.Models.BLL;
 using radio1.Models.DAL;
 using radio1.Models.Entities;
+using System.Data;
 
 namespace radio1.Controllers
 {
+	[Authorize(Roles = "Admin,Doctor")]
 	public class TechnicienController : Controller
 	{
 
@@ -46,6 +49,7 @@ namespace radio1.Controllers
 
 
 
+
 		/// <summary>
 		/// Methode de recherche d'un Technicien apartir de son Id
 		/// </summary>
@@ -57,6 +61,7 @@ namespace radio1.Controllers
 			var Technicien = TechnicienBLL.GetById(Id);
 			return Json(Technicien);
 		}
+
 
 
 
@@ -79,7 +84,6 @@ namespace radio1.Controllers
 				return Json(new { Success = msg.Verification, Message = msg.Msg });
 			}
 		}
-
 
 
 

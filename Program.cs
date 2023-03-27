@@ -26,11 +26,11 @@ builder.Services.AddAuthentication(Options =>
 			option.SaveToken = true;
 			option.TokenValidationParameters = new TokenValidationParameters
 			{
-				ValidateIssuerSigningKey=true,
+				ValidateIssuerSigningKey = true,
 				ValidateIssuer = false,
-	   		    ValidateAudience = false,
-			    ValidateLifetime = false,
-		        RequireExpirationTime= false,
+				ValidateAudience = false,
+				ValidateLifetime = false,
+				RequireExpirationTime = false,
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection(key: "Jwt:Key").Value))
 			};
 	   });
