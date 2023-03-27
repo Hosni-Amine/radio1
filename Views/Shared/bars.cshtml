@@ -1,4 +1,4 @@
-﻿<div class="header">
+﻿<div class="header" style="background: linear-gradient(to right, #c6e7ff 0%, #c4c3ff 100%)">
 	<div class="header-left">
 		<a href="index.html" class="logo">
 			<img src="~/assets/img/logo.png" width="35" height="35" alt=""> <span>Pre Clinic</span>
@@ -6,12 +6,6 @@
 	</div>
 	<a id="toggle_btn" href="javascript:void(0);"><img src="~/assets/img/icons/bar-icon.svg" alt=""></a>
 	<a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img src="~/assets/img/icons/bar-icon.svg" alt=""></a>
-	<div class="top-nav-search mob-view">
-		<form>
-			<input type="text" class="form-control" placeholder="Search here">
-			<a class="btn"><img src="~/assets/img/icons/search-normal.svg" alt=""></a>
-		</form>
-	</div>
 	<ul class="nav user-menu float-end">
 		<li class="nav-item dropdown d-none d-sm-block">
 			<a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img src="~/assets/img/icons/note-icon-02.svg" alt=""><span class="pulse"></span> </a>
@@ -100,9 +94,6 @@
 				<a class="dropdown-item" href="login.html">Deconexion</a>
 			</div>
 		</li>
-		<li class="nav-item ">
-			<a href="settings.html" class="hasnotifications nav-link"><img src="~/assets/img/icons/setting-icon-01.svg" alt=""> </a>
-		</li>
 	</ul>
 	<div class="dropdown mobile-user-menu float-end">
 		<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
@@ -114,22 +105,22 @@
 </div>
 <div class="sidebar" id="sidebar">
 	<div class="sidebar-inner slimscroll">
-		<div id="sidebar-menu" class="sidebar-menu">
+		<div id="sidebar-menu" class="sidebar-menu" style="background: linear-gradient(to right, #149eff3d 0%, #149eff3d 100%);">
 			<ul>
-				<li class="menu-title">Menu</li>
-				<li class="submenu">
+				<li class="menu-title" >Menu</li>
+				<li class="submenu" >
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-01.svg" alt=""></span> <span> Profil </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href='#' onclick="HomePageLoad()">Mon Profil</a></li>
 					</ul>
 				</li>
-				<li class="submenu">
+				<li class="submenu" >
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span> <span> Medecins </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href='@Url.Action("DoctorList", "Doctor")'>Liste des Medecins</a></li>
 					</ul>
 				</li>
-				<li class="submenu">
+				<li class="submenu" >
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-08.svg" alt=""></span> <span> Techniciens </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href='@Url.Action("TechnicienList", "Technicien")'>Liste des Techniciens</a></li>
