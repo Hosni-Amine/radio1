@@ -29,7 +29,7 @@ namespace radio1.Models.DAL
 				return Message.HandleException(ex, "l'ajout");
 			}
 		}
-		public static Users GetByUserName(string str)
+		public static Users? GetByUserName(string str)
 		{
 			using (SqlConnection connection = Connection.DbConnection.GetConnection())
 			{

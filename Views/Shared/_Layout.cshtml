@@ -1,75 +1,78 @@
 ﻿<!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
-    <title>Preclinic - Medical & Hospital </title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap">
-    <link rel="stylesheet" href="~/assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="~/assets/css/pikaday.min.css">
-    <link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
-
-    <!-- Select2 CSS -->
-    <link rel="stylesheet" type="text/css" href="~/assets/css/select2.min.css">
-
-    <!-- Datepicker CSS -->
-
-    <!-- Feathericon CSS -->
-    <link rel="stylesheet" href="~/assets/plugins/feather/feather.css">
-
-    <!-- Main CSS -->
-    <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+	<title>Preclinic - Medical & Hospital </title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap.min.css">
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
+	<!-- Select2 CSS -->
+	<link rel="stylesheet" type="text/css" href="~/assets/css/select2.min.css">
+	<!-- Feathericon CSS -->
+	<link rel="stylesheet" href="~/assets/plugins/feather/feather.css">
+	<!-- Main CSS -->
+	<link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
 </head>
-
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
-        <div class="container">
-            <a class="navbar-brand logo" href="#">Pre-Clinic <img src="~/" alt=""></a><button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div id="navbarNav" class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#" onclick="Signin()">S'identifier</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>    
-    @RenderBody()
-    <main class="page projects-page">
-        @Html.Partial("modalpopup")
-        @Html.Partial("WelcomePageModal")
-        <section class="portfolio-block website gradient" id="portfolio-block-About" style="margin: 50px 0px;">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-12 col-lg-5 offset-lg-1 text">
-                        <h3>Pre-Clinique</h3>
-                        <p>Pre-clinic est une platform web pour une clinique de radiologie qui gère diverses tâches liées à la gestion des médecins, des techniciens, des patients, des rendez-vous, des images médicales et des diagnostics.</p>
-                    </div>
-                    <div class="col-md-12 col-lg-5">
-                        <div class="portfolio-laptop-mockup">
-                            <div class="screen">
-                                <div class="screen-content" style="text-align: center;display: flex; align-items: center;">
-                                    <img style="max-width: 100%;" src="~/assets/img/radiologist.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="keyboard"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="~/assets/js/jquery-3.6.1.min.js"></script>
-    <script src="~/assets/js/pikaday.min.js"></script>
-    <script src="~/assets/js/theme.js"></script>
-    <script src="~/MyJS/Account.js"></script>
-    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+	<div class="main-wrapper">
+		<div class="header" style="background: linear-gradient(to bottom, #96acc9 0%, #f5f5f6 100%);">
+			<div class="header-left">
+				<a href="index.html" class="logo">
+					<img src="~/assets/img/logo.png" width="35" height="35" alt=""> <span>Pre Clinic</span>
+				</a>
+			</div>
+			<ul class="nav user-menu float-end">
+				<li class="nav-item dropdown has-arrow user-profile-list">
+					<a href="#" class="dropdown-toggle nav-link user-link" onclick="Signin()">
+						<div class="user-names" style="text-align: center;">
+							<h5 id="Id">S'inscrire</h5>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<div class="dropdown mobile-user-menu float-end">
+				<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+				<div class="dropdown-menu dropdown-menu-end">
+					<a class="dropdown-item" href='#' onclick="Signin()">S'inscrire</a>
+				</div>
+			</div>
+		</div>
+		@Html.Partial("modalpopup")
+		@Html.Partial("WelcomePageModal")
+		@RenderBody()
+	</div>
+	
+	<!-- jQuery -->
+	<script src="~/assets/js/jquery-3.6.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.min.js"></script>
+	<!-- Bootstrap Core JS -->
+	<script src="~/assets/js/bootstrap.bundle.min.js"></script>
+	<!-- Feather Js -->
+	<script src="~/assets/js/feather.min.js"></script>
+	<!-- Slimscroll -->
+	<script src="~/assets/js/jquery.slimscroll.js"></script>
+	<!-- Select2 Js -->
+	<script src="~/assets/js/select2.min.js"></script>
+	<!-- Custom JS -->
+	<script src="~/assets/js/app.js"></script>
+	<script src="~/MyJS/Account.js"></script>
 </body>
-
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+     

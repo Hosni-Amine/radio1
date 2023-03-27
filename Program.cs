@@ -44,14 +44,17 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
 app.UseRouting();
+
 
 app.Use(async (context, next) =>
 {
@@ -63,19 +66,13 @@ app.Use(async (context, next) =>
 
 
 app.UseAuthentication();
-  
+app.UseAuthorization();
 
-app.UseAuthorization()
- .UseAuthorization()
-   .Use(async (context, next) =>
-   {
-	   var logger = context.RequestServices.GetRequiredService<ILogger<IStartup>>();
-	   logger.LogInformation($"AuthenticationType={context.User.Identity.AuthenticationType}; IsAuthenticated={context.User.Identity.IsAuthenticated}");
 
-	   await next.Invoke();
 
-	   logger.LogInformation($"AuthenticationType={context.User.Identity.AuthenticationType}; IsAuthenticated={context.User.Identity.IsAuthenticated}");
-   });
+
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

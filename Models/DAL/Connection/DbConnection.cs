@@ -11,19 +11,19 @@ namespace radio1.Models.DAL.Connection
     {
         static string CS = "workstation id=radiologie.mssql.somee.com;packet size=4096;user id=hosniamine_SQLLogin_1;pwd=kkke54dsdo;data source=radiologie.mssql.somee.com;persist security info=False;initial catalog=radiologie";
         //static string CS = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=radio;Integrated Security=True";
-        public static SqlConnection GetConnection()
+        public static SqlConnection? GetConnection()
         {
-            SqlConnection connect = null;
+            SqlConnection connect;
             try
             {
                 connect = new SqlConnection(CS);
-            }
-            catch (Exception ex)
+				return connect;
+			}
+			catch (Exception ex)
             {
-                throw ex;
-
+				Console.WriteLine(ex.Message);
+                return null;
             }
-            return connect;
         }
 
 

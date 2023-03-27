@@ -143,6 +143,7 @@ namespace radio1.Controllers
 		/// </summary>
 		/// <param name="User_Id"></param>
 		/// <returns>Object reference</returns>
+		[Authorize]
 		public IActionResult HomePage(int User_Id)
 		{
 			var user = UsersBLL.GetById(User_Id);
