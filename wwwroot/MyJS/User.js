@@ -1,20 +1,9 @@
-//$(document).ready(function ()
-//{
-//	if (@ViewContext.HttpContext.Response.StatusCode == 401) {
-//	$('#error-modal').modal('show');
-//}
-//				else if (@ViewContext.HttpContext.Response.StatusCode == 403) {
-//	$('#error-modal').modal('show');
-//}
-//});
-
-
 var UserName = localStorage.getItem("UserName");
 var id = localStorage.getItem("Id");
 var role = localStorage.getItem("Role");
 document.getElementById("Id").textContent = "Utilisateur : " + UserName;
-document.getElementById("Role").textContent = "Role : " + role;
-function HomePageLoad() { window.location.href = '/Account/HomePage'; }
+document.getElementById("Role").textContent = "Designation : " + role;
+function HomePageLoad() { window.location.href = '/Account/HomePage';}
 
 
 function add_tuser_btn() {

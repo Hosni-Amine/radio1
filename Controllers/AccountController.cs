@@ -158,7 +158,7 @@ namespace radio1.Controllers
 				{
 					technicien = TechnicienBLL.GetByUserId(user.Id);
 				}
-				var viewModel = new { User = user, Doctor = doctor, Technicien = technicien };
+				var viewModel = new { Admin = user, Doctor = doctor, Technicien = technicien };
 				return View(viewModel);
 			}
 			else

@@ -8,34 +8,6 @@
 	<div class="content">
 		@if (Model.Doctor != null)
 		{
-			<!-- Page Header -->
-			<div class="page-header">
-				<div class="row">
-					<div class="col-sm-12">
-						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html">Medecins </a></li>
-							<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-							<li class="breadcrumb-item active">Profil Medecin</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /Page Header -->
-			<div class="good-morning-blk" style="border-radius: 18px;">
-				<div class="row">
-					<div class="col-md-6" style="margin:11px;">
-						<div class="morning-user">
-							<h2>Bonjour , 
-							 @Model.Doctor.Nom   @Model.Doctor.Prenom</h2>
-						</div>
-					</div>
-					<div class="col-12">
-						<div class="doctor-submit text-end" style="margin: 10px;">
-							<button type="button" class="btn btn-primary" id="edit-profil-btn" onclick="edit_doctor_btn()">Edit</button>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="doctor-personals-grp">
@@ -52,10 +24,24 @@
 									<div class="row" style="margin: 19px 0px;">
 										<div class="col-xl-4 col-md-4">
 											<div class="detail-personal">
+												<h2>Nom</h2>
+												<h3 id="">@Model.Doctor.Nom</h3>
+											</div>
+										</div>
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
+												<h2>Prenom</h2>
+												<h3 id="">@Model.Doctor.Prenom</h3>
+											</div>
+										</div>
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
 												<h2>Matricule</h2>
 												<h3 id="">@Model.Doctor.Matricule</h3>
 											</div>
 										</div>
+									</div>
+									<div class="row" style="margin: 19px 0px;">
 										<div class="col-xl-4 col-md-4">
 											<div class="detail-personal">
 												<h2>Telephone</h2>
@@ -68,14 +54,14 @@
 												<h3 id="">@Model.Doctor.Email</h3>
 											</div>
 										</div>
-									</div>
-									<div class="row" style="margin: 19px 0px;">
 										<div class="col-xl-4 col-md-4">
 											<div class="detail-personal">
 												<h2>Sexe</h2>
 												<h3 id="">@Model.Doctor.Sexe</h3>
 											</div>
 										</div>
+									</div>
+									<div class="row" style="margin: 19px 0px;">						
 										<div class="col-xl-4 col-md-4">
 											<div class="detail-personal">
 												<h2>Date de naissance</h2>
@@ -88,14 +74,14 @@
 												<h3 id="">@Model.Doctor.LieuN</h3>
 											</div>
 										</div>
-									</div>
-									<div class="row" style="margin: 19px 0px;">
 										<div class="col-xl-4 col-md-4">
 											<div class="detail-personal">
 												<h2>Situation Conjugale</h2>
 												<h3 id="">@Model.Doctor.SituationC</h3>
 											</div>
 										</div>
+									</div>
+									<div class="row" style="margin: 19px 0px;">
 										<div class="col-xl-4 col-md-4">
 											<div class="detail-personal">
 												<h2>Ville</h2>
@@ -118,37 +104,48 @@
 		}
 		else if (@Model.Technicien != null)
 		{
-		<!-- Page Header -->
-		<div class="page-header">
 			<div class="row">
-				<div class="col-sm-12">
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Techniciens </a></li>
-						<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-						<li class="breadcrumb-item active">Profil Techniciens</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- /Page Header -->
-		<div class="good-morning-blk" style="border-radius: 18px;">
-			<div class="row">
-				<div class="col-md-6" style="margin:11px;">
-					<div class="morning-user">
-						<h2>
-							Bonjour ,
-							@Model.Technicien.Nom   @Model.Technicien.Prenom
-						</h2>
+				<div class="col-lg-12">
+					<div class="doctor-personals-grp">
+						<div class="card">
+							<div class="card-body">
+								<div class="tab-content-set">
+									<ul class="nav">
+										<li>
+											<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/menu-icon-08.svg" alt=""></span>Données Personel</a>
+										</li>
+									</ul>
+								</div>
+								<div class="personal-list-out">
+									<div class="row" style="margin: 19px 0px;">
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
+												<h2>Nom</h2>
+												<h3 id="">@Model.Technicien.Nom</h3>
+											</div>
+										</div>
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
+												<h2>Prenom</h2>
+												<h3 id="">@Model.Technicien.Prenom</h3>
+											</div>
+										</div>
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
+												<h2>Sexe</h2>
+												<h3 id="">@Model.Technicien.Sexe</h3>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="col-12">
-					<div class="doctor-submit text-end" style="margin: 10px;">
-						<button type="button" class="btn btn-primary" id="edit-profil-btn" onclick="edit_doctor_btn()">Edit</button>
-					</div>
-				</div>
 			</div>
-		</div>
 		}
+		else if (Model.Admin != null)
+		{}
 		<div class="doctor-list-blk">
 					<div class="row">
 						<div class="col-xl-3 col-md-6">
