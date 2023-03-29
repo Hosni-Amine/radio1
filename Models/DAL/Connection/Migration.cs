@@ -26,25 +26,22 @@ namespace radio1.Models.DAL.Connection
 		}
 
 
+        public static void CreateSalleIfNotExists()
+        {
+            SqlConnection connection = DbConnection.GetConnection();
+            string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL , [Responsable] INT NOT NULL ,[Emplacement] NVARCHAR(100) NOT NULL, [Operation] INT NOT NULL ,[DateCreation] datetime NOT NULL ,CONSTRAINT unq_Salle UNIQUE(Nom),CONSTRAINT unq_Responsable UNIQUE(Responsable),CONSTRAINT fk_Responsable FOREIGN KEY (Responsable) REFERENCES dbo.Doctor(Id),CONSTRAINT fk_Operation FOREIGN KEY (Operation) REFERENCES dbo.TypeOperation(Id),CONSTRAINT unq_Emplacement UNIQUE(Emplacement)) END";
+            DbConnection.NonQueryRequest(sqlstrTypeR, connection);
+        }
 
 
 
 
+        public static void CreateTypeOperationTableIfNotExists()
+        {
+            SqlConnection connection = DbConnection.GetConnection();
+            string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TypeOperation') BEGIN CREATE TABLE dbo.TypeOperation ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL ,CONSTRAINT unq_TypeOperation UNIQUE(Nom)) END";
+            DbConnection.NonQueryRequest(sqlstrTypeR, connection);
+        }
 
-        
-  //      public static void CreateAppareilRadiologieTableIfNotExists()
-  //      {
-  //          SqlConnection connection = DbConnection.GetConnection();
-		//	string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TypeRadio') BEGIN CREATE TABLE dbo.TypeRadio ( Id INT IDENTITY(1,1) PRIMARY KEY, [TypeR] NVARCHAR(50) NOT NULL ,CONSTRAINT unq_TypeR UNIQUE(TypeR) ) END";
-  //          DbConnection.NonQueryRequest(sqlstrTypeR, connection);
-  //          string sqlstr = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Name] NVARCHAR(50) NOT NULL) END";
-  //          DbConnection.NonQueryRequest(sqlstr, connection);
-  //      }
-		//public static void CreateSalleIfNotExists()
-		//{
-		//	SqlConnection connection = DbConnection.GetConnection();
-		//	string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Name] NVARCHAR(50) NOT NULL ,CONSTRAINT unq_Name UNIQUE(Name),NombreAppareil INT DEFAULT 0) END";
-		//	DbConnection.NonQueryRequest(sqlstrTypeR, connection);
-		//}
-	}
+    }
 }

@@ -3,8 +3,6 @@ function Signin() {
 	$('#sign-in-modal').modal('show');	
 }
 
-
-
 function Submit_Login() {
 	var user = {
 		UserName: $('#Login-form #Email').val(),
@@ -52,8 +50,6 @@ function Submit_Login() {
 		}
 	})
 }
-
-
 
 function hideall() {
 	$('#add-duser-modal').modal('hide');

@@ -160,6 +160,20 @@ namespace radio1.Models.DAL.Connection
             command.Parameters.AddWithValue("@CodePostal", doctor.CodePostal);
             return command;
         }
+
+
+
+
+        public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Salle salle)
+        {
+            SqlCommand command = new SqlCommand(sqlstr, connection);
+            command.Parameters.AddWithValue("@Nom", salle.Nom);
+            command.Parameters.AddWithValue("@Responsable", salle.Responsable);
+            command.Parameters.AddWithValue("@Operation", salle.Operation);
+            command.Parameters.AddWithValue("@Emplacement", salle.Emplacement);
+            return command;
+        }
+
     }
 }
 

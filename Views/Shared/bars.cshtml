@@ -133,6 +133,14 @@
 					</ul>
 				</li>
 				<li class="submenu">
+					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-16.svg" alt=""></span> <span> Settings </span> <span class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a href="#" onclick="operation_list()"> Types des operations </a></li>
+						<li><a href="#" onclick="salle_list()"> Gestion des salles</a></li>
+					</ul>
+				</li>
+				@*
+				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-06.svg" alt=""></span> <span> Departements</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="departments.html">Liste des salles</a></li>
@@ -149,7 +157,7 @@
 						<li><a href="edit-appointment.html">Edit Appointment</a></li>
 					</ul>
 				</li>
-				@*<li class="submenu">
+				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-05.svg" alt=""></span> <span> Doctor Schedule </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="schedule.html">Schedule List</a></li>
@@ -204,20 +212,6 @@
 						<li><a href="invoice-reports.html"> Invoice Report </a></li>
 					</ul>
 				</li>
-				<li class="submenu">
-					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-15.svg" alt=""></span> <span> Invoice </span> <span class="menu-arrow"></span></a>
-					<ul style="display: none;">
-						<li><a href="invoices-list.html"> Invoices List </a></li>
-						<li><a href="invoices-grid.html"> Invoices Grid</a></li>
-						<li><a href="add-invoice.html"> Add Invoices</a></li>
-						<li><a href="edit-invoices.html"> Edit Invoices</a></li>
-						<li><a href="view-invoice.html"> Invoices Details</a></li>
-						<li><a href="invoices-settings.html"> Invoices Settings</a></li>
-					</ul>
-				</li>
-				<li>
-					<a href="settings.html"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-16.svg" alt=""></span> <span>Settings</span></a>
-				</li>
 				<li class="menu-title">UI Elements</li>
 				<li class="submenu">
 					<a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
@@ -242,13 +236,14 @@
 						<li><a href="tables-basic.html">Basic Tables</a></li>
 						<li><a href="tables-datatables.html">Data Table</a></li>
 					</ul>
-				</li>*@
+				</li>
 				<li>
 					<a href="calendar.html"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
 				</li>
+				*@
 			</ul>
 			<div class="logout-btn">
-				<a href="login.html"><span class="menu-side"><img src="~/assets/img/icons/logout.svg" alt=""></span> <span>Logout</span></a>
+				<a href='@Url.Action("Logout","Account")'><span class="menu-side"><img src="~/assets/img/icons/logout.svg" alt=""></span> <span>Logout</span></a>
 			</div>
 		</div>
 	</div>

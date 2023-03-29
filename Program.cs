@@ -41,9 +41,10 @@ app.Use(async (context, next) =>
     var statusCode = context.Response.StatusCode;
     if (statusCode == 401)
     {
-        context.Response.Redirect("/Home/Index");
+        context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
+        await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Vous devez ce connecter pour avoir accées à cette ressource.</p>");
     }
-	else if (statusCode == 403)
+    else if (statusCode == 403)
     {
 		//context.Response.Redirect("/Account/AlertPage");
 		context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";

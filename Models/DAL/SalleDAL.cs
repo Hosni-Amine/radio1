@@ -13,33 +13,37 @@ namespace radio1.Models.DAL
 {
 	public class SalleDAL
 	{
-		public static Message AddSalle(string Name)
+		public static Message AddSalle(Salle salle)
 		{
 			try
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "INSERT INTO dbo.AppareilRadio (Name) VALUES (@Name)";
-					SqlCommand command = new SqlCommand(sqlstr, connection);
-					command.Parameters.AddWithValue("@Name", Name);
+                    Migration.CreateSalleIfNotExists();
+                    DateTime utcTime = DateTime.UtcNow;
+                    TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+                    DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
+                    string sql = "INSERT INTO dbo.Salle (Nom, Responsable, Emplacement, Operation, DateCreation) VALUES (@Nom, @Responsable, @Emplacement, @Operation, @DateCreation)";
+                    SqlCommand command = Connection.DbConnection.CommandCreate(connection, sql, salle);
+                    command.Parameters.AddWithValue("@DateCreation", cetTime);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
-				return new Message(true, "Salle ajouter avec succés avec aucune appareil !");
+				return new Message(true, "Salle ajouter avec succés !");
 			}
 			catch (Exception ex)
 			{
 				return Message.HandleException(ex, "l'ajout");
 			}
 		}
-		public static Message DeleteSalle(int id)
+		public static Message DeleteSalle(int Id)
 		{
 			try
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "DELETE FROM Salle WHERE id = @id";
+					string sqlstr = "DELETE FROM Salle WHERE Id = @Id";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
-					command.Parameters.AddWithValue("@id", id);
+					command.Parameters.AddWithValue("@Id", Id);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
 				return new Message(true, "Salle supprimer avec succés ");
@@ -85,7 +89,7 @@ namespace radio1.Models.DAL
 		}
 		public static List<Salle> GetAll()
 		{
-			//Migration.CreateSalleIfNotExists();
+			Migration.CreateSalleIfNotExists();
 			SqlConnection connection = Connection.DbConnection.GetConnection();
 			string sqlstr = "SELECT * FROM dbo.Salle";
 			connection.Open();
@@ -102,9 +106,11 @@ namespace radio1.Models.DAL
 			{
 				Salle salle = new Salle();
 				salle.Id = Int32.Parse(raw["Id"].ToString());
-				salle.Name= raw["Name"].ToString();
-				salle.NombreAppareil = Int32.Parse(raw["NombreAppareil"].ToString());
-				return salle;
+				salle.Responsable = Int32.Parse(raw["Responsable"].ToString());
+                salle.Emplacement = raw["Emplacement"].ToString();
+                salle.Operation = Int32.Parse(raw["Operation"].ToString());
+                salle.Nom = raw["Nom"].ToString();
+                return salle;
 			}
 			catch
 			{

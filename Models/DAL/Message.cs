@@ -24,7 +24,6 @@
 			else if (ex.Message.Contains("unq_matricule"))
             {
                 return new Message(false, "cette matricule est déjà utilisée.");
-
             }
             else if (ex.Message.Contains("unq_telephone"))
             {
@@ -38,16 +37,32 @@
 			{
 				return new Message(false, "ce Prenom est déjà utilisée.");
 			}
-			else if (ex.Message.Contains("unq_TypeR"))
+			else if (ex.Message.Contains("unq_Emplacement"))
 			{
-				return new Message(false, "Ce type de Scanner est déjà exist.");
+				return new Message(false, "Ce fichier est deja pour une autre salle ! ");
 			}
-			else if (ex.Message.Contains("unq_Name"))
-			{
-				return new Message(false, "Cette Salle est deja existe .");
-			}
-			else 
+            else if (ex.Message.Contains("unq_Responsable"))
             {
+                return new Message(false, "Ce responsable est déja affecter a une autre salle ! ");
+            }
+            else if (ex.Message.Contains("unq_TypeOperation"))
+            {
+                return new Message(false, "Cette operation est déja existe ! ");
+            }
+            else if (ex.Message.Contains("unq_Salle"))
+            {
+                return new Message(false, "Cette Salle est déja existe ! ");
+            }
+            else if (ex.Message.Contains("fk_Responsable"))
+            {
+                return new Message(false, "Ce responsable n'existe pas ! ");
+            }
+            else if (ex.Message.Contains("fk_Operation"))
+            {
+                return new Message(false, "Cette operation n'existe pas ! ");
+            }
+            else 
+            { 
                 return new Message(false, "Une erreur est survenue lors de "+str+" : " + ex.Message);
             }
         }
