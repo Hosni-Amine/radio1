@@ -1,0 +1,17 @@
+﻿@Model message
+
+@{
+    Layout = "_HomePageLayout";
+}
+
+<div class="page-wrapper">
+@Html.Partial("modalpopup")
+</div>
+
+<script>
+        $('#error-modal-text').text("Vous n'êtes pas autorisé à accéder à cette ressource !");
+        $('#error-modal').modal('show');
+        setTimeout(function () {
+            window.location.href = '/Account/HomePage';
+        }, 1500);
+</script>

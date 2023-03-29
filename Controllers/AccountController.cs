@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using radio1.Models.DAL;
 using radio1.Models.BLL;
-
+using Microsoft.AspNetCore.Authentication;
 
 namespace radio1.Controllers
 {
@@ -19,6 +19,7 @@ namespace radio1.Controllers
 		{
 			_config = configuration;
 		}
+
 
 
 
@@ -66,7 +67,7 @@ namespace radio1.Controllers
 					new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
 					new Claim(ClaimTypes.Role,user.Role)
 				}),
-				Expires = DateTime.Now.AddMinutes(60),
+				Expires = DateTime.Now.AddMinutes(2),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
 			};
 			var token = jwtTokenHundler.CreateToken(tokenDescriptor);
@@ -95,7 +96,7 @@ namespace radio1.Controllers
 					var cookieOptions = new CookieOptions
 					{
 						HttpOnly = true,
-						Secure = false,
+						Secure = true,
 					};
 					Response.Cookies.Append("poupa_donuts", token, cookieOptions);
 					return Json(new { user = _user, token = token });
@@ -111,27 +112,16 @@ namespace radio1.Controllers
 
 
 
-		/// <summary>
-		/// 3 methodes d'inscription d'utilisateurs avec ces roles
-		/// </summary>
-		/// <param name="objet"></param>
-		/// <param name="user"></param>
-		/// <returns>Message personalisée des resultats </returns>
-		public IActionResult AddTech_User(Technicien technicien , Users user)
+		[Authorize]
+		[HttpGet]
+		public IActionResult Logout()
 		{
-			var msg = UsersBLL.AddTech_User(technicien, user);
-			return Json(new { Success = msg.Verification, Message = msg.Msg });
-		}	
-		public IActionResult AddDoctor_User(Doctor doctor, Users user)
-		{
-			var msg = UsersBLL.AddDoctor_User(doctor, user);
-			return Json(new { Success = msg.Verification, Message = msg.Msg });
+			Response.Cookies.Delete("poupa_donuts");
+			return RedirectToAction("Index","Home");
 		}
-		public IActionResult AddAdmin_User(Users user)
-		{
-			var msg = UsersBLL.AddAdmin_User(user);
-			return Json(new { Success = msg.Verification, Message = msg.Msg });
-		}
+		
+
+
 
 
 
@@ -166,6 +156,15 @@ namespace radio1.Controllers
 				return RedirectToAction("Index", "Home");
 			}
 			
+		}
+
+
+
+        [HttpGet]
+        [Authorize]
+		public IActionResult AlertPage()
+		{
+			return View();
 		}
 	}
 }

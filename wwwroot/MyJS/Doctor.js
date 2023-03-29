@@ -28,7 +28,6 @@ function Submit_Delete_doctor() {
 		},
 		error: function (error) {
 			console.log(error);
-			// handle error response here
 		}
 	});
 }
