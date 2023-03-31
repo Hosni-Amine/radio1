@@ -56,3 +56,4 @@ function hideall() {
 	$('#success-modal').modal('hide');
 	$('#error-modal').modal('hide');
 }
+

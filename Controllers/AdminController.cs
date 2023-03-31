@@ -11,12 +11,18 @@ namespace radio1.Controllers
 	public class AdminController : Controller
 	{
 
+
+		/// <summary>
+		/// A changer !!!!!
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public ActionResult State()
 		{
 			var Count_Tech = TechnicienBLL.GetAll().Count;
 			var Count_Doctor = DoctorBLL.GetAll().Count;
-			return Json(new { Tech_Count = Count_Tech, Doctor_Count = Count_Doctor });
+			var Count_Salle = SalleBLL.GetAll().Count;
+			return Json(new { Tech_Count = Count_Tech, Doctor_Count = Count_Doctor , Salle_Count = Count_Salle });
 		}
 
 

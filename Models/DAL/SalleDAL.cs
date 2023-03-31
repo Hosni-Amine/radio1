@@ -1,13 +1,10 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NuGet.Protocol.Plugins;
-using radio1.Models.DAL.Connection;
+﻿using radio1.Models.DAL.Connection;
 using radio1.Models.Entities;
+using radio1.Models.DAL;
 using System.Data;
-using System.Data.Common;
+
 using System.Data.SqlClient;
-using System.Diagnostics.Metrics;
-using System.Numerics;
-using System.Reflection;
+
 
 namespace radio1.Models.DAL
 {
@@ -17,14 +14,14 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
-				using (SqlConnection connection = Connection.DbConnection.GetConnection())
+				using (SqlConnection connection = DbConnection.GetConnection())
 				{
                     Migration.CreateSalleIfNotExists();
                     DateTime utcTime = DateTime.UtcNow;
                     TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
                     DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-                    string sql = "INSERT INTO dbo.Salle (Nom, Responsable, Emplacement, Operation, DateCreation) VALUES (@Nom, @Responsable, @Emplacement, @Operation, @DateCreation)";
-                    SqlCommand command = Connection.DbConnection.CommandCreate(connection, sql, salle);
+                    string sql = "INSERT INTO dbo.Salle (Nom, Responsable, Emplacement, DateCreation) VALUES (@Nom, @Responsable, @Emplacement, @DateCreation)";
+                    SqlCommand command = DbConnection.CommandCreate(connection, sql, salle);
                     command.Parameters.AddWithValue("@DateCreation", cetTime);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
@@ -71,6 +68,24 @@ namespace radio1.Models.DAL
 					return null;
 			}
 		}
+		public static Salle GetByName(string str)
+		{
+			using (SqlConnection connection = Connection.DbConnection.GetConnection())
+			{
+				string sqlstr = "SELECT * FROM dbo.Salle WHERE Nom = @str";
+				SqlCommand command = new SqlCommand(sqlstr, connection);
+				command.Parameters.AddWithValue("@str", str);
+				DataTable table = new DataTable();
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				table.Load(reader);
+				connection.Close();
+				if (table != null && table.Rows.Count != 0)
+					return Get(table.Rows[0]);
+				else
+					return null;
+			}
+		}
 		public static List<Salle> GetAll(DataTable table)
 		{
 			try
@@ -78,7 +93,12 @@ namespace radio1.Models.DAL
 				List<Salle> apps = new List<Salle>();
 				foreach (DataRow row in table.Rows)
 				{
-					apps.Add(Get(row));
+					var salle = Get(row);
+					Doctor doctor = DoctorDAL.GetById(salle.Responsable.Id);
+					List<TypeOperation> operations = TypeOperationDAL.GetAll(salle.Id);
+					salle.Responsable = doctor;
+					salle.Operations= operations;
+					apps.Add(salle);
 				}
 				return apps;
 			}
@@ -104,13 +124,15 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
+				Doctor doc = new Doctor();
 				Salle salle = new Salle();
 				salle.Id = Int32.Parse(raw["Id"].ToString());
-				salle.Responsable = Int32.Parse(raw["Responsable"].ToString());
+				salle.Nom = raw["Nom"].ToString();
+				salle.Responsable = doc;
+				salle.Responsable.Id = Int32.Parse(raw["Responsable"].ToString());
                 salle.Emplacement = raw["Emplacement"].ToString();
-                salle.Operation = Int32.Parse(raw["Operation"].ToString());
-                salle.Nom = raw["Nom"].ToString();
-                return salle;
+				salle.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());
+				return salle;
 			}
 			catch
 			{

@@ -1,8 +1,15 @@
 function delete_tech_btn(id) {
-	$('#delete_technicien').modal('show');
-	$('#delete-technicien-btn').attr('data-id', id);
+	$('#m-t-20').empty();
+	var button = $('<button style="margin: 10px;">').attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_technicien);
+	var link = $('<a style="margin: 10px;">').attr('href', '#').addClass('btn btn-white').attr('data-bs-dismiss', 'modal').text('Non');
+	$('#m-t-20').append(button);
+	$('#m-t-20').append(link);
+	$('#delete-text').text("Voulez-vous vraiment supprimer ce Technicien ?");
+	$('#delete-modal-btn').attr('data-id', id);
+	$('#delete_modal').modal('show');
 	console.log(id);
 }
+
 function Submit_Delete_technicien() {
 	var record_id = $('#delete-technicien-btn').attr('data-id');
 	console.log(record_id);
@@ -11,7 +18,7 @@ function Submit_Delete_technicien() {
 		type: 'DELETE',
 		success: function (response) {
 			if (response.success) {
-				$('#delete_technicien').modal('hide');
+				$('#delete_modal').modal('hide');
 				$('#success-modal-text').text(response.message);
 				$('#success-modal').modal('show');
 				setTimeout(function () {

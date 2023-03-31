@@ -146,60 +146,117 @@
 		}
 		else if (Model.Admin != null)
 		{
-			<div class="doctor-list-blk">
-				<div class="row">
-					<div class="col-xl-3 col-md-6">
-						<div class="doctor-widget border-right-bg">
-							<div class="doctor-box-icon flex-shrink-0">
-								<img src="~/assets/img/icons/doctor-dash-01.svg" alt="">
-							</div>
-							<div class="doctor-content dash-count flex-grow-1">
-								<h4 id="Tech_Count"><span class="counter-up"></span></h4>
-								<h5>Medecins en service</h5>
-							</div>
+			<div class="row">
+			<div class="col-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+				<div class="struct-point">
+						<div class="card patient-structure" style="background-color: #e4e8ee;">
+						<div class="card-body">
+							<h5>Nombre de Medecins en Service :</h5>
+							<h3 id="med_count"><span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
 						</div>
 					</div>
-					<div class="col-xl-3 col-md-6">
-						<div class="doctor-widget border-right-bg">
-							<div class="doctor-box-icon flex-shrink-0">
-								<img src="~/assets/img/icons/doctor-dash-02.svg" alt="">
-							</div>
-							<div class="doctor-content dash-count flex-grow-1">
-								<h4><span class="counter-up" id="Doctor_Count"></span></h4>
-								<h5>Techniciens en service</h5>
-							</div>
+					<div class="card patient-structure"  style="background-color: #e4e8ee;">
+						<div class="card-body">
+							<h5>Nombre de Techniciens en Service :</h5>
+							<h3 id="tech_count"><span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
 						</div>
 					</div>
-					<div class="col-xl-3 col-md-6">
-						<div class="doctor-widget border-right-bg">
-							<div class="doctor-box-icon flex-shrink-0">
-								<img src="~/assets/img/icons/doctor-dash-03.svg" alt="">
-							</div>
-							<div class="doctor-content dash-count flex-grow-1">
-								<h4><span class="counter-up">12</span><span>/30</span></h4>
-								<h5>Operations</h5>
-							</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+				<div class="struct-point">
+					<div class="card patient-structure"  style="background-color: #e4e8ee;">
+						<div class="card-body">
+							<h5>Nombre de Salle en Service :</h5>
+							<h3 id="salle_count"><span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
 						</div>
-					</div><div class="col-xl-3 col-md-6">
-						<div class="doctor-widget">
-							<div class="doctor-box-icon flex-shrink-0">
-								<img src="~/assets/img/icons/doctor-dash-04.svg" alt="">
-							</div>
-							<div class="doctor-content dash-count flex-grow-1">
-								<h4>$<span class="counter-up">530</span><span></span><span class="status-green">+50%</span></h4>
-								<h5>Earnings</h5>
+					</div>
+					<div class="card patient-structure"  style="background-color: #e4e8ee;">
+						<div class="card-body">
+							<h5>Old Patients</h5>
+							<h3>35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-lg-12 col-xl-12 d-flex">
+					<div class="card flex-fill comman-shadow" style="background-color: #e4e8ee;">
+						<div class="card-header">
+							<h4 class="card-title d-inline-block">Recent Appointments</h4> <a href="appointments.html" class="patient-views float-end">Show all</a>
+						</div>
+						<div class="card-body">
+							<div class="teaching-card">
+								<ul class="steps-history">
+									<li>08:00</li>
+									<li>09:00</li>
+									<li>10:00</li>
+									<li>11:00</li>
+								</ul>
+								<ul class="activity-feed">
+									<li class="feed-item d-flex align-items-center">
+										<div class="dolor-activity hide-activity">
+											<ul class="doctor-date-list mb-2">
+												<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Benjamin Bruklin</span></li>
+												<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Andrea Lalema</span></li>
+												<li class=" dropdown ongoing-blk ">
+													<a href="#" class="dropdown-toggle  active-doctor" data-bs-toggle="dropdown">
+														<i class="fas fa-circle me-2 active-circles"></i>08:00 <span>Andrea Lalema</span><span class="ongoing-drapt">Ongoing <i class="feather-chevron-down ms-2"></i></span>
+													</a>
+													<ul class="doctor-sub-list dropdown-menu">
+														<li class="patient-new-list dropdown-item">Patient<span>Marie kennedy</span><a href="javascript:;" class="new-dot status-green"><i class="fas fa-circle me-1 fa-2xs"></i>New</a></li>
+														<li class="dropdown-item">Time<span>8:30 - 9:00 (30min)</span></li>
+														<li class="schedule-blk mb-0 pt-2 dropdown-item">
+															<ul class="nav schedule-time">
+																<li><a href="javascript:;"><img src="~/assets/img/icons/trash.svg" alt=""></a></li>
+																<li><a href="javascript:;"><img src="~/assets/img/icons/profile.svg" alt=""></a></li>
+																<li><a href="javascript:;"><img src="~/assets/img/icons/edit.svg" alt=""></a></li>
+															</ul>
+															<a class="btn btn-primary appoint-start">Start Appointment</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</li>
+									<li class="feed-item d-flex align-items-center">
+										<div class="dolor-activity">
+											<ul class="doctor-date-list mb-2">
+												<li><i class="fas fa-circle me-2"></i>09:00 <span>Galaviz Lalema</span></li>
+												<li><i class="fas fa-circle me-2"></i>09:20 <span>Benjamin Bruklin</span></li>
+												<li><i class="fas fa-circle me-2"></i>09:40 <span>Jenny Smith</span></li>
+											</ul>
+										</div>
+									</li>
+									<li class="feed-item d-flex align-items-center">
+										<div class="dolor-activity">
+											<ul class="doctor-date-list mb-2">
+												<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
+												<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
+											</ul>
+										</div>
+									</li>
+									<li class="feed-item d-flex align-items-center">
+										<div class="dolor-activity">
+											<ul class="doctor-date-list mb-2">
+												<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
+												<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
+											</ul>
+										</div>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		}
-
 		<div class="doctor-list-blk">
-					<div class="row">
+			<div class="row">
 						<div class="col-xl-3 col-md-6">
-							<div class="doctor-widget border-right-bg">
-								<div class="doctor-box-icon flex-shrink-0">
+							<div class="doctor-widget border-right-bg" >
+								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
 									<img src="~/assets/img/icons/doctor-dash-01.svg" alt="">
 								</div>
 								<div class="doctor-content dash-count flex-grow-1">
@@ -209,8 +266,8 @@
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-6">
-							<div class="doctor-widget border-right-bg">
-								<div class="doctor-box-icon flex-shrink-0">
+							<div class="doctor-widget border-right-bg" >
+								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
 									<img src="~/assets/img/icons/doctor-dash-02.svg" alt="">
 								</div>
 								<div class="doctor-content dash-count flex-grow-1">
@@ -220,8 +277,8 @@
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-6">
-							<div class="doctor-widget border-right-bg">
-								<div class="doctor-box-icon flex-shrink-0">
+							<div class="doctor-widget border-right-bg" >
+								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
 									<img src="~/assets/img/icons/doctor-dash-03.svg" alt="">
 								</div>
 								<div class="doctor-content dash-count flex-grow-1">
@@ -231,7 +288,7 @@
 							</div>
 						</div><div class="col-xl-3 col-md-6">
 							<div class="doctor-widget">
-								<div class="doctor-box-icon flex-shrink-0">
+								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
 									<img src="~/assets/img/icons/doctor-dash-04.svg" alt="">
 								</div>
 								<div class="doctor-content dash-count flex-grow-1">
@@ -241,110 +298,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			<div class="row">
-					<div class="col-12 col-lg-12 col-xl-12 d-flex">
-				<div class="card flex-fill comman-shadow">
-					<div class="card-header">
-						<h4 class="card-title d-inline-block">Recent Appointments</h4> <a href="appointments.html" class="patient-views float-end">Show all</a>
-					</div>
-					<div class="card-body">
-						<div class="teaching-card">
-							<ul class="steps-history">
-								<li>08:00</li>
-								<li>09:00</li>
-								<li>10:00</li>
-								<li>11:00</li>
-							</ul>
-							<ul class="activity-feed">
-								<li class="feed-item d-flex align-items-center">
-									<div class="dolor-activity hide-activity">
-										<ul class="doctor-date-list mb-2">
-											<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Benjamin Bruklin</span></li>
-											<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Andrea Lalema</span></li>
-											<li class=" dropdown ongoing-blk ">
-												<a href="#" class="dropdown-toggle  active-doctor" data-bs-toggle="dropdown">
-													<i class="fas fa-circle me-2 active-circles"></i>08:00 <span>Andrea Lalema</span><span class="ongoing-drapt">Ongoing <i class="feather-chevron-down ms-2"></i></span>
-												</a>
-												<ul class="doctor-sub-list dropdown-menu">
-													<li class="patient-new-list dropdown-item">Patient<span>Marie kennedy</span><a href="javascript:;" class="new-dot status-green"><i class="fas fa-circle me-1 fa-2xs"></i>New</a></li>
-													<li class="dropdown-item">Time<span>8:30 - 9:00 (30min)</span></li>
-													<li class="schedule-blk mb-0 pt-2 dropdown-item">
-														<ul class="nav schedule-time">
-															<li><a href="javascript:;"><img src="~/assets/img/icons/trash.svg" alt=""></a></li>
-															<li><a href="javascript:;"><img src="~/assets/img/icons/profile.svg" alt=""></a></li>
-															<li><a href="javascript:;"><img src="~/assets/img/icons/edit.svg" alt=""></a></li>
-														</ul>
-														<a class="btn btn-primary appoint-start">Start Appointment</a>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</div>
-								</li>
-								<li class="feed-item d-flex align-items-center">
-									<div class="dolor-activity">
-										<ul class="doctor-date-list mb-2">
-											<li><i class="fas fa-circle me-2"></i>09:00 <span>Galaviz Lalema</span></li>
-											<li><i class="fas fa-circle me-2"></i>09:20 <span>Benjamin Bruklin</span></li>
-											<li><i class="fas fa-circle me-2"></i>09:40 <span>Jenny Smith</span></li>
-										</ul>
-									</div>
-								</li>
-								<li class="feed-item d-flex align-items-center">
-									<div class="dolor-activity">
-										<ul class="doctor-date-list mb-2">
-											<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
-											<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
-										</ul>
-									</div>
-								</li>
-								<li class="feed-item d-flex align-items-center">
-									<div class="dolor-activity">
-										<ul class="doctor-date-list mb-2">
-											<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
-											<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-					<div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex">
-						<div class="struct-point">
-							<div class="card patient-structure">
-								<div class="card-body">
-									<h5>New Patients</h5>
-									<h3>56<span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
-								</div>
-							</div>
-							<div class="card patient-structure">
-								<div class="card-body">
-									<h5>Old Patients</h5>
-									<h3>35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex">
-						<div class="struct-point">
-							<div class="card patient-structure">
-								<div class="card-body">
-									<h5>New Patients</h5>
-									<h3>56<span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
-								</div>
-							</div>
-							<div class="card patient-structure">
-								<div class="card-body">
-									<h5>Old Patients</h5>
-									<h3>35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 		</div>
+	</div>
 </div>
+
 

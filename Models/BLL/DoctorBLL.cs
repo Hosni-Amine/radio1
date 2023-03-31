@@ -29,5 +29,10 @@ namespace radio1.Models.BLL
         {
             return DoctorDAL.GetByUserId(User_Id);
 		}
+        public static Doctor GetByStr(string Str) 
+        {
+            return DoctorDAL.GetByStr(Str);
+
+		}
 	}
 }

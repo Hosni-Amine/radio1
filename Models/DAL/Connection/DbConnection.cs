@@ -168,8 +168,7 @@ namespace radio1.Models.DAL.Connection
         {
             SqlCommand command = new SqlCommand(sqlstr, connection);
             command.Parameters.AddWithValue("@Nom", salle.Nom);
-            command.Parameters.AddWithValue("@Responsable", salle.Responsable);
-            command.Parameters.AddWithValue("@Operation", salle.Operation);
+            command.Parameters.AddWithValue("@Responsable", salle.Responsable.Id);
             command.Parameters.AddWithValue("@Emplacement", salle.Emplacement);
             return command;
         }

@@ -67,7 +67,7 @@ namespace radio1.Controllers
 					new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
 					new Claim(ClaimTypes.Role,user.Role)
 				}),
-				Expires = DateTime.Now.AddMinutes(2),
+				Expires = DateTime.Now.AddMinutes(60),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
 			};
 			var token = jwtTokenHundler.CreateToken(tokenDescriptor);

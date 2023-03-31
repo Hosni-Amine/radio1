@@ -34,22 +34,17 @@ builder.Services.AddAuthentication(Options =>
 
 var app = builder.Build();
 
+
 //Middleware pour personalisé les erreurs d'authentification et d'autorisation
 app.Use(async (context, next) =>
 {
-    await next();
-    var statusCode = context.Response.StatusCode;
-    if (statusCode == 401)
-    {
-        context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
-        await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Vous devez ce connecter pour avoir accées à cette ressource.</p>");
-    }
-    else if (statusCode == 403)
-    {
-		//context.Response.Redirect("/Account/AlertPage");
-		context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
-		await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Vous n'êtes pas autorisé à accéder à cette ressource.</p>");
-	}
+		await next();
+		var statusCode = context.Response.StatusCode;
+		if (statusCode == 403)
+		{
+			context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
+			await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Vous n'êtes pas autorisé à accéder à cette ressource.</p>");
+		}
 });
 
 

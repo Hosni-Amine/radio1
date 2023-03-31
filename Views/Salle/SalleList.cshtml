@@ -1,0 +1,142 @@
+﻿@Model IEnumerable<radio1.Models.Entities.Salle>
+
+	@{
+		Layout = "_HomePageLayout";
+	}
+
+
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		<title>Preclinic - Gestionnaire des Salle</title>
+		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	</head>
+	<body>
+		<div class="main-wrapper">
+			<div class="page-wrapper">
+				<div class="content">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a>Salles </a></li>
+									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+									<li class="breadcrumb-item active">Liste des Salles</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card card-table show-entire">
+								<div class="card-body">
+									<!-- Table Header -->
+									<div class="page-table-header mb-2">
+										<div class="row align-items-center">
+											<div class="col">
+												<div class="doctor-table-blk">
+													<h3>liste de Salles</h3>
+													<div class="doctor-search-blk">
+														<div class="top-nav-search table-search-blk">
+															<div class="top-nav-search table-search-blk">
+																<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+															</div>
+														</div>
+														<div class="add-group">
+															<button type="submit" class="btn btn-primary doctor-refresh ms-2">
+																<img src="~/assets/img/icons/search.svg" alt="">
+															</button>
+															<a asp-area="" asp-controller="Salle" asp-action="SalleList" class="btn btn-primary doctor-refresh ms-2"><img src="~/assets/img/icons/re-fresh.svg" alt=""></a>
+															<a href="#" onclick="Add_Salle()" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-auto text-end float-end ms-auto download-grp">
+												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-01.svg" alt=""></a>
+												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-02.svg" alt=""></a>
+												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-03.svg" alt=""></a>
+												<a href="javascript:;"><img src="~/assets/img/icons/pdf-icon-04.svg" alt=""></a>
+
+											</div>
+										</div>
+									</div>
+									<!-- /Table Header -->
+
+									<div class="table-responsive" style="margin: 0px 15px 0px 0px;padding: 15px;" id="salle-table">
+										<table class="table border-0 custom-table comman-table datatable mb-0">
+											<thead>
+												<tr>
+													<th>Nom</th>
+													<th>Emplacement </th>
+													<th>Respensable </th>
+													<th>Type d'operation</th>
+													<th>Date d'ajout</th>
+													<th></th>
+												</tr>
+											</thead>
+											@if (Model != null)
+											{
+												<tbody>
+													@foreach (var item in Model)
+													{
+														<tr style="background-color: #f5f5f6;">
+															<td>@item.Nom</td>
+															<td>@item.Emplacement</td>
+															<td class="text">
+																<div class="dropdown">
+																	<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																		@item.Responsable.Nom @item.Responsable.Prenom
+																	</a>
+																	<div class="dropdown-menu dropdown-menu-center">
+																		<a class="dropdown-item" href="#" onclick="profil_doctor_btn(@item.Responsable.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> détails</a>
+																	</div>
+																</div>
+															</td>
+															<td class="text">
+																<div class="dropdown">
+																	<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																		@item.Operations.Count Type d'operation
+																	</a>
+																		<div class="dropdown-menu dropdown-menu-center">
+																		@foreach (var operation in item.Operations)
+																		{
+																			<a class="dropdown-item"><i class="fa-solid"></i> @operation.Nom</a>
+																		}
+																	</div>
+																</div>
+															</td>
+															<td>@item.DateCreation</td>
+															<td class="text-end">
+																<div class="dropdown dropdown-action">
+																	<a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+																	<div class="dropdown-menu dropdown-menu-end">
+																		<a class="dropdown-item" href="#" onclick="edit__btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
+																		<a class="dropdown-item" href="#" onclick="delete__btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													}
+												</tbody>
+											}
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="~/MyJS/Salle.js"></script>
+
+
+

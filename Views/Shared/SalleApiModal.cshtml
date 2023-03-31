@@ -1,0 +1,146 @@
+﻿<!--Operation-list-Modal -->
+<div class="modal fade bd-example-modal-lg" id="operation-list-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px;">
+				<div class="form-heading ">
+					<div class="doctor-table-blk" style="margin: 0px 17px;">
+						<h3 class="text-center">Type d'operation disponible :</h3>
+						<div class="doctor-search-blk">
+							<div class="top-nav-search table-search-blk">
+								<div class="top-nav-search table-search-blk">
+									<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive" style="padding: 15px;">
+					<table class="table border-3 custom-table" id="oplist-table">
+						<thead>
+							<tr>
+								<th class="text-center" style="background-color: #f4f5fa;">Nom d'operation </th>
+								<th class="text-center" style="background-color: #f4f5fa;">Action </th>
+							</tr>
+						</thead>
+						<tbody id="operation-table-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!--Doctor-list-Modal -->
+<div class="modal fade bd-example-modal-lg" id="doctor-list-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px;">
+				<div class="form-heading ">
+					<div class="doctor-table-blk" style="margin: 0px 17px;">
+						<h3 class="text-center">Medecin disponible :</h3>
+						<div class="doctor-search-blk">
+							<div class="top-nav-search table-search-blk">
+								<div class="top-nav-search table-search-blk">
+									<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive" style="padding: 15px;">
+					<table class="table border-3 custom-table" id="oplist-table">
+						<thead>
+							<tr>
+								<th class="text-center" style="background-color: #f4f5fa;">Nom d'operation </th>
+								<th class="text-center" style="background-color: #f4f5fa;">Action </th>
+							</tr>
+						</thead>
+						<tbody id="operation-table-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!--Add-Salle-Modal -->
+<div class="modal fade bd-example-modal-lg" id="add-salle-modal" tabindex="-1" role="dialog" style=" z-index: 9800;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Salles </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Ajouter une Salle</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="" asp-action="" id="add-salle-form" method="post">
+									<div class="row">
+										<input type="hidden" id="addontime" value="true">
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Nom de la salle <span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="NomSalle" id="NomSalle" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms" >
+												<label>Responsable <span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Responsable" id="Responsable" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Type d'operation<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Toperation" id="Toperation" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12" style="margin-left: 10px;margin-top: -25px;">
+											<div class="form-group local-forms">
+												<a href="#" onclick="operation_list()" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter les types disponibles</a>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-top-form">
+												<label class="local-top">Emplacement <span class="login-danger">*</span></label>
+												<div class="settings-btn upload-files-avator">
+													<input type="file" value="Choisir un fichier " accept=".pdf" name="pdf" id="file" onchange="displayFileName()" class="hide-input">
+													<label style="width:-webkit-fill-available;" for="file" class="upload">Choisir un fichier</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="button" class="btn btn-primary submit-form me-2" onclick="add_salle()" id="submit-btn">Ajouter</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

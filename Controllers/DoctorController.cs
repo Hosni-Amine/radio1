@@ -69,6 +69,5 @@ namespace radio1.Controllers
 			Message msg = DoctorBLL.AddDoctor(doctor, User_Id);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
-
 	}
 }

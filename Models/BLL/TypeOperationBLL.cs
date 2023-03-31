@@ -10,17 +10,21 @@ namespace radio1.Models.BLL
 
 
 
-		public static Message AddTypeOperation(string nom)
+		public static Message AddTypeOperation(TypeOperation operation)
 		{
-			return TypeOperationDAL.AddTypeOperation(nom);
+			return TypeOperationDAL.AddTypeOperation(operation);
+		}
+		public static Message EditTypeOperation(TypeOperation operation)
+		{
+			return TypeOperationDAL.EditTypeOperation(operation);
 		}
 		public static Message DeleteTypeOperation(int id)
 		{
 			return TypeOperationDAL.DeleteTypeOperation(id);
 		}
-		public static List<TypeOperation> GetAll()
+		public static List<TypeOperation> GetAll(int? SalleId)
 		{
-			return TypeOperationDAL.GetAll();
+			return TypeOperationDAL.GetAll(SalleId);
 		}
 		public static TypeOperation GetById(int Id)
 		{

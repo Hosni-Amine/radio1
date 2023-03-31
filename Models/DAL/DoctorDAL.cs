@@ -219,5 +219,29 @@ namespace radio1.Models.DAL
 			}
 		}
 
-    }
+		/// <summary>
+		/// La fonction GetByStr permet de retourner s'il y a un medecin avec le matricule ou email egale a str 
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
+		public static Doctor GetByStr(string str)
+		{
+			using (SqlConnection connection = Connection.DbConnection.GetConnection())
+			{
+				string sqlstr = "SELECT * FROM Doctor WHERE Matricule = @str OR Email = @str";
+				SqlCommand command = new SqlCommand(sqlstr, connection);
+				command.Parameters.AddWithValue("@str", str);
+				DataTable table = new DataTable();
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				table.Load(reader);
+				connection.Close();
+				if (table != null && table.Rows.Count != 0)
+					return Get(table.Rows[0]);
+				else
+					return null;
+			}
+		}
+
+	}
 }
