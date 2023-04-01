@@ -67,12 +67,14 @@ function operation_list() {
 function operation_associee(id) {
 	var addbtn = document.getElementById("add-op-btn");
 	addbtn.setAttribute("onclick", "add_op_btn('" + id + "')");
+	console.log(id);
 	$.ajax({
 		url: '/TypeOperation/TypeOperationList',
 		type: 'GET',
-		data: id,
+		data: { SalleId: id },
 		dataType: 'json',
 		success: function (data) {
+			console.log(data)
 			var operations = data.operations;
 				var distinctNames = operations.filter((operation, index, self) =>
 					index === self.findIndex((op) => (

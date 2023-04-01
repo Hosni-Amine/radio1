@@ -87,7 +87,9 @@
 													{
 														<tr style="background-color: #f5f5f6;">
 															<td>@item.Nom</td>
-															<td>@item.Emplacement</td>
+															<td>
+																<a href="@Url.Action( "DownloadPDF","Salle", new { fileName = @item.Emplacement })">@item.Emplacement</a>
+															</td>
 															@if(@item.Responsable != null)
 															{
 																<td class="text">

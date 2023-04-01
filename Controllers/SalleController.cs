@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using radio1.Models.BLL;
 using radio1.Models.DAL;
 using radio1.Models.Entities;
-using System.Data;
+using System.IO;
+using System.Web;
+
 
 namespace radio1.Controllers
 {
@@ -110,6 +112,14 @@ namespace radio1.Controllers
 			{
 				return Json(new { Success = true, Message = "PDF n'existe pas !" });
 			}
+		}
+
+
+		public ActionResult DownloadPDF(string fileName)
+		{
+			string pdfPath = Path.Combine(_env.ContentRootPath, "wwwroot", "assets", "Emplacement", fileName);
+			byte[] pdfBytes = System.IO.File.ReadAllBytes(pdfPath);
+			return File(pdfBytes, "application/pdf", fileName);
 		}
 
 	}
