@@ -1,21 +1,18 @@
 ﻿function delete_doctor_btn(id) {
-		$('#m-t-20').empty();
-	var button = $('<button style="margin: 10px;">').attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_doctor);
-		var link = $('<a style="margin: 10px;">').attr('href', '#').addClass('btn btn-white').attr('data-bs-dismiss', 'modal').text('Non');
-		$('#m-t-20').append(button);
-		$('#m-t-20').append(link);
-		$('#delete-text').text("Voulez-vous vraiment supprimer ce Medecin ?");
-		$('#delete-modal-btn').attr('data-id', id);
-		$('#delete_modal').modal('show');
-		console.log(id);
+	$('#m-t-20').empty();
+	var button = $('<button style="margin: 10px;">').attr('data-id', id).attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_doctor);
+	var link = $('<a style="margin: 10px;">').attr('href', '#').addClass('btn btn-white').attr('data-bs-dismiss', 'modal').text('Non');
+	$('#m-t-20').append(button);
+	$('#m-t-20').append(link);
+	$('#delete-text').text("Voulez-vous vraiment supprimer ce Medecin ?");
+	$('#delete_modal').modal('show');
 }
 
 
 function Submit_Delete_doctor() {
-	var record_id = $('#delete-doctor-btn').attr('data-id');
-	console.log(record_id);
+	var id = $('#delete-modal-btn').data('id');
 	$.ajax({
-		url: "/Doctor/DeleteDoctor/" + record_id,
+		url: "/Doctor/DeleteDoctor/" + id,
 		type: 'DELETE',
 		success: function (response) {
 			if (response.success) {
@@ -325,9 +322,9 @@ function profil_doctor_btn(id) {
 
 
 $(document).ready(function () {
-	$('#search-input').on('keyup', function () {
+	$('#search-doctor-input').on('keyup', function () {
 		var searchText = $(this).val().toLowerCase();
-		$('tbody tr').filter(function () {
+		$('#doctor-table tbody tr').filter(function () {
 			$(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
 		});
 	});

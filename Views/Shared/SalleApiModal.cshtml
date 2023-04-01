@@ -1,4 +1,40 @@
-﻿<!--Operation-list-Modal -->
+﻿<!--Operation-salle-list-Modal -->
+<div class="modal fade bd-example-modal-lg" id="operation-salle-list-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px;">
+				<div class="form-heading ">
+					<div class="doctor-table-blk" style="margin: 0px 17px;">
+						<h3 class="text-center">Type d'operation disponible :</h3>
+						<div class="doctor-search-blk">
+							<div class="top-nav-search table-search-blk">
+								<div class="top-nav-search table-search-blk">
+									<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+								</div>
+							</div>
+							<div class="add-group">
+								<a href="#" id="add-op-btn" onclick="add_op_btn()" class="btn btn-primary add-pluss ms-2"><img src="/assets/img/icons/plus.svg" alt=""></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive" style="padding: 15px;">
+					<table class="table border-3 custom-table" id="oplist-table">
+						<thead>
+							<tr>
+								<th class="text-center" style="background-color: #f4f5fa;">Nom d'operation </th>
+								<th class="text-center" style="background-color: #f4f5fa;">Action </th>
+							</tr>
+						</thead>
+						<tbody id="operation-salle-table-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Operation-list-Modal -->
 <div class="modal fade bd-example-modal-lg" id="operation-list-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
@@ -31,7 +67,6 @@
 		</div>
 	</div>
 </div>
-
 
 
 <!--Doctor-list-Modal -->
@@ -105,18 +140,18 @@
 										<div class="col-12 col-md-12 col-xl-12">
 											<div class="form-group local-forms" >
 												<label>Responsable <span class="login-danger">*</span></label>
-												<input class="form-control" type="text" name="Responsable" id="Responsable" required>
+												<input class="form-control" type="text" name="Responsable" id="Responsable" placeholder="Email ou Matricule" required>
 											</div>
 										</div>
 										<div class="col-12 col-md-12 col-xl-12">
 											<div class="form-group local-forms">
 												<label>Type d'operation<span class="login-danger">*</span></label>
-												<input class="form-control" type="text" name="Toperation" id="Toperation" required>
+												<input class="form-control" type="text" name="Toperation" id="Toperation" placeholder="ajouter un nouveau type" required>
 											</div>
 										</div>
 										<div class="col-12 col-md-12 col-xl-12" style="margin-left: 10px;margin-top: -25px;">
 											<div class="form-group local-forms">
-												<a href="#" onclick="operation_list()" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter les types disponibles</a>
+												<a href="#" onclick="operation_list()" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter les types en services</a>
 											</div>
 										</div>
 										<div class="col-12 col-md-12 col-xl-12">

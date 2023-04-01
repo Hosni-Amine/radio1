@@ -39,7 +39,7 @@
 			}
 			else if (ex.Message.Contains("unq_Emplacement"))
 			{
-				return new Message(false, "Ce fichier est deja pour une autre salle ! ");
+				return new Message(false, "Ce Nom de fichier est deja utilisé merci de le renomer! ");
 			}
             else if (ex.Message.Contains("unq_Responsable"))
             {

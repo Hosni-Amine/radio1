@@ -54,7 +54,6 @@ namespace radio1.Controllers
 			}
 		}
 
-
         /// <summary>
         /// Supprimer une salle de la base de données 
         /// </summary>
@@ -62,8 +61,12 @@ namespace radio1.Controllers
         /// <returns></returns>
         public IActionResult DeleteSalle(int Id)
         {
+			var salle = SalleBLL.GetById(Id);
             Message msg = SalleBLL.DeleteSalle(Id);
-            Console.WriteLine(msg.Msg);
+			if(msg.Verification)
+			{
+				DelPDF(salle.Emplacement);
+			}
             return Json(new { Success = msg.Verification, Message = msg.Msg });
         }
 
@@ -86,6 +89,27 @@ namespace radio1.Controllers
 				await pdf.CopyToAsync(stream);
 			}
 			return Ok(fileName);
+		}
+
+		public IActionResult DelPDF (string PdfName)
+		{
+			if(PdfName != null)
+			{
+				string pdfPath = Path.Combine(_env.ContentRootPath, "wwwroot", "assets", "Emplacement", PdfName);
+				if (System.IO.File.Exists(pdfPath))
+				{
+					System.IO.File.Delete(pdfPath);
+					return Json(new { Success = true, Message = "PDF supprimer avec success" });
+				}
+				else
+				{
+					return Json(new { Success = true, Message = "erreur de supprission !" });
+				}
+			}
+			else
+			{
+				return Json(new { Success = true, Message = "PDF n'existe pas !" });
+			}
 		}
 
 	}

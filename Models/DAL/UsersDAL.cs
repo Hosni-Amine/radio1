@@ -6,6 +6,11 @@ namespace radio1.Models.DAL
 {
 	public class UsersDAL
 	{
+		/// <summary>
+		/// Fonction permet d'ajouter un utilisateur 
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns></returns>
 		public static Message AddUser(Users user)
 		{
 			try
@@ -29,6 +34,12 @@ namespace radio1.Models.DAL
 				return Message.HandleException(ex, "l'ajout");
 			}
 		}
+
+		/// <summary>
+		/// Fonction permet de retourner un objet utilisateur d'apres son non s'il existe
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
 		public static Users? GetByUserName(string str)
 		{
 			using (SqlConnection connection = Connection.DbConnection.GetConnection())
@@ -48,6 +59,12 @@ namespace radio1.Models.DAL
 					return null;
 			}
 		}
+
+		/// <summary>
+		/// Fonction qui retourn lobjet user d'apres son id de la base de données
+		/// </summary>
+		/// <param name="User_Id"></param>
+		/// <returns></returns>
 		public static Users GetById(int User_Id)
 		{
 			using (SqlConnection connection = Connection.DbConnection.GetConnection())
@@ -67,6 +84,13 @@ namespace radio1.Models.DAL
 					return null;
 			}
 		}
+
+
+		/// <summary>
+		/// Fonction permet de supprimer un utilisateur d'apres son UserName
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
 		public static Message DeleteUser(string str)
 		{
 			try
@@ -85,6 +109,13 @@ namespace radio1.Models.DAL
 				return Message.HandleException(ex, "la suppression");
 			}
 		}
+
+
+		/// <summary>
+		/// Fonction permet de retourner un objet utilisateur d'apres un datarow 
+		/// </summary>
+		/// <param name="raw"></param>
+		/// <returns></returns>
 		public static Users Get(DataRow raw)
 		{
 			try
@@ -102,5 +133,7 @@ namespace radio1.Models.DAL
 				return null;
 			}
 		}
+
+		  
 	}
 }

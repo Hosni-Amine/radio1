@@ -8,6 +8,16 @@ $(document).ready(function () {
 		});
 	});
 });
+//Recherche dans la list des operations de salle
+$(document).ready(function () {
+	$('#operation-salle-list-modal input').on('keyup', function () {
+		var searchText1 = $('#operation-salle-list-modal #search-input').val().toLowerCase();
+		$('#operation-salle-list-modal tbody tr').filter(function () {
+			var name = $(this).find('td:nth-child(1)').text().toLowerCase();
+			$(this).toggle(name.indexOf(searchText1) > -1);
+		});
+	});
+});
 
 //Crud type d'operation
 function operation_list() {
@@ -17,21 +27,68 @@ function operation_list() {
 		dataType: 'json',
 		success: function (data) {
 			var operations = data.operations;
-			var distinctNames = operations.filter((operation, index, self) =>
-				index === self.findIndex((op) => (
-					op.nom === operation.nom
-				))
-			);
-			var tbody = $('#operation-table-body');
-			var last_td = $('#Nom-Op');
-			tbody.empty();
-			$.each(distinctNames, function (index, operation) {
-				var row = $('<tr id="' + operation.nom + '" style="background-color: #f4f5fa;">');
-				row.append($('<td class="text-center" style="padding: 15px;">').text(operation.nom));
-				row.append('<td class="text-center"></a><a href="#" id="(' + operation.nom + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Salles associeé </a></td>');
-				tbody.append(row);
-			});
-			$('#operation-list-modal').modal('show');
+			if (operations.length !== 0) {
+				var distinctNames = operations.filter((operation, index, self) =>
+					index === self.findIndex((op) => (
+						op.nom === operation.nom
+					))
+				);
+				var tbody = $('#operation-table-body');
+				var last_td = $('#Nom-Op');
+				tbody.empty();
+				$.each(distinctNames, function (index, operation) {
+					var row = $('<tr id="' + operation.nom + '" style="background-color: #f4f5fa;">');
+					row.append($('<td class="text-center" style="padding: 15px;">').text(operation.nom));
+					row.append('<td class="text-center"></a><a href="#" id="(' + operation.nom + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Salles associeé </a></td>');
+					tbody.append(row);
+				});
+				$('#operation-list-modal').modal('show');
+			}
+			else {
+				$('#success-modal-text').text("pas d'opération trouvée ajouter une salle d'abord !");
+				$('#success-modal').modal('show');
+				setTimeout(function () {
+					$('#success-modal').modal('hide');
+				}, 2500);
+			}
+		},
+		error: function (xhr, status, error) {
+			if (xhr.status == 403) {
+				$('#error-modal-text').text("Tu n'a pas l'autorisation !");
+				$('#error-modal').modal('show');
+				setTimeout(function () {
+					$('#error-modal').modal('hide');
+				}, 1500);
+			}
+		}
+	});		
+}
+
+function operation_associee(id) {
+	var addbtn = document.getElementById("add-op-btn");
+	addbtn.setAttribute("onclick", "add_op_btn('" + id + "')");
+	$.ajax({
+		url: '/TypeOperation/TypeOperationList',
+		type: 'GET',
+		data: id,
+		dataType: 'json',
+		success: function (data) {
+			var operations = data.operations;
+				var distinctNames = operations.filter((operation, index, self) =>
+					index === self.findIndex((op) => (
+						op.nom === operation.nom
+					))
+				);
+				var tbody = $('#operation-salle-table-body');
+				var last_td = $('#Nom-Op');
+				tbody.empty();
+				$.each(distinctNames, function (index, operation) {
+					var row = $('<tr id="' + operation.salleId + '" style="background-color: #f4f5fa;">');
+					row.append($('<td class="text-center" style="padding: 15px;">').text(operation.nom));
+					row.append('<td class="text-center"></a><a href="#" onclick="delete_op_btn('+operation.id+')" id="()"><i class="fa fa-trash-alt m-r-5"></i> Supprimer </a></td>');
+					tbody.append(row);
+				});
+				$('#operation-salle-list-modal').modal('show');
 		},
 		error: function (xhr, status, error) {
 			if (xhr.status == 403) {
@@ -43,44 +100,51 @@ function operation_list() {
 			}
 		}
 	});
+	
 }
 
-
-function add_op_btn()
+function add_op_btn(id)
 {
-	var tbody = $('#operation-table-body');
+	var tbody = $('#operation-salle-table-body');
 	var row = $('<tr style="background-color: #f4f5fa;">');
 	row.append($('<td>').append($('<input>').attr('type', 'text').attr('id', 'operation_id')));
-	row.append('<td class="text-center"><a href="#" onclick="submit_op_add()"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ajouter     |     </a><a href="#" onclick="operation_list()"><i class="fa fa-trash-alt m-r-5"></i>  Annuler </a></td>');
+	row.append('<td class="text-center"><a href="#" onclick="submit_op_add(' + id + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ajouter     |     </a><a href="#" onclick="operation_list()"><i class="fa fa-trash-alt m-r-5"></i>  Annuler </a></td>');
 	tbody.append(row);
 }
-function submit_op_add()
+function submit_op_add(id)
 {
 	var nom = $('#operation_id').val();
+	console.log(id);
+	var op = 
+	{
+		Nom: nom,
+		Salleid: id
+	}
+	console.log(op);
 	console.log(nom);
 	$.ajax({
 		url: '/TypeOperation/AddTypeOperation',
 		type: 'POST',
-		data: { nom: nom },
+		data: { operation : op },
 		success: function (response) {
 			console.log(response);
 			if (response.success) {
-				$('#operation-list-modal').modal('hide');
+				$('#operation-salle-list-modal').modal('hide');
 				$('#success-modal-text').text("Type ajouter avec succées !");
 				$('#success-modal').modal('show');
 				setTimeout(function () {
 					$('#success-modal').modal('hide');
-					operation_list();
+					window.location.href = '/Salle/SalleList';
 				}, 1500);
 			}
 			else
 			{
-				$('#operation-list-modal').modal('hide');
+				$('#operation-salle-list-modal').modal('hide');
 				$('#error-modal-text').text(response.message);
 				$('#error-modal').modal('show');
 				setTimeout(function () {
 					$('#error-modal').modal('hide');
-					$('#operation-list-modal').modal('show');
+					$('#operation-salle-list-modal').modal('show');
 				}, 1500);
 			}
 		},
@@ -95,6 +159,7 @@ function submit_op_add()
 	});
 }
 
+
 function delete_op_btn(id) {
 	$('#delete_modal').modal('show');
 	$('#m-t-20').empty();
@@ -104,7 +169,6 @@ function delete_op_btn(id) {
 	$('#m-t-20').append(link);
 	$('#delete-text').text("Voulez-vous vraiment supprimer ce type d'operation ?");
 	$('#delete-modal-btn').attr('data-id', id);
-	console.log(id);
 }
 function Submit_Delete_Operation() {
 	var record_id = $('#delete-modal-btn').attr('data-id');
@@ -115,12 +179,12 @@ function Submit_Delete_Operation() {
 		success: function (response) {
 			if (response.success) {
 				$('#delete_modal').modal('hide');
-				$('#operation-list-modal').modal('hide');
+				$('#operation-salle-list-modal').modal('hide');
 				$('#success-modal-text').text(response.message);
 				$('#success-modal').modal('show');
 				setTimeout(function () {
 					$('#success-modal').modal('hide');
-					operation_list()
+					window.location.href = '/Salle/SalleList';
 				}, 2000);
 			} else {
 				console.log('Error in response:', response);

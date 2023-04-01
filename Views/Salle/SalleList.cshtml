@@ -1,4 +1,5 @@
-﻿@Model IEnumerable<radio1.Models.Entities.Salle>
+﻿@using Newtonsoft.Json;
+@Model IEnumerable<radio1.Models.Entities.Salle>
 
 	@{
 		Layout = "_HomePageLayout";
@@ -43,7 +44,7 @@
 													<div class="doctor-search-blk">
 														<div class="top-nav-search table-search-blk">
 															<div class="top-nav-search table-search-blk">
-																<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+																<input type="text" id="search-salle-input" class="form-control" placeholder="Recherche...">
 															</div>
 														</div>
 														<div class="add-group">
@@ -87,16 +88,32 @@
 														<tr style="background-color: #f5f5f6;">
 															<td>@item.Nom</td>
 															<td>@item.Emplacement</td>
-															<td class="text">
-																<div class="dropdown">
-																	<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-																		@item.Responsable.Nom @item.Responsable.Prenom
-																	</a>
-																	<div class="dropdown-menu dropdown-menu-center">
-																		<a class="dropdown-item" href="#" onclick="profil_doctor_btn(@item.Responsable.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> détails</a>
+															@if(@item.Responsable != null)
+															{
+																<td class="text">
+																	<div class="dropdown">
+																		<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																			@item.Responsable.Nom @item.Responsable.Prenom
+																		</a>
+																		<div class="dropdown-menu dropdown-menu-center">
+																			<a class="dropdown-item" href="#" onclick="profil_doctor_btn(@item.Responsable.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> détails</a>
+																		</div>
 																	</div>
-																</div>
-															</td>
+																</td>
+															}
+															else
+															{
+																<td class="text">
+																	<div class="dropdown">
+																		<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																			Pas de Responsable affecté
+																		</a>
+																		<div class="dropdown-menu dropdown-menu-center">
+																			<a class="dropdown-item" href="#" onclick="operation_list()"><i class="fa-solid fa-pen-to-square m-r-5"></i> Affecter un responsable</a>
+																		</div>
+																	</div>
+																</td>
+															}
 															<td class="text">
 																<div class="dropdown">
 																	<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -107,6 +124,7 @@
 																		{
 																			<a class="dropdown-item"><i class="fa-solid"></i> @operation.Nom</a>
 																		}
+																		<a class="dropdown-item" href="#" onclick="operation_associee('@item.Id')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter</a>
 																	</div>
 																</div>
 															</td>
@@ -116,7 +134,7 @@
 																	<a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 																	<div class="dropdown-menu dropdown-menu-end">
 																		<a class="dropdown-item" href="#" onclick="edit__btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
-																		<a class="dropdown-item" href="#" onclick="delete__btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+																		<a class="dropdown-item" href="#" onclick="delete_salle_btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
 																	</div>
 																</div>
 															</td>
@@ -136,7 +154,6 @@
 	</body>
 </html>
 
-<script src="~/MyJS/Salle.js"></script>
 
 
 

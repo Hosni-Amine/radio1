@@ -5,23 +5,23 @@ var Id = localStorage.getItem("Id");
 var Role = localStorage.getItem("Role");
 document.getElementById("Id").textContent = "Utilisateur : " + UserName;
 document.getElementById("Role").textContent = "Designation : " + Role;
-if (Role = "Admin") {
-		$.ajax({
-			url: "/Admin/State",
-			type: 'GET',
-			success: function (response) {
-				var medcount = document.getElementById('tech_count');
-				medcount.textContent = response.tech_Count;
-				var techcount = document.getElementById('med_count');
-				techcount.textContent = response.doctor_Count;
-				var sallecount = document.getElementById('salle_count');
-				sallecount.textContent = response.salle_Count;
-			},
-			error: function (error) {
-				console.log(error);
-			}
-		});
-}
+//if (Role = "Admin") {
+//		$.ajax({
+//			url: "/Admin/State",
+//			type: 'GET',
+//			success: function (response) {
+//				var medcount = document.getElementById('tech_count');
+//				medcount.textContent = response.tech_Count;
+//				var techcount = document.getElementById('med_count');
+//				techcount.textContent = response.doctor_Count;
+//				var sallecount = document.getElementById('salle_count');
+//				sallecount.textContent = response.salle_Count;
+//			},
+//			error: function (error) {
+//				console.log(error);
+//			}
+//		});
+//}
 
 
 

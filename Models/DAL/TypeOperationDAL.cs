@@ -104,6 +104,29 @@ namespace radio1.Models.DAL
                     return null;
             }
         }
+		/// <summary>
+		/// Permet de supprimer les types d'operation associée a une salle
+		/// </summary>
+		/// <param name="Salle_Id"></param>
+		/// <returns></returns>
+		public static Message DeleteSalleTypeOperations(int Salle_Id)
+		{
+			try
+			{
+				using (SqlConnection connection = Connection.DbConnection.GetConnection())
+				{
+					string sqlstr = "DELETE FROM TypeOperation WHERE Salleid = @Salle_Id";
+					SqlCommand command = new SqlCommand(sqlstr, connection);
+					command.Parameters.AddWithValue("@Salle_Id", Salle_Id);
+					Connection.DbConnection.NonQueryRequest(command);
+				}
+				return new Message(true, "Groupe de type supprimer avec succés");
+			}
+			catch (Exception ex)
+			{
+				return Message.HandleException(ex, "la suppression");
+			}
+		}
 
 		/// <summary>
 		/// 3 methode permet de retirer tous les elements de la base de données specifiquement pour GetAll qui peut retourner les types associé a une salle

@@ -10,6 +10,11 @@ namespace radio1.Models.DAL
 {
 	public class SalleDAL
 	{
+		/// <summary>
+		/// Fonction permet dajouter une salle
+		/// </summary>
+		/// <param name="salle"></param>
+		/// <returns></returns>
 		public static Message AddSalle(Salle salle)
 		{
 			try
@@ -32,24 +37,36 @@ namespace radio1.Models.DAL
 				return Message.HandleException(ex, "l'ajout");
 			}
 		}
+
+		/// <summary>
+		/// Fonction permet de supprimer une salle avec ses type d'operation 
+		/// </summary>
+		/// <param name="Id"></param>
+		/// <returns></returns>
 		public static Message DeleteSalle(int Id)
 		{
 			try
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "DELETE FROM Salle WHERE Id = @Id";
+					string sqlstr = "DELETE FROM TypeOperation WHERE SalleId = @Id ; DELETE FROM Salle WHERE Id = @Id";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
 					command.Parameters.AddWithValue("@Id", Id);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
-				return new Message(true, "Salle supprimer avec succés ");
+				return new Message(true, "Salle et ces types d'operation supprimer avec succés ");
 			}
 			catch (Exception ex)
 			{
 				return Message.HandleException(ex, "la suppression");
 			}
 		}
+
+		/// <summary>
+		/// Fonction qui retourn un objet salle a partir de son id
+		/// </summary>
+		/// <param name="Id"></param>
+		/// <returns></returns>
 		public static Salle GetById(int Id)
 		{
 			using (SqlConnection connection = Connection.DbConnection.GetConnection())
@@ -68,6 +85,12 @@ namespace radio1.Models.DAL
 					return null;
 			}
 		}
+
+		/// <summary>
+		/// Fonction qui retourn un objet salle a partir de son Nom
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
 		public static Salle GetByName(string str)
 		{
 			using (SqlConnection connection = Connection.DbConnection.GetConnection())
@@ -86,6 +109,12 @@ namespace radio1.Models.DAL
 					return null;
 			}
 		}
+
+		/// <summary>
+		/// 3 Fonction permet de retourner la liste des salle de la base de données
+		/// </summary>
+		/// <param name="table"></param>
+		/// <returns></returns>
 		public static List<Salle> GetAll(DataTable table)
 		{
 			try
@@ -94,9 +123,11 @@ namespace radio1.Models.DAL
 				foreach (DataRow row in table.Rows)
 				{
 					var salle = Get(row);
-					Doctor doctor = DoctorDAL.GetById(salle.Responsable.Id);
 					List<TypeOperation> operations = TypeOperationDAL.GetAll(salle.Id);
-					salle.Responsable = doctor;
+					if(salle.Responsable != null)
+					{
+						salle.Responsable = DoctorDAL.GetById(salle.Responsable.Id);
+					}
 					salle.Operations= operations;
 					apps.Add(salle);
 				}
@@ -124,12 +155,15 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
-				Doctor doc = new Doctor();
 				Salle salle = new Salle();
+				if (!string.IsNullOrEmpty(raw["Responsable"].ToString()))
+				{
+					Doctor doc = new Doctor();
+					salle.Responsable = doc;
+					salle.Responsable.Id = Int32.Parse(raw["Responsable"].ToString());
+				}
 				salle.Id = Int32.Parse(raw["Id"].ToString());
 				salle.Nom = raw["Nom"].ToString();
-				salle.Responsable = doc;
-				salle.Responsable.Id = Int32.Parse(raw["Responsable"].ToString());
                 salle.Emplacement = raw["Emplacement"].ToString();
 				salle.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());
 				return salle;

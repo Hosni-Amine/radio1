@@ -1,20 +1,17 @@
 function delete_tech_btn(id) {
 	$('#m-t-20').empty();
-	var button = $('<button style="margin: 10px;">').attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_technicien);
+	var button = $('<button style="margin: 10px;">').attr('data-id', id).attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_technicien);
 	var link = $('<a style="margin: 10px;">').attr('href', '#').addClass('btn btn-white').attr('data-bs-dismiss', 'modal').text('Non');
 	$('#m-t-20').append(button);
 	$('#m-t-20').append(link);
 	$('#delete-text').text("Voulez-vous vraiment supprimer ce Technicien ?");
-	$('#delete-modal-btn').attr('data-id', id);
 	$('#delete_modal').modal('show');
-	console.log(id);
 }
 
 function Submit_Delete_technicien() {
-	var record_id = $('#delete-technicien-btn').attr('data-id');
-	console.log(record_id);
+	var id = $('#delete-modal-btn').data('id');
 	$.ajax({
-		url: "/Technicien/DeleteTechnicien/" + record_id,
+		url: "/Technicien/DeleteTechnicien/" + id,
 		type: 'DELETE',
 		success: function (response) {
 			if (response.success) {
@@ -223,9 +220,9 @@ function hideall() {
 
 
 $(document).ready(function () {
-	$('#search-input').on('keyup', function () {
+	$('#search-tech-input').on('keyup', function () {
 		var searchText = $(this).val().toLowerCase();
-		$('tbody tr').filter(function () {
+		$('#tech-table tbody tr').filter(function () {
 			$(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
 		});
 	});
@@ -241,11 +238,11 @@ function search_tech() {
 }
 $(document).ready(function () {
 	$('#search-tech-modal input').on('keyup', function () {
-		var searchText1 = $('#search-tech-modal #search-nom').val().toLowerCase(); // Get value of second input 
-		var searchText2 = $('#search-tech-modal #search-prenom').val().toLowerCase(); // Get value of second input 
+		var searchText1 = $('#search-tech-modal #search-nom').val().toLowerCase(); 
+		var searchText2 = $('#search-tech-modal #search-prenom').val().toLowerCase(); 
 		$('#search-tech-modal tbody tr').filter(function () {
-			var name = $(this).find('td:nth-child(1)').text().toLowerCase(); // Filter by first td element
-			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase(); // Filter by second td element
+			var name = $(this).find('td:nth-child(1)').text().toLowerCase(); 
+			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase(); 
 			$(this).toggle(name.indexOf(searchText1) > -1 && prenom.indexOf(searchText2) > -1);
 		});
 	});

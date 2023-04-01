@@ -8,8 +8,10 @@ namespace radio1.Models.BLL
 	public class TypeOperationBLL
 	{
 
-
-
+		public static Message DeleteSalleTypeOperations(int Salle_Id)
+		{
+			return TypeOperationDAL.DeleteSalleTypeOperations(Salle_Id);
+		}
 		public static Message AddTypeOperation(TypeOperation operation)
 		{
 			return TypeOperationDAL.AddTypeOperation(operation);

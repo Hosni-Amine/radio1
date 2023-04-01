@@ -29,7 +29,7 @@ namespace radio1.Models.DAL.Connection
         public static void CreateSalleIfNotExists()
         {
             SqlConnection connection = DbConnection.GetConnection();
-            string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL , [Responsable] INT NOT NULL ,[Emplacement] NVARCHAR(100) NOT NULL,[DateCreation] datetime NOT NULL ,CONSTRAINT unq_Salle UNIQUE(Nom),CONSTRAINT unq_Responsable UNIQUE(Responsable),CONSTRAINT fk_Responsable FOREIGN KEY (Responsable) REFERENCES dbo.Doctor(Id),CONSTRAINT unq_Emplacement UNIQUE(Emplacement)) END";
+            string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL , [Responsable] INT  NULL ,[Emplacement] NVARCHAR(100) NOT NULL,[DateCreation] datetime NOT NULL ,CONSTRAINT unq_Salle UNIQUE(Nom),CONSTRAINT unq_Responsable UNIQUE(Responsable),CONSTRAINT fk_Responsable FOREIGN KEY (Responsable) REFERENCES dbo.Doctor(Id) ON DELETE SET NULL,CONSTRAINT unq_Emplacement UNIQUE(Emplacement)) END";
             DbConnection.NonQueryRequest(sqlstrTypeR, connection);
         }
 

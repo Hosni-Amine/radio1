@@ -1,9 +1,17 @@
-﻿function Add_Salle()
+﻿$(document).ready(function () {
+    $('#search-salle-input').on('keyup', function () {
+        var searchText = $(this).val().toLowerCase();
+        $('#salle-table tbody tr').filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+        });
+    });
+});
+
+function Add_Salle()
 {
     $('#add-salle-modal').modal('show');
 }
-
-function add_pdf(pdf)
+function add_pdf(pdf,response)
 {
     $.ajax({
         url: '/Salle/AddPDF',
@@ -11,8 +19,15 @@ function add_pdf(pdf)
         data: pdf,
         processData: false,
         contentType: false,
-        success: function (response) {
-            console.log(response);
+        success: function (name) {
+            console.log(name);
+            $('#add-salle-modal').modal('hide');
+            $('#success-modal-text').text(response.message);
+            $('#success-modal').modal('show');
+            setTimeout(function () {
+                $('#success-modal').modal('hide');
+                window.location.href = '/Salle/SalleList';
+            }, 1500);
         },
         error: function (xhr, status, error) {
             console.log(status);
@@ -21,7 +36,6 @@ function add_pdf(pdf)
         }
     });  
 }
-
 function displayFileName() {
     const pdfFileInput = document.getElementById("file");
     const uploadLabel = document.querySelector('.upload');
@@ -33,7 +47,6 @@ function displayFileName() {
         uploadLabel.innerHTML = 'Choisir un fichier';
     }
 }
-
 function add_salle() {
     var pdf = new FormData();
     pdf.append("pdf", document.getElementById("file").files[0]);
@@ -59,7 +72,7 @@ function add_salle() {
             success: function (response) {
                 if (response.success) {
                     console.log(response);
-                    add_pdf(pdf);
+                    add_pdf(pdf, response);
                 }
                 else {
                     console.log(response);
@@ -90,3 +103,38 @@ function add_salle() {
 }
 
 
+function delete_salle_btn(id)
+{
+    $('#m-t-20').empty();
+    var button = $('<button style="margin: 10px;">').attr('data-id', id).attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_salle);
+    var link = $('<a style="margin: 10px;">').attr('href', '#').addClass('btn btn-white').attr('data-bs-dismiss', 'modal').text('Non');
+    $('#m-t-20').append(button);
+    $('#m-t-20').append(link);
+    $('#delete-text').text("Voulez-vous vraiment supprimer cette salle ?");
+    $('#delete_modal').modal('show');
+    console.log(id);
+}
+function Submit_Delete_salle() {
+    var id = $('#delete-modal-btn').data('id');
+    $.ajax({
+        url: "/Salle/DeleteSalle/" + id,
+        type: 'DELETE',
+        success: function (response) {
+            if (response.success) {
+                $('#delete_modal').modal('hide');
+                $('#success-modal-text').text(response.message);
+                $('#success-modal').modal('show');
+                setTimeout(function () {
+                    window.location.href = '/Salle/SalleList';
+                }, 2000);
+            } else {
+                console.log('Error in response:', response);
+                $('#error-modal-text').text(response.message);
+                $('#error-modal').modal('show');
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
