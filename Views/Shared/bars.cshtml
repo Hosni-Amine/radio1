@@ -117,13 +117,13 @@
 				<li class="submenu" >
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span> <span> Medecins </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href='@Url.Action("DoctorList","Doctor")'>Liste des Medecins</a></li>
+						<li><a href="#" onclick="CheckAuth('Doctor')">Liste des Medecins</a></li>
 					</ul>
 				</li>
 				<li class="submenu" >
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-08.svg" alt=""></span> <span> Techniciens </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href='@Url.Action("TechnicienList","Technicien")'>Liste des Techniciens</a></li>
+						<li><a href="#" onclick="CheckAuth('Technicien')">Liste des Techniciens</a></li>
 					</ul>
 				</li>
 				<li class="submenu">
@@ -136,7 +136,7 @@
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-16.svg" alt=""></span> <span> Settings </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="#" onclick="operation_list()"> Types des operations </a></li>
-						<li><a href='@Url.Action("SalleList","Salle")'>Gestion des Salles </a></li>
+						<li><a href="#" onclick="CheckAuth('Salle')">Gestion des Salles </a></li>
 					</ul>
 				</li>
 				@*

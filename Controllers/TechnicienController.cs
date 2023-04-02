@@ -17,6 +17,7 @@ namespace radio1.Controllers
 		/// <param name="search"></param>
 		/// <param name="searchon"></param>
 		/// <returns>retourne une list de Technicien </returns>
+		[HttpGet]
 		public IActionResult TechnicienList()
 		{
 			var techniciens = TechnicienBLL.GetAll();

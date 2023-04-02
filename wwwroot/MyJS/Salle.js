@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿//recherche de la liste des salle 
+$(document).ready(function () {
     $('#search-salle-input').on('keyup', function () {
         var searchText = $(this).val().toLowerCase();
         $('#salle-table tbody tr').filter(function () {
@@ -7,6 +8,7 @@
     });
 });
 
+//Fonctions pour les API des salles 
 function Add_Salle()
 {
     $('#add-salle-modal').modal('show');
@@ -47,7 +49,7 @@ function displayFileName() {
         uploadLabel.innerHTML = 'Choisir un fichier';
     }
 }
-function add_salle() {
+function submit_add_salle() {
     var pdf = new FormData();
     pdf.append("pdf", document.getElementById("file").files[0]);
     if ((pdf.get("pdf").name) != null && pdf != null) {
@@ -102,7 +104,6 @@ function add_salle() {
     }
 }
 
-
 function delete_salle_btn(id)
 {
     $('#m-t-20').empty();
@@ -138,3 +139,46 @@ function Submit_Delete_salle() {
         }
     });
 }
+
+function doctor_list()
+{
+    $.ajax({
+        url: '/Doctor/DoctorList',
+        type: 'Get',
+        success: function (data) {
+            console.log(data);
+			var operations = data.operations;
+			if (operations.length !== 0) {
+				var distinctNames = operations.filter((operation, index, self) =>
+					index === self.findIndex((op) => (
+						op.nom === operation.nom
+					))
+				);
+				var tbody = $('#operation-table-body');
+				var last_td = $('#Nom-Op');
+				tbody.empty();
+				$.each(distinctNames, function (index, operation) {
+					var row = $('<tr id="' + operation.nom + '" style="background-color: #f4f5fa;">');
+					row.append($('<td class="text-center" style="padding: 15px;">').text(operation.nom));
+					row.append('<td class="text-center"></a><a href="#" id="(' + operation.nom + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Salles associeé </a></td>');
+					tbody.append(row);
+				});
+				$('#operation-list-modal').modal('show');
+			}
+			else {
+				$('#success-modal-text').text("pas d'opération trouvée ajouter une salle d'abord !");
+				$('#success-modal').modal('show');
+				setTimeout(function () {
+					$('#success-modal').modal('hide');
+				}, 2500);
+			}
+		},
+        error(xhr, status, error) {
+            console.log(error);
+        }
+    });
+
+
+    
+}
+

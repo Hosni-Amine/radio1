@@ -37,6 +37,44 @@ function UnAuth(href)
 }
 
 
+function CheckAuth(location) {
+	var url = '/' + location + '/' + location + 'List';
+	console.log(url);
+	$.ajax({
+		type: "GET",
+		url: url,
+		success: function (result) {
+			window.location.href = url;
+		},
+		error: function (xhr, status, error) {
+			console.log(xhr);
+			console.log(status);
+			console.log(error);
+			if (xhr.status == 403) {
+				$('#error-modal-text').text("Tu n'a pas l'autorisation !");
+				$('#error-modal').modal('show');
+				setTimeout(function () {
+					$('#error-modal').modal('hide');
+				}, 2000);
+			}
+			else if (xhr.status == 401)
+			{
+				$('#error-modal-text').text("Session expirer !");
+				$('#error-modal').modal('show');
+				setTimeout(function () {
+					$('#error-modal').modal('hide');
+				}, 2000);
+			}
+		}
+	});
+}
+
+
+
+
+
+
+
 
 //Ajout user avec role specifique 
 function add_tuser_btn() {

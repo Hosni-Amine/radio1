@@ -1,4 +1,4 @@
-﻿<!--Operation-salle-list-Modal -->
+﻿<!--Operation-list-pour-une-salle-Modal -->
 <div class="modal fade bd-example-modal-lg" id="operation-salle-list-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
@@ -34,8 +34,9 @@
 		</div>
 	</div>
 </div>
-<!--Operation-list-Modal -->
-<div class="modal fade bd-example-modal-lg" id="operation-list-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+<!--All-Operation-list-Modal -->
+<div class="modal fade bd-example-modal-lg" id="operation-list-modal" tabindex="-1" role="dialog" style=" z-index: 9702;" ;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="content" style="padding: 30px 30px 0px 30px;">
@@ -68,9 +69,8 @@
 	</div>
 </div>
 
-
-<!--Doctor-list-Modal -->
-<div class="modal fade bd-example-modal-lg" id="doctor-list-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<!--Consult-Doctor-list-Modal -->
+<div class="modal fade bd-example-modal-lg" id="doctor-list-modal" tabindex="-1" role="dialog" style=" z-index: 9701;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="content" style="padding: 30px 30px 0px 30px;">
@@ -94,7 +94,7 @@
 								<th class="text-center" style="background-color: #f4f5fa;">Action </th>
 							</tr>
 						</thead>
-						<tbody id="operation-table-body">
+						<tbody id="doctor-table-body">
 						</tbody>
 					</table>
 				</div>
@@ -103,11 +103,8 @@
 	</div>
 </div>
 
-
-
-
 <!--Add-Salle-Modal -->
-<div class="modal fade bd-example-modal-lg" id="add-salle-modal" tabindex="-1" role="dialog" style=" z-index: 9800;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="add-salle-modal" tabindex="-1" role="dialog" style=" z-index: 9700;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="content" style="padding: 30px 30px 0px 30px; ">
@@ -143,6 +140,11 @@
 												<input class="form-control" type="text" name="Responsable" id="Responsable" placeholder="Email ou Matricule" required>
 											</div>
 										</div>
+										<div class="col-12 col-md-12 col-xl-12" style="margin-left: 10px;margin-top: -25px;">
+											<div class="form-group local-forms">
+												<a href="#" onclick="doctor_list()" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter les medecins</a>
+											</div>
+										</div>
 										<div class="col-12 col-md-12 col-xl-12">
 											<div class="form-group local-forms">
 												<label>Type d'operation<span class="login-danger">*</span></label>
@@ -165,12 +167,129 @@
 										</div>
 										<div class="col-12">
 											<div class="doctor-submit text-end">
-												<button type="button" class="btn btn-primary submit-form me-2" onclick="add_salle()" id="submit-btn">Ajouter</button>
+												<button type="button" class="btn btn-primary submit-form me-2" onclick="submit_add_salle()">Ajouter</button>
 												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
 											</div>
 										</div>
 									</div>
 								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- small-Profil-doctor modal-->
+<div class="modal fade bd-example-modal-lg" id="profil-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9991;" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">Medecins </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Profil Medecin</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="good-morning-blk" style="border-radius: 18px;">
+					<div class="row">
+						<div class="col-md-6" style="margin:11px;">
+							<div class="morning-user">
+								<h2>Profil : <span id="Name"></span></h2>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="doctor-submit text-end" style="margin: 10px;">
+								<button type="button" class="btn btn-primary" id="edit-profil-btn" onclick="désassigner-doctor-btn()">désassigner</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="doctor-personals-grp">
+							<div class="card">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span>Données Personel</a>
+											</li>
+										</ul>
+									</div>
+									<div class="personal-list-out">
+										<div class="row" style="margin: 19px 0px;">
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Matricule</h2>
+													<h3 id=""><span id="matricule"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Telephone</h2>
+													<h3 id=""><span id="telephone"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Email</h2>
+													<h3 id=""><span id="email"></span></h3>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="margin: 19px 0px;">
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Sexe</h2>
+													<h3 id=""><span id="sexe"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Date de naissance</h2>
+													<h3 id=""><span id="dateN"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Lieux de naissance</h2>
+													<h3 id=""><span id="lieuN"></span></h3>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="margin: 19px 0px;">
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Situation Conjugale</h2>
+													<h3 id=""><span id="situationC"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Ville</h2>
+													<h3 id=""><span id="VilleAdresse"></span></h3>
+												</div>
+											</div>
+											<div class="col-xl-4 col-md-4">
+												<div class="detail-personal">
+													<h2>Code Postal</h2>
+													<h3 id=""><span id="codePostal"></span></h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

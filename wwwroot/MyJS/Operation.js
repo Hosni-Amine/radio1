@@ -20,7 +20,7 @@ $(document).ready(function () {
 });
 
 //Crud type d'operation
-function operation_list() {
+function operation_list(salle_id) {
 	$.ajax({
 		url: '/TypeOperation/TypeOperationList',
 		type: 'GET',
@@ -39,7 +39,7 @@ function operation_list() {
 				$.each(distinctNames, function (index, operation) {
 					var row = $('<tr id="' + operation.nom + '" style="background-color: #f4f5fa;">');
 					row.append($('<td class="text-center" style="padding: 15px;">').text(operation.nom));
-					row.append('<td class="text-center"></a><a href="#" id="(' + operation.nom + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Salles associeé </a></td>');
+					row.append('<td class="text-center"></a><a href="#" onclick="" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Salles associées</a></td>');
 					tbody.append(row);
 				});
 				$('#operation-list-modal').modal('show');
@@ -74,20 +74,13 @@ function operation_associee(id) {
 		data: { SalleId: id },
 		dataType: 'json',
 		success: function (data) {
-			console.log(data)
-			var operations = data.operations;
-				var distinctNames = operations.filter((operation, index, self) =>
-					index === self.findIndex((op) => (
-						op.nom === operation.nom
-					))
-				);
 				var tbody = $('#operation-salle-table-body');
 				var last_td = $('#Nom-Op');
 				tbody.empty();
-				$.each(distinctNames, function (index, operation) {
+			$.each(data.operations, function (index, operation) {
 					var row = $('<tr id="' + operation.salleId + '" style="background-color: #f4f5fa;">');
 					row.append($('<td class="text-center" style="padding: 15px;">').text(operation.nom));
-					row.append('<td class="text-center"></a><a href="#" onclick="delete_op_btn('+operation.id+')" id="()"><i class="fa fa-trash-alt m-r-5"></i> Supprimer </a></td>');
+					row.append('<td class="text-center"></a><a href="#" onclick="delete_op_btn('+operation.id+')"><i class="fa fa-trash-alt m-r-5"></i> Supprimer </a></td>');
 					tbody.append(row);
 				});
 				$('#operation-salle-list-modal').modal('show');
@@ -110,7 +103,7 @@ function add_op_btn(id)
 	var tbody = $('#operation-salle-table-body');
 	var row = $('<tr style="background-color: #f4f5fa;">');
 	row.append($('<td>').append($('<input>').attr('type', 'text').attr('id', 'operation_id')));
-	row.append('<td class="text-center"><a href="#" onclick="submit_op_add(' + id + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ajouter     |     </a><a href="#" onclick="operation_list()"><i class="fa fa-trash-alt m-r-5"></i>  Annuler </a></td>');
+	row.append('<td class="text-center"><a href="#" onclick="submit_op_add(' + id + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ajouter     |     </a><a href="#" onclick="operation_associee(' + id + ')"><i class="fa fa-trash-alt m-r-5"></i>  Annuler </a></td>');
 	tbody.append(row);
 }
 function submit_op_add(id)
@@ -122,8 +115,6 @@ function submit_op_add(id)
 		Nom: nom,
 		Salleid: id
 	}
-	console.log(op);
-	console.log(nom);
 	$.ajax({
 		url: '/TypeOperation/AddTypeOperation',
 		type: 'POST',
@@ -136,7 +127,7 @@ function submit_op_add(id)
 				$('#success-modal').modal('show');
 				setTimeout(function () {
 					$('#success-modal').modal('hide');
-					window.location.href = '/Salle/SalleList';
+					operation_associee(id);
 				}, 1500);
 			}
 			else
@@ -146,7 +137,7 @@ function submit_op_add(id)
 				$('#error-modal').modal('show');
 				setTimeout(function () {
 					$('#error-modal').modal('hide');
-					$('#operation-salle-list-modal').modal('show');
+					operation_associee(id);
 				}, 1500);
 			}
 		},
@@ -160,7 +151,6 @@ function submit_op_add(id)
 			}
 	});
 }
-
 
 function delete_op_btn(id) {
 	$('#delete_modal').modal('show');
@@ -186,7 +176,7 @@ function Submit_Delete_Operation() {
 				$('#success-modal').modal('show');
 				setTimeout(function () {
 					$('#success-modal').modal('hide');
-					window.location.href = '/Salle/SalleList';
+					$('#operation-salle-list-modal').modal('show');
 				}, 2000);
 			} else {
 				console.log('Error in response:', response);
@@ -200,6 +190,11 @@ function Submit_Delete_Operation() {
 	});
 }
 
+//$(document).ready(function () {
+//	$('#operation-salle-list-modal').on('hidden.bs.modal', function () {
+//		location.reload();
+//	});
+//});
 
 
 

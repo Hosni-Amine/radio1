@@ -1,4 +1,37 @@
-﻿function delete_doctor_btn(id) {
+﻿
+//Fonction search pour les list des medecins
+$(document).ready(function () {
+	$('#search-doctor-input').on('keyup', function () {
+		var searchText = $(this).val().toLowerCase();
+		$('#doctor-table tbody tr').filter(function () {
+			$(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+		});
+	});
+});
+function search_doctor() {
+	const tableContent = document.getElementById('doctor-table').innerHTML;
+	document.getElementById("table-copy").innerHTML = tableContent;
+	$('#search-doctor-modal').modal('show');
+}
+$(document).ready(function () {
+	$('#search-doctor-modal input').on('keyup', function () {
+		var searchText1 = $('#search-doctor-modal #search-nom').val().toLowerCase();
+		var searchText2 = $('#search-doctor-modal #search-prenom').val().toLowerCase();
+		var searchText3 = $('#search-doctor-modal #search-matricule').val().toLowerCase();
+		var searchText4 = $('#search-doctor-modal #search-email').val().toLowerCase();
+		$('#search-doctor-modal tbody tr').filter(function () {
+			var nom = $(this).find('td:nth-child(1)').text().toLowerCase();
+			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase();
+			var matricule = $(this).find('td:nth-child(3)').text().toLowerCase();
+			var email = $(this).find('td:nth-child(4)').text().toLowerCase();
+			$(this).toggle(nom.indexOf(searchText1) > -1 && prenom.indexOf(searchText2) > -1 && matricule.indexOf(searchText3) > -1 && email.indexOf(searchText4) > -1);
+		});
+	});
+});
+
+
+//Fonction API pour le medecin
+function delete_doctor_btn(id) {
 	$('#m-t-20').empty();
 	var button = $('<button style="margin: 10px;">').attr('data-id', id).attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_doctor);
 	var link = $('<a style="margin: 10px;">').attr('href', '#').addClass('btn btn-white').attr('data-bs-dismiss', 'modal').text('Non');
@@ -7,8 +40,6 @@
 	$('#delete-text').text("Voulez-vous vraiment supprimer ce Medecin ?");
 	$('#delete_modal').modal('show');
 }
-
-
 function Submit_Delete_doctor() {
 	var id = $('#delete-modal-btn').data('id');
 	$.ajax({
@@ -34,7 +65,6 @@ function Submit_Delete_doctor() {
 		}
 	});
 }
-
 
 function add_doctor_btn() {
 	$('#add-modal').modal('show');
@@ -120,9 +150,6 @@ $('#add-doctor-form').on('submit', function (event) {
 		}, 1500);
 	}
 });
-
-
-
 
 function edit_doctor_btn(id) {
 	console.log(id);
@@ -275,9 +302,6 @@ $('#edit-doctor-form').on('submit', function (event) {
 	}
 });
 
-
-
-
 function profil_doctor_btn(id) {
 	$.ajax({
 		url: "/Doctor/GetDoctorById/" + id,
@@ -297,11 +321,10 @@ function profil_doctor_btn(id) {
 				$("#profil-modal #codePostal").text(data.codePostal);
 				$("#profil-modal #sexe").text(data.sexe);
 				$('#profil-modal').modal('show');
-				var param = data.id;
 				var button = document.getElementById("delete-profil-btn");
+				button.setAttribute("onclick", "delete_doctor_btn('" + data.id + "')");
 				var button = document.getElementById("edit-profil-btn");
-				button.setAttribute("onclick", "delete_doctor_btn('" + param + "')");
-				button.setAttribute("onclick", "edit_doctor_btn('" + param + "')");
+				button.setAttribute("onclick", "edit_doctor_btn('" + data.id + "')");
 			}
 			else {
 				console.log(data);
@@ -317,46 +340,6 @@ function profil_doctor_btn(id) {
 		}
 	});
 }
-
-
-
-
-$(document).ready(function () {
-	$('#search-doctor-input').on('keyup', function () {
-		var searchText = $(this).val().toLowerCase();
-		$('#doctor-table tbody tr').filter(function () {
-			$(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
-		});
-	});
-});
-
-
-
-
-function search_doctor() {
-	const tableContent = document.getElementById('doctor-table').innerHTML;
-	document.getElementById("table-copy").innerHTML = tableContent;
-	$('#search-doctor-modal').modal('show');
-}
-$(document).ready(function () {
-	$('#search-doctor-modal input').on('keyup', function () {
-		var searchText1 = $('#search-doctor-modal #search-nom').val().toLowerCase(); 
-		var searchText2 = $('#search-doctor-modal #search-prenom').val().toLowerCase(); 
-		var searchText3 = $('#search-doctor-modal #search-matricule').val().toLowerCase(); 
-		var searchText4 = $('#search-doctor-modal #search-email').val().toLowerCase();
-		$('#search-doctor-modal tbody tr').filter(function () {
-			var nom = $(this).find('td:nth-child(1)').text().toLowerCase(); 
-			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase();
-			var matricule = $(this).find('td:nth-child(3)').text().toLowerCase();
-			var email = $(this).find('td:nth-child(4)').text().toLowerCase(); 
-			$(this).toggle(nom.indexOf(searchText1) > -1 && prenom.indexOf(searchText2) > -1 && matricule.indexOf(searchText3) > -1 && email.indexOf(searchText4) > -1);
-		});
-	});
-});
-
-
-
-
 
 function cancel() {
 	$('#add-modal').modal('hide');

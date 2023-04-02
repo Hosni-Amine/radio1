@@ -93,6 +93,11 @@ namespace radio1.Controllers
 			return Ok(fileName);
 		}
 
+		/// <summary>
+		/// Fonction permet de supprimer un fichier pdf associée a une salle 
+		/// </summary>
+		/// <param name="PdfName"></param>
+		/// <returns></returns>
 		public IActionResult DelPDF (string PdfName)
 		{
 			if(PdfName != null)
@@ -114,7 +119,11 @@ namespace radio1.Controllers
 			}
 		}
 
-
+		/// <summary>
+		/// Fonction permet de telecharger un fichier pdf associée a une salle 
+		/// </summary>
+		/// <param name="PdfName"></param>
+		/// <returns></returns>
 		public ActionResult DownloadPDF(string fileName)
 		{
 			string pdfPath = Path.Combine(_env.ContentRootPath, "wwwroot", "assets", "Emplacement", fileName);

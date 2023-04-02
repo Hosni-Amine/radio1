@@ -5,7 +5,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationInsightsTelemetry();
 
@@ -40,11 +39,16 @@ app.Use(async (context, next) =>
 {
 		await next();
 		var statusCode = context.Response.StatusCode;
-		if (statusCode == 403)
+		if (statusCode == 401)
 		{
 			context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
-			await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Vous n'êtes pas autorisé à accéder à cette ressource.</p>");
+			await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Votre session est expiré tu dois s'identifier une autre foix .</p>");
 		}
+	else if (statusCode == 403)
+		{
+		context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
+		await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Vous n'êtes pas autorisé à accéder à cette ressource.</p>");
+		}	
 });
 
 
