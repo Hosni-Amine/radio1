@@ -13,7 +13,7 @@
 		}
         public static Message HandleException(Exception ex,string str)
         {
-            if (ex.Message.Contains("unq_email") || ex.Message.Contains("unq_email1"))
+            if (ex.Message.Contains("unq_email") || ex.Message.Contains("unq_email1") || ex.Message.Contains("unq_email2"))
             {
                 return new Message(false, "cette adresse e-mail est déjà utilisée.");
             }
@@ -61,7 +61,11 @@
             {
                 return new Message(false, "Cette operation n'existe pas ! ");
             }
-            else 
+            else if (ex.Message.Contains("unq_NumSerie"))
+			{
+				return new Message(false, "Ce Numero de Serie deja exist ! ");
+			}
+			else 
             { 
                 return new Message(false, "Une erreur est survenue lors de "+str+" : " + ex.Message);
             }

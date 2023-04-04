@@ -23,7 +23,7 @@ namespace radio1.Controllers
 		}
 
 		/// <summary>
-		/// Fonction permet d'ajouter un type d'operation 
+		/// Fonction permet d'affecter un type d'operation a une salle 
 		/// </summary>
 		/// <param name="operation"></param>
 		/// <returns></returns>

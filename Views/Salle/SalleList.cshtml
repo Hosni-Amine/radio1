@@ -11,6 +11,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 		<title>Preclinic - Gestionnaire des Salle</title>
+@*		<link rel="stylesheet" href="~/css/PDF-modal.css">
+*@
 		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	</head>
@@ -52,7 +54,7 @@
 																<img src="~/assets/img/icons/search.svg" alt="">
 															</button>
 															<a asp-area="" asp-controller="Salle" asp-action="SalleList" class="btn btn-primary doctor-refresh ms-2"><img src="~/assets/img/icons/re-fresh.svg" alt=""></a>
-															<a href="#" onclick="Add_Salle()" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
+															<a href="@Url.Action("AddSalle", "Salle")" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
 														</div>
 													</div>
 												</div>
@@ -88,7 +90,7 @@
 														<tr style="background-color: #f5f5f6;">
 															<td>@item.Nom</td>
 															<td>
-																<a href="@Url.Action( "DownloadPDF","Salle", new { fileName = @item.Emplacement })">@item.Emplacement</a>
+																<a href="#" onclick="Show_PDF('@item.Emplacement')">@item.Emplacement</a>
 															</td>
 															@if(@item.Responsable != null)
 															{
@@ -99,6 +101,7 @@
 																		</a>
 																		<div class="dropdown-menu dropdown-menu-center">
 																			<a class="dropdown-item" href="#" onclick="profil_doctor_btn(@item.Responsable.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> détails</a>
+																			<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Changer l'affectation</a>
 																		</div>
 																	</div>
 																</td>
@@ -153,6 +156,7 @@
 				</div>
 			</div>
 		</div>
+	
 	</body>
 </html>
 

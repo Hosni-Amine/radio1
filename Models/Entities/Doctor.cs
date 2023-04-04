@@ -9,6 +9,8 @@ namespace radio1.Models.Entities
     /// </summary>
     public class Doctor
     {
+
+
         public int Id { get; set; }
         public string? Prenom { get; set; }
         public string? Nom { get; set; }
@@ -21,8 +23,8 @@ namespace radio1.Models.Entities
         public string? Sexe { get; set; }
         public string? Adresse { get; set; }
         public string? Ville { get; set; }
-        public int CodePostal { get; set; }
-		public DateTime DateCreation { get; set; }
+        public int? CodePostal { get; set; }
+		public DateTime? DateCreation { get; set; }
 
 		public Doctor() { }
     }

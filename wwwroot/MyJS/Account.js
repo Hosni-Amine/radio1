@@ -1,4 +1,6 @@
 ﻿
+//Fonction de Login pour le page d'accuill
+
 function Signin() {
 	$('#sign-in-modal').modal('show');	
 }
@@ -39,7 +41,8 @@ function Submit_Login() {
 				}, 1500);
 			}
 		},
-		error: function (error) {
+		error: function (error, xhr) {
+			console.log(error);
 			$('#error-modal-text').text("Nom d'utilisateur incorrect !");
 			$('#sign-in-modal').modal('hide');
 			$('#error-modal').modal('show');

@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using radio1.Models.DAL;
 using radio1.Models.BLL;
-using Microsoft.AspNetCore.Authentication;
+
 
 namespace radio1.Controllers
 {
@@ -87,42 +87,44 @@ namespace radio1.Controllers
 		[HttpPost]
 		public IActionResult Login(Users user)
 		{
-			Users _user = AuthenticateUser(user);
-			if (_user != null)
-			{ 
-				if (_user.Role != null)
+			if (ModelState.IsValid)
+			{
+				Users _user = AuthenticateUser(user);
+				if (_user != null)
 				{
-					var token = GenerateToken(_user);
-					var cookieOptions = new CookieOptions
+					if (_user.Role != null)
 					{
-						HttpOnly = true,
-						Secure = true,
-					};
-					Response.Cookies.Append("poupa_donuts", token, cookieOptions);
-					return Json(new { user = _user, token = token });
+						var token = GenerateToken(_user);
+						var cookieOptions = new CookieOptions
+						{
+							HttpOnly = true,
+							Secure = true,
+						};
+						Response.Cookies.Append("poupa_donuts", token, cookieOptions);
+						return Json(new { user = _user, token = token });
+					}
+					else
+					{
+						return Json(new { user = _user });
+					}
 				}
-				else
-				{
-					return Json(new { user = _user });
-				}
+				return BadRequest();
 			}
-			return BadRequest();
+			else
+			{
+				return Json(new { user = user });
+			}
 		}
 
 
 
 
-		[Authorize]
 		[HttpGet]
 		public IActionResult Logout()
 		{
 			Response.Cookies.Delete("poupa_donuts");
 			return RedirectToAction("Index","Home");
 		}
-		
-
-
-
 
 
 

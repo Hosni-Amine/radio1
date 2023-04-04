@@ -32,16 +32,14 @@ $(document).ready(function () {
 
 //Fonction API pour le medecin
 function delete_doctor_btn(id) {
-	$('#m-t-20').empty();
-	var button = $('<button style="margin: 10px;">').attr('data-id', id).attr('type', 'submit').addClass('btn btn-danger').attr('id', 'delete-modal-btn').text('Oui').on('click', Submit_Delete_doctor);
-	var link = $('<a style="margin: 10px;">').attr('href', '#').addClass('btn btn-white').attr('data-bs-dismiss', 'modal').text('Non');
-	$('#m-t-20').append(button);
-	$('#m-t-20').append(link);
 	$('#delete-text').text("Voulez-vous vraiment supprimer ce Medecin ?");
+	var deletebtn = document.getElementById('delete-modal-btn');
+	deletebtn.onclick = function () {
+		Submit_Delete_doctor(id);
+	};
 	$('#delete_modal').modal('show');
 }
-function Submit_Delete_doctor() {
-	var id = $('#delete-modal-btn').data('id');
+function Submit_Delete_doctor(id) {
 	$.ajax({
 		url: "/Doctor/DeleteDoctor/" + id,
 		type: 'DELETE',

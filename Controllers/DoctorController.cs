@@ -6,6 +6,7 @@ using radio1.Models.BLL;
 using radio1.Models.DAL;
 using radio1.Models.Entities;
 using System.Data;
+using System.Numerics;
 
 namespace radio1.Controllers
 {
@@ -23,6 +24,14 @@ namespace radio1.Controllers
 		    var doctors = DoctorBLL.GetAll();
 			return View(doctors);
 		}
+
+		public IActionResult DoctorListJson()
+		{
+			var doctors = DoctorBLL.GetAll();
+			return Json(doctors);
+		}
+
+
 
 		/// <summary>
 		/// La methode DeleteDoctor pour supprimer un medecin de database

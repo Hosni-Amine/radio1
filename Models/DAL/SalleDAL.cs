@@ -111,6 +111,32 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
+		/// Fonction qui permet de changer le responsable d'une salle
+		/// </summary>
+		/// <param name="salle_Id"></param>
+		/// <param name="Id"></param>
+		/// <returns></returns>
+		public static Message SalleAffectation(int salle_Id,int Id)
+		{
+			try
+			{
+				using (SqlConnection connection = Connection.DbConnection.GetConnection())
+				{
+					string sqlstr = "UPDATE [dbo].[Salle] SET [Responsable]=@Id WHERE ([dbo].[Salle].[Id] = @salle_Id);";
+					SqlCommand command = new SqlCommand(sqlstr, connection);
+					command.Parameters.AddWithValue("@Id", Id);
+					command.Parameters.AddWithValue("@salle_Id", salle_Id);
+					Connection.DbConnection.NonQueryRequest(command);
+				}
+				return new Message(true, "Responsable affecter avec Succés ");
+			}
+			catch (Exception ex)
+			{
+				return Message.HandleException(ex, "la suppression");
+			}
+		}
+
+		/// <summary>
 		/// 3 Fonction permet de retourner la liste des salle de la base de données
 		/// </summary>
 		/// <param name="table"></param>
@@ -123,11 +149,9 @@ namespace radio1.Models.DAL
 				foreach (DataRow row in table.Rows)
 				{
 					var salle = Get(row);
-					List<TypeOperation> operations = TypeOperationDAL.GetAll(salle.Id);
-					if(salle.Responsable != null)
-					{
-						salle.Responsable = DoctorDAL.GetById(salle.Responsable.Id);
-					}
+					List<TypeOperation> operations = TypeOperationDAL.GetAll(salle.Id);		
+					var doc = DoctorDAL.GetById(salle.Responsable.Id);
+					salle.Responsable = doc;
 					salle.Operations= operations;
 					apps.Add(salle);
 				}

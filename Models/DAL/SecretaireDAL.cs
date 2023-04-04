@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NuGet.Protocol.Plugins;
-using radio1.Models.DAL.Connection;
+﻿using radio1.Models.DAL.Connection;
 using radio1.Models.Entities;
 using System.Data;
 using System.Data.Common;
@@ -11,26 +9,26 @@ using System.Reflection;
 
 namespace radio1.Models.DAL
 {
-    public class TechnicienDAL
+	public class SecretaireDAL
 	{
 		/// <summary>
 		/// / La fonction Get pour transformer une column en un object
 		/// </summary>
 		/// <param name="raw"></param>
-		/// <returns> objet technicien</returns>
-		public static Technicien Get(DataRow raw)
+		/// <returns> objet Secretaire</returns>
+		public static Secretaire Get(DataRow raw)
 		{
 			try
 			{
-				Technicien Technicien = new Technicien();
-				Technicien.Id = Int32.Parse(raw["Id"].ToString());
-				Technicien.Prenom = raw["Prenom"].ToString();
-				Technicien.Nom = raw["Nom"].ToString();
-				Technicien.Email = raw["Email"].ToString();
-				Technicien.Sexe = raw["Sexe"].ToString();
-				Technicien.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());
+				Secretaire Secretaire = new Secretaire();
+				Secretaire.Id = Int32.Parse(raw["Id"].ToString());
+				Secretaire.Prenom = raw["Prenom"].ToString();
+				Secretaire.Nom = raw["Nom"].ToString();
+				Secretaire.Email = raw["Email"].ToString();
+				Secretaire.Sexe = raw["Sexe"].ToString();
+				Secretaire.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());
 
-				return Technicien;
+				return Secretaire;
 			}
 			catch
 			{
@@ -39,14 +37,14 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
-		/// GetAll Fonction retourner une liste de Technicien apartir de base de données
+		/// GetAll Fonction retourner une liste de Secretaire apartir de base de données
 		/// </summary>
-		/// <returns>liste des techniciens</returns>
-		public static List<Technicien> GetAll()
+		/// <returns>liste des Secretaires</returns>
+		public static List<Secretaire> GetAll()
 		{
-			Migration.CreateTechnicienTableIfNotExists();
+			Migration.CreateSecretaireTableIfNotExists();
 			SqlConnection connection = Connection.DbConnection.GetConnection();
-			string sqlstr = "SELECT * FROM dbo.Technicien";
+			string sqlstr = "SELECT * FROM dbo.Secretaire";
 			connection.Open();
 			SqlCommand command = new SqlCommand(sqlstr, connection);
 			DataTable table = new DataTable();
@@ -60,17 +58,17 @@ namespace radio1.Models.DAL
 		/// L'autre fonction GetAll permet de transformer un datatable en une liste
 		/// </summary>
 		/// <param name="table"></param>
-		/// <returns>liste des Technicien</returns>
-		public static List<Technicien> GetAll(DataTable table)
+		/// <returns>liste des Secretaire</returns>
+		public static List<Secretaire> GetAll(DataTable table)
 		{
 			try
 			{
-				List<Technicien> Techniciens = new List<Technicien>();
+				List<Secretaire> Secretaires = new List<Secretaire>();
 				foreach (DataRow row in table.Rows)
 				{
-					Techniciens.Add(Get(row));
+					Secretaires.Add(Get(row));
 				}
-				return Techniciens;
+				return Secretaires;
 			}
 			catch
 			{
@@ -79,22 +77,22 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
-		/// Methode permet d'ajouter un technicien de database et affecter lattribut User_id s'il est associer avec un compte utilisateur
+		/// Methode permet d'ajouter un Secretaire de database et affecter lattribut User_id s'il est associer avec un compte utilisateur
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns>Message personaliser de resultat</returns>
-		public static Message AddTechnicien(Technicien Technicien , int? User_Id)
+		public static Message AddSecretaire(Secretaire Secretaire , int? User_Id)
 		{
 			try
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					Connection.Migration.CreateTechnicienTableIfNotExists();
+					Connection.Migration.CreateSecretaireTableIfNotExists();
 					DateTime utcTime = DateTime.UtcNow;
 					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-					string sqlstr = "INSERT INTO Technicien (Prenom, Nom,Email, Sexe,DateCreation , User_Id ) VALUES ( @Prenom , @Nom ,@Email, @Sexe ,@DateCreation,@User_Id)";
-					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, Technicien);
+					string sqlstr = "INSERT INTO Secretaire (Prenom, Nom,Email, Sexe,DateCreation , User_Id ) VALUES ( @Prenom , @Nom ,@Email, @Sexe ,@DateCreation,@User_Id)";
+					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, Secretaire);
 					command.Parameters.AddWithValue("@DateCreation", cetTime);
 					if(User_Id != null) { command.Parameters.AddWithValue("@User_Id", User_Id); }
 					else { command.Parameters.AddWithValue("@User_Id", DBNull.Value); }
@@ -102,11 +100,11 @@ namespace radio1.Models.DAL
 				}
 				if (User_Id != null)
 				{
-					return new Message(true, "Utilisateur ajouté avec Role technicien , Merci de s'identifier .");
+					return new Message(true, "Utilisateur ajouté avec Role Secretaire , Merci de s'identifier .");
 				}
 				else
 				{
-					return new Message(true, "Technicien ajouté avec succès");
+					return new Message(true, "Secretaire ajouté avec succès");
 				}
 			}
 			catch (Exception ex)
@@ -116,19 +114,19 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
-		/// Methode permet de modifier un technicien de la base de donnees
+		/// Methode permet de modifier un Secretaire de la base de donnees
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns>Message personaliser de resultat</returns>
-		public static Message UpdateTechnicien(Technicien Technicien)
+		public static Message UpdateSecretaire(Secretaire Secretaire)
 		{
 			try
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "UPDATE Technicien SET Prenom = @Prenom, Nom = @Nom,Email = @Email , Sexe = @Sexe WHERE id = @id";
-					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, Technicien);
-					command.Parameters.AddWithValue("@Id", Technicien.Id);
+					string sqlstr = "UPDATE Secretaire SET Prenom = @Prenom, Nom = @Nom ,Email = @Email, Sexe = @Sexe WHERE id = @id";
+					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, Secretaire);
+					command.Parameters.AddWithValue("@Id", Secretaire.Id);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
 				return new Message(true, "Element modifier avec succés");
@@ -140,17 +138,17 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
-		/// Methode permet de supprimer un technicien de la base de donnees
+		/// Methode permet de supprimer un Secretaire de la base de donnees
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns>Message personaliser de resultat</returns>
-		public static Message DeleteTechnicien(int id)
+		public static Message DeleteSecretaire(int id)
 		{
 			try
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "DELETE FROM Technicien WHERE id = @id";
+					string sqlstr = "DELETE FROM Secretaire WHERE id = @id";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
 					command.Parameters.AddWithValue("@id", id);
 					Connection.DbConnection.NonQueryRequest(command);
@@ -164,15 +162,15 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
-		/// Cette methode permet de retirer un technicien de la base de donnees 
+		/// Cette methode permet de retirer un Secretaire de la base de donnees 
 		/// </summary>
 		/// <param name="Id"></param>
-		/// <returns>un object technicien</returns>
-		public static Technicien GetById(int Id)
+		/// <returns>un object Secretaire</returns>
+		public static Secretaire GetById(int Id)
 		{
 			using (SqlConnection connection = Connection.DbConnection.GetConnection())
 			{
-				string sqlstr = "SELECT * FROM Technicien WHERE Id = @Id";
+				string sqlstr = "SELECT * FROM Secretaire WHERE Id = @Id";
 				SqlCommand command = new SqlCommand(sqlstr, connection);
 				command.Parameters.AddWithValue("@Id", Id);
 				DataTable table = new DataTable();
@@ -191,12 +189,12 @@ namespace radio1.Models.DAL
 		/// La fonction getbyuserid va retourner un objet apartir de cle etranger user_id
 		/// </summary>
 		/// <param name="Id"></param>
-		/// <returns>objet Technicien</returns>
-		public static Technicien GetByUserId(int User_Id)
+		/// <returns>objet Secretaire</returns>
+		public static Secretaire GetByUserId(int User_Id)
 		{
 			using (SqlConnection connection = Connection.DbConnection.GetConnection())
 			{
-				string sqlstr = "SELECT * FROM Technicien WHERE User_Id= @User_Id";
+				string sqlstr = "SELECT * FROM Secretaire WHERE User_Id= @User_Id";
 				SqlCommand command = new SqlCommand(sqlstr, connection);
 				command.Parameters.AddWithValue("@User_Id", User_Id);
 				DataTable table = new DataTable();

@@ -42,7 +42,7 @@ app.Use(async (context, next) =>
 		if (statusCode == 401)
 		{
 			context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
-			await context.Response.WriteAsync("<h1>Accès refusé</h1><p>Votre session est expiré tu dois s'identifier une autre foix .</p>");
+			await context.Response.WriteAsync("<h1>Session Expiré</h1><p>Votre session est expiré tu dois s'identifier une autre foix .</p>");
 		}
 	else if (statusCode == 403)
 		{

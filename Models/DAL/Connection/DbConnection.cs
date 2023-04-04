@@ -117,10 +117,21 @@ namespace radio1.Models.DAL.Connection
             command.Parameters.AddWithValue("@Prenom", technicien.Prenom);
             command.Parameters.AddWithValue("@Nom", technicien.Nom);
             command.Parameters.AddWithValue("@Sexe", technicien.Sexe);
-            return command;
+			command.Parameters.AddWithValue("@Email", technicien.Email);
+
+			return command;
         }
 
 
+		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Secretaire secretaire)
+		{
+			SqlCommand command = new SqlCommand(sqlstr, connection);
+			command.Parameters.AddWithValue("@Prenom", secretaire.Prenom);
+			command.Parameters.AddWithValue("@Nom", secretaire.Nom);
+			command.Parameters.AddWithValue("@Sexe", secretaire.Sexe);
+			command.Parameters.AddWithValue("@Email", secretaire.Email);
+			return command;
+		}
 
 
 		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Users user)

@@ -38,5 +38,10 @@ namespace radio1.Models.BLL
         {
             return SalleDAL.GetById(Id);
         }
-    }
+		public static Message SalleAffectation(int salle_Id, int Id)
+        {
+            return SalleDAL.SalleAffectation(salle_Id,Id);
+		}
+
+	}
 }

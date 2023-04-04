@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace radio1.Models.Entities
+﻿namespace radio1.Models.Entities
 {
-	public class Technicien
+	public class Secretaire
 	{
 		public int? Id { get; set; }
 		public string? Prenom { get; set; }
@@ -11,6 +9,6 @@ namespace radio1.Models.Entities
 		public string? Sexe { get; set; }
 		public DateTime? DateCreation { get; set; }
 
-		public Technicien() { }
+		public Secretaire() { }
 	}
 }

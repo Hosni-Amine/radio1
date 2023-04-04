@@ -1,4 +1,4 @@
-﻿<!--Operation-list-pour-une-salle-Modal -->
+﻿<!--Edit-Operation-list-Modal -->
 <div class="modal fade bd-example-modal-lg" id="operation-salle-list-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
@@ -53,6 +53,7 @@
 					</div>
 				</div>
 				<div class="table-responsive" style="padding: 15px;">
+					<input type="hidden" value="no" id="check_edit"/>
 					<table class="table border-3 custom-table" id="oplist-table">
 						<thead>
 							<tr>
@@ -76,7 +77,7 @@
 			<div class="content" style="padding: 30px 30px 0px 30px;">
 				<div class="form-heading ">
 					<div class="doctor-table-blk" style="margin: 0px 17px;">
-						<h3 class="text-center">Medecin disponible :</h3>
+						<h3 class="text-center">Les Medecins disponible :</h3>
 						<div class="doctor-search-blk">
 							<div class="top-nav-search table-search-blk">
 								<div class="top-nav-search table-search-blk">
@@ -97,202 +98,6 @@
 						<tbody id="doctor-table-body">
 						</tbody>
 					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!--Add-Salle-Modal -->
-<div class="modal fade bd-example-modal-lg" id="add-salle-modal" tabindex="-1" role="dialog" style=" z-index: 9700;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="content" style="padding: 30px 30px 0px 30px; ">
-				<!-- Page Header -->
-				<div class="page-header">
-					<div class="row">
-						<div class="col-sm-12">
-							<ul class="breadcrumb">
-								<li class="breadcrumb-item"><a>Salles </a></li>
-								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-								<li class="breadcrumb-item active">Ajouter une Salle</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- /Page Header -->
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="card">
-							<div class="card-body">
-								<form asp-controller="" asp-action="" id="add-salle-form" method="post">
-									<div class="row">
-										<input type="hidden" id="addontime" value="true">
-										<div class="col-12 col-md-12 col-xl-12">
-											<div class="form-group local-forms">
-												<label>Nom de la salle <span class="login-danger">*</span></label>
-												<input class="form-control" type="text" name="NomSalle" id="NomSalle" required>
-											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-12">
-											<div class="form-group local-forms" >
-												<label>Responsable <span class="login-danger">*</span></label>
-												<input class="form-control" type="text" name="Responsable" id="Responsable" placeholder="Email ou Matricule" required>
-											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-12" style="margin-left: 10px;margin-top: -25px;">
-											<div class="form-group local-forms">
-												<a href="#" onclick="doctor_list()" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter les medecins</a>
-											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-12">
-											<div class="form-group local-forms">
-												<label>Type d'operation<span class="login-danger">*</span></label>
-												<input class="form-control" type="text" name="Toperation" id="Toperation" placeholder="ajouter un nouveau type" required>
-											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-12" style="margin-left: 10px;margin-top: -25px;">
-											<div class="form-group local-forms">
-												<a href="#" onclick="operation_list()" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter les types en services</a>
-											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-12">
-											<div class="form-group local-top-form">
-												<label class="local-top">Emplacement <span class="login-danger">*</span></label>
-												<div class="settings-btn upload-files-avator">
-													<input type="file" value="Choisir un fichier " accept=".pdf" name="pdf" id="file" onchange="displayFileName()" class="hide-input">
-													<label style="width:-webkit-fill-available;" for="file" class="upload">Choisir un fichier</label>
-												</div>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="doctor-submit text-end">
-												<button type="button" class="btn btn-primary submit-form me-2" onclick="submit_add_salle()">Ajouter</button>
-												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
-											</div>
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- small-Profil-doctor modal-->
-<div class="modal fade bd-example-modal-lg" id="profil-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9991;" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="content" style="padding: 30px 30px 0px 30px; ">
-				<!-- Page Header -->
-				<div class="page-header">
-					<div class="row">
-						<div class="col-sm-12">
-							<ul class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.html">Medecins </a></li>
-								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-								<li class="breadcrumb-item active">Profil Medecin</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- /Page Header -->
-				<div class="good-morning-blk" style="border-radius: 18px;">
-					<div class="row">
-						<div class="col-md-6" style="margin:11px;">
-							<div class="morning-user">
-								<h2>Profil : <span id="Name"></span></h2>
-							</div>
-						</div>
-						<div class="col-12">
-							<div class="doctor-submit text-end" style="margin: 10px;">
-								<button type="button" class="btn btn-primary" id="edit-profil-btn" onclick="désassigner-doctor-btn()">désassigner</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="doctor-personals-grp">
-							<div class="card">
-								<div class="card-body">
-									<div class="tab-content-set">
-										<ul class="nav">
-											<li>
-												<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span>Données Personel</a>
-											</li>
-										</ul>
-									</div>
-									<div class="personal-list-out">
-										<div class="row" style="margin: 19px 0px;">
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Matricule</h2>
-													<h3 id=""><span id="matricule"></span></h3>
-												</div>
-											</div>
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Telephone</h2>
-													<h3 id=""><span id="telephone"></span></h3>
-												</div>
-											</div>
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Email</h2>
-													<h3 id=""><span id="email"></span></h3>
-												</div>
-											</div>
-										</div>
-										<div class="row" style="margin: 19px 0px;">
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Sexe</h2>
-													<h3 id=""><span id="sexe"></span></h3>
-												</div>
-											</div>
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Date de naissance</h2>
-													<h3 id=""><span id="dateN"></span></h3>
-												</div>
-											</div>
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Lieux de naissance</h2>
-													<h3 id=""><span id="lieuN"></span></h3>
-												</div>
-											</div>
-										</div>
-										<div class="row" style="margin: 19px 0px;">
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Situation Conjugale</h2>
-													<h3 id=""><span id="situationC"></span></h3>
-												</div>
-											</div>
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Ville</h2>
-													<h3 id=""><span id="VilleAdresse"></span></h3>
-												</div>
-											</div>
-											<div class="col-xl-4 col-md-4">
-												<div class="detail-personal">
-													<h2>Code Postal</h2>
-													<h3 id=""><span id="codePostal"></span></h3>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

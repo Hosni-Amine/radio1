@@ -1,7 +1,7 @@
 ﻿<!-- Success Modal -->
 <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="success-modal-label" style=" z-index: 9992;" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="background-color: #00ff0030; padding: 40px;">
+		<div class="modal-content" style="background-color: #7aff9785; padding: 40px;">
             <div class="modal-header text-center " style="  display: flex;justify-content: center;align-items: center;">
                 <img src="~/assets/img/success.png" alt="" width="50" height="50">
             </div>
@@ -398,8 +398,18 @@
 				<img src="~/assets/img/sent.png" alt="" width="50" height="46">
 				<h3 id="delete-text"></h3>
 				<div class="m-t-20" id="m-t-20">
+					<button style="margin: 10px;" type="submit" class="btn btn-danger" id="delete-modal-btn">Oui</button>
+					<a style="margin: 10px;" href="#" class="btn btn-white" data-bs-dismiss="modal">Non</a></div>
 				</div>
 			</div>
+		</div>
+	</div>
+
+<!-- PDFview modal-->
+<div class="modal fade bd-example-modal-lg" id="pdf-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<iframe src="" height="650" width="100%" title="Iframe" id="PDFiframe"></iframe>
 		</div>
 	</div>
 </div>

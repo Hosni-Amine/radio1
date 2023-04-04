@@ -25,18 +25,7 @@ document.getElementById("Role").textContent = "Designation : " + Role;
 
 
 
-
-function UnAuth(href)
-{
-	
-    $('#error-modal-text').text("Vous ete pas autoriser !");
-    $('#error-modal').modal('show');
-    setTimeout(function () {
-        window.location.href = '/Account/HomePage';
-    }, 1500);
-}
-
-
+//Fonction principale pour la verification de l'autorisation 
 function CheckAuth(location) {
 	var url = '/' + location + '/' + location + 'List';
 	console.log(url);

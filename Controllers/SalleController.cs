@@ -30,38 +30,56 @@ namespace radio1.Controllers
             return View(salles);
         }
 
+		[HttpPost]
+		/// <summary>
+		/// Fonction qui permet de changer le responsable de la salle
+		/// </summary>
+		/// <param name="salle_id"></param>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public IActionResult SalleAffectation(int salle_id, int id)
+		{
+			var msg = SalleBLL.SalleAffectation(salle_id,id);
+			return Json(new { Success = msg.Verification, Message = msg.Msg });
+		}
+
+		/// <summary>
+		/// Fonction qui retourn le view pour ajouter une salle 
+		/// </summary>
+		/// <returns></returns>
+		public IActionResult AddSalle ()
+		{
+			var operations = TypeOperationBLL.GetAll(null);
+			var doctors = DoctorBLL.GetAll();
+			var viewModel = new
+			{
+				Doctors = doctors,
+				Operations = operations
+			};
+			return View(viewModel); 
+		}
+
 		/// <summary>
 		/// Ajouter une salle a la base de données 
 		/// </summary>
 		/// <param name="salle"></param>
 		/// <returns></returns>
-		public IActionResult AddSalle(Salle salle,string str ,TypeOperation operation)
+		public IActionResult Submit_AddSalle(Salle salle , List<TypeOperation> operations)
         {
-            var doc = DoctorBLL.GetByStr(str);
-            if (doc != null)
-            {
-				List<TypeOperation> types = new List<TypeOperation>();
-				types.Add(operation);
-				salle.Responsable = doc;
 				Message msg = SalleBLL.AddSalle(salle);
 				if (msg.Verification)
 				{
-					var msg2 = SalleBLL.appendType(salle, types);
+					var msg2 = SalleBLL.appendType(salle,operations);
 				}
 				return Json(new { Success = msg.Verification, Message = msg.Msg });
-			}
-			else
-			{
-				return Json(new { Success = false , Message = "Responsable pas identifiée!"});
-			}
 		}
-
-        /// <summary>
-        /// Supprimer une salle de la base de données 
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public IActionResult DeleteSalle(int Id)
+		
+		/// <summary>
+		/// Supprimer une salle de la base de données 
+		/// </summary>
+		/// <param name="Id"></param>
+		/// <returns></returns>
+		public IActionResult DeleteSalle(int Id)
         {
 			var salle = SalleBLL.GetById(Id);
             Message msg = SalleBLL.DeleteSalle(Id);
@@ -131,5 +149,6 @@ namespace radio1.Controllers
 			return File(pdfBytes, "application/pdf", fileName);
 		}
 
+		
 	}
 }
