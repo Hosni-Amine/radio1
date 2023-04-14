@@ -51,6 +51,7 @@ $('#add-secret-form').on('submit', function (event) {
 	}
 });
 
+
 function delete_secret_btn(id) {
 	var deletebtn = document.getElementById('delete-modal-btn');
 	deletebtn.onclick = function () {
@@ -219,17 +220,19 @@ function search_secret() {
 }
 $(document).ready(function () {
 	$('#search-secret-modal input').on('keyup', function () {
-		var searchText1 = $('#search-secret-modal #search-nom').val().toLowerCase(); 
-		var searchText2 = $('#search-secret-modal #search-prenom').val().toLowerCase(); 
-		var searchText3 = $('#search-secret-modal #search-email').val().toLowerCase(); 
-		$('#search-secret-modal tbody tr').filter(function () {
-			var name = $(this).find('td:nth-child(1)').text().toLowerCase(); 
-			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase(); 
-			var email = $(this).find('td:nth-child(3)').text().toLowerCase(); 
-			$(this).toggle(name.indexOf(searchText1) > -1 && prenom.indexOf(searchText2) > -1 && email.indexOf(searchText3) > -1 );
+		var modal = $(this).closest('.modal'); 
+		var searchText1 = modal.find('#search-nom-sect').length ? modal.find('#search-nom-sect').val().toLowerCase() : '';
+		var searchText2 = modal.find('#search-prenom-sect').length ? modal.find('#search-prenom-sect').val().toLowerCase() : '';
+		var searchText3 = modal.find('#search-email-sect').length ? modal.find('#search-email-sect').val().toLowerCase() : '';
+		modal.find('tbody tr').filter(function () {
+			var name = $(this).find('td:nth-child(1)').text().toLowerCase();
+			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase();
+			var email = $(this).find('td:nth-child(3)').text().toLowerCase();
+			$(this).toggle(name.indexOf(searchText1) > -1 && prenom.indexOf(searchText2) > -1 && email.indexOf(searchText3) > -1);
 		});
 	});
 });
+
 
 
 

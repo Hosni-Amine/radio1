@@ -17,12 +17,10 @@ namespace radio1.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public ActionResult State()
+		public async Task<ActionResult> State()
 		{
-			var Count_Tech = TechnicienBLL.GetAll().Count;
-			var Count_Doctor = DoctorBLL.GetAll().Count;
-			var Count_Salle = SalleBLL.GetAll().Count;
-			return Json(new { Tech_Count = Count_Tech, Doctor_Count = Count_Doctor , Salle_Count = Count_Salle });
+			var status = UsersBLL.State();
+			return Json(status);
 		}
 
 

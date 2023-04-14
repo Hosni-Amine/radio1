@@ -19,22 +19,52 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
+				int id = 0;
 				using (SqlConnection connection = DbConnection.GetConnection())
 				{
-                    Migration.CreateSalleIfNotExists();
+					connection.Open();
+					Migration.CreateSalleIfNotExists();
                     DateTime utcTime = DateTime.UtcNow;
                     TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
                     DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-                    string sql = "INSERT INTO dbo.Salle (Nom, Responsable, Emplacement, DateCreation) VALUES (@Nom, @Responsable, @Emplacement, @DateCreation)";
-                    SqlCommand command = DbConnection.CommandCreate(connection, sql, salle);
+                    string sql = "INSERT INTO dbo.Salle (Nom, Responsable, Emplacement, DateCreation) VALUES (@Nom, @Responsable, @Emplacement, @DateCreation)"+
+					"SELECT SCOPE_IDENTITY() AS NouvelElementId;";
+					SqlCommand command = DbConnection.CommandCreate(connection, sql, salle);
                     command.Parameters.AddWithValue("@DateCreation", cetTime);
-					Connection.DbConnection.NonQueryRequest(command);
+					id = Convert.ToInt32(command.ExecuteScalar());
+					connection.Close();
 				}
-				return new Message(true, "Salle ajouter avec succés !");
+				return new Message(true, "Salle ajouté avec succés !", id );
 			}
 			catch (Exception ex)
 			{
 				return Message.HandleException(ex, "l'ajout");
+			}
+		}
+
+		/// <summary>
+		/// Fonction permet dajouter une salle
+		/// </summary>
+		/// <param name="salle"></param>
+		/// <returns></returns>
+		public static Message EditSalle(Salle salle)
+		{
+			try
+			{
+				using (SqlConnection connection = DbConnection.GetConnection())
+				{
+					string sql = "UPDATE [dbo].[Salle] SET Nom=@Nom , Emplacement=@Emplacement WHERE (Salle.Id = @id) ";
+					SqlCommand command = new SqlCommand(sql, connection);
+					command.Parameters.AddWithValue("@Nom", salle.Nom);
+					command.Parameters.AddWithValue("@id", salle.Id);
+					command.Parameters.AddWithValue("@Emplacement", salle.Emplacement);
+					Connection.DbConnection.NonQueryRequest(command);
+				}
+				return new Message(true, "salle modifié avec succes !");
+			}
+			catch (Exception ex)
+			{
+				return Message.HandleException(ex, "la modification !");
 			}
 		}
 
@@ -49,12 +79,12 @@ namespace radio1.Models.DAL
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "DELETE FROM TypeOperation WHERE SalleId = @Id ; DELETE FROM Salle WHERE Id = @Id";
+					string sqlstr = " DELETE FROM AppareilRadio WHERE SalleId = @Id ; DELETE FROM TypeOperation WHERE SalleId = @Id ; DELETE FROM Salle WHERE Id = @Id ; ";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
 					command.Parameters.AddWithValue("@Id", Id);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
-				return new Message(true, "Salle et ces types d'operation supprimer avec succés ");
+				return new Message(true, "Salle et ces types d'operation supprimé avec succés ");
 			}
 			catch (Exception ex)
 			{
@@ -67,9 +97,9 @@ namespace radio1.Models.DAL
 		/// </summary>
 		/// <param name="Id"></param>
 		/// <returns></returns>
-		public static Salle GetById(int Id)
+		public static Salle GetById(int? Id)
 		{
-			using (SqlConnection connection = Connection.DbConnection.GetConnection())
+			using (SqlConnection connection = DbConnection.GetConnection())
 			{
 				string sqlstr = "SELECT * FROM dbo.Salle WHERE Id = @Id";
 				SqlCommand command = new SqlCommand(sqlstr, connection);
@@ -128,11 +158,11 @@ namespace radio1.Models.DAL
 					command.Parameters.AddWithValue("@salle_Id", salle_Id);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
-				return new Message(true, "Responsable affecter avec Succés ");
+				return new Message(true, "Responsable affecté avec Succés ");
 			}
 			catch (Exception ex)
 			{
-				return Message.HandleException(ex, "la suppression");
+				return Message.HandleException(ex, "l'affectation !");
 			}
 		}
 
@@ -145,17 +175,51 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
-				List<Salle> apps = new List<Salle>();
+				List<Salle> salles = new List<Salle>();
 				foreach (DataRow row in table.Rows)
 				{
 					var salle = Get(row);
-					List<TypeOperation> operations = TypeOperationDAL.GetAll(salle.Id);		
+					List<AppareilRadio> apps = AppareilRadioDAL.GetAll(salle.Id);
+					List<TypeOperation> operations = TypeOperationDAL.GetAll(null,salle.Id);		
 					var doc = DoctorDAL.GetById(salle.Responsable.Id);
 					salle.Responsable = doc;
-					salle.Operations= operations;
-					apps.Add(salle);
+					salle.AppareilRadios = apps;
+					salle.Operations = operations;
+					salles.Add(salle);
 				}
-				return apps;
+				return salles;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+		public static List<Salle> GetAllwithappareils()
+		{
+			Migration.CreateSalleIfNotExists();
+			SqlConnection connection = Connection.DbConnection.GetConnection();
+			string sqlstr = "SELECT * FROM dbo.Salle";
+			connection.Open();
+			SqlCommand command = new SqlCommand(sqlstr, connection);
+			DataTable table = new DataTable();
+			SqlDataReader reader = command.ExecuteReader();
+			table.Load(reader);
+			connection.Close();
+			return GetAllwithappareils(table);
+		}
+		public static List<Salle> GetAllwithappareils(DataTable table)
+		{
+			try
+			{
+				List<Salle> salles = new List<Salle>();
+				foreach (DataRow row in table.Rows)
+				{
+					var salle = Get(row);
+					List<AppareilRadio> apps = AppareilRadioDAL.GetAll(salle.Id);
+					salle.AppareilRadios = apps;
+					salles.Add(salle);
+				}
+				return salles;
 			}
 			catch
 			{

@@ -10,6 +10,7 @@
     <PackageReference Include="EcoLogic.ErrorHandlingMiddleware" Version="0.6.0" />
     <PackageReference Include="GitHubJwt" Version="0.0.5" />
     <PackageReference Include="jose-jwt" Version="4.1.0" />
+    <PackageReference Include="jQuery.FullCalendar" Version="3.9.0" />
     <PackageReference Include="JWT" Version="10.0.2" />
     <PackageReference Include="JWT.Extensions.AspNetCore" Version="10.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
@@ -24,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\assets\Emplacement\" />
+    <Folder Include="wwwroot\assets\NewFolder\" />
+    <Folder Include="wwwroot\fullcalendar\" />
   </ItemGroup>
 
 </Project>

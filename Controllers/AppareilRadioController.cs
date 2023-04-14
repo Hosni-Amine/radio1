@@ -12,15 +12,20 @@ namespace radio1.Controllers
 	{
 
 		/// <summary>
-		/// Fonction pour retourner tous les Distincts appareils , si on a un Salle_Id en parametre le retour est les appareils associée a cette salle 
+		/// Fonction pour retourner tous les salles avec les appareils associés
 		/// </summary>
 		/// <param name="SalleId"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public IActionResult AppareilRadioList(int? SalleId)
+		[HttpHead]
+		public IActionResult AppareilRadioList()
 		{
-			var appareilradios = AppareilRadioBLL.GetAll(SalleId);
-			return View(appareilradios);
+			var salles = AppareilRadioBLL.GetAllwithappareils();
+			if(salles.Count == 0 )
+			{
+				return RedirectToAction("AddSalle", "Salle");
+			}
+			return View(salles);
 		}
 
 		/// <summary>
@@ -32,7 +37,10 @@ namespace radio1.Controllers
 		public IActionResult AddAppareilRadio(AppareilRadio appareilradio)
 		{
 			Message msg = AppareilRadioBLL.AddAppareilRadio(appareilradio);
-			Console.WriteLine(msg.Msg);
+			if(msg.Verification)
+			{
+				var msg2 = AppareilRadioBLL.AppendTypes(msg.MsgId,appareilradio.SalleId,appareilradio.Operations);
+			}
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
 
@@ -60,6 +68,18 @@ namespace radio1.Controllers
 			Message msg = AppareilRadioBLL.DeleteAppareilRadio(Id);
 			Console.WriteLine(msg.Msg);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
+		}
+
+		/// <summary>
+		/// Fonction qui retourne un objet d'apres son id
+		/// </summary>
+		/// <param name="Id"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public IActionResult GetById(int Id)
+		{
+			var appareilradio = AppareilRadioBLL.GetById(Id);
+			return Json (appareilradio);
 		}
 	}
 

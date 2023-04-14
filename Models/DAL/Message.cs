@@ -4,14 +4,21 @@
 	{
 		public bool Verification { get; set; }
 		public string Msg { get; set; }
-		
+		public int? MsgId { get; set; }
+
 		public Message() { }
 		public Message(bool Verification,string msg) 
 		{
 			this.Verification = Verification;
 			this.Msg = msg;
 		}
-        public static Message HandleException(Exception ex,string str)
+		public Message(bool Verification, string msg,int MsgId)
+		{
+			this.Verification = Verification;
+			this.Msg = msg;
+			this.MsgId = MsgId;
+		}
+		public static Message HandleException(Exception ex,string str)
         {
             if (ex.Message.Contains("unq_email") || ex.Message.Contains("unq_email1") || ex.Message.Contains("unq_email2"))
             {

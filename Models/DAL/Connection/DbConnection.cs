@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace radio1.Models.DAL.Connection
@@ -11,6 +12,7 @@ namespace radio1.Models.DAL.Connection
     {
         static string CS = "workstation id=radiologie.mssql.somee.com;packet size=4096;user id=hosniamine_SQLLogin_1;pwd=kkke54dsdo;data source=radiologie.mssql.somee.com;persist security info=False;initial catalog=radiologie";
         //static string CS = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=radio;Integrated Security=True";
+
         public static SqlConnection? GetConnection()
         {
             SqlConnection connect;
@@ -25,7 +27,6 @@ namespace radio1.Models.DAL.Connection
                 return null;
             }
         }
-
 
         /// <summary>
         /// Methode a pour connecter et executer la command sql en prendre consediration des erreur de connection et execution 
@@ -56,9 +57,6 @@ namespace radio1.Models.DAL.Connection
                 MyCommand.Connection.Close();
             }
         }
-
-
-
 
         /// <summary>
         /// Methode a pour connecter et executer la command sql en prendre consediration des erreur de connection et execution 
@@ -93,25 +91,15 @@ namespace radio1.Models.DAL.Connection
                 MyConnection.Close();
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// Methode pour créer une command apartir d'une connection et la requete sql et affecter les parametre de command 
-        /// </summary>
-        /// <param name="connection"></param>
-        /// <param name="sqlstr"></param>
-        /// <param name="technicien"></param>
-        /// <returns>command a executer pour un technicien</returns>
-        public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Technicien technicien)
+         
+		/// <summary>
+		/// Fonction pour créer une command pour l'objet Secretaire
+		/// </summary>
+		/// <param name="connection"></param>
+		/// <param name="sqlstr"></param>
+		/// <param name="Secretaire"></param>
+		/// <returns>command a executer pour un Medecin</returns>
+		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Technicien technicien)
         {
             SqlCommand command = new SqlCommand(sqlstr, connection);
             command.Parameters.AddWithValue("@Prenom", technicien.Prenom);
@@ -122,7 +110,33 @@ namespace radio1.Models.DAL.Connection
 			return command;
         }
 
+		/// <summary>
+		/// Fonction pour créer une command pour l'objet Patient
+		/// </summary>
+		/// <param name="connection"></param>
+		/// <param name="sqlstr"></param>
+		/// <param name="Secretaire"></param>
+		/// <returns>command a executer pour un Medecin</returns>
+		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Patient patient)
+		{
+			SqlCommand command = new SqlCommand(sqlstr, connection);
+			command.Parameters.AddWithValue("@Prenom", patient.Prenom);
+			command.Parameters.AddWithValue("@Nom", patient.Nom);
+			command.Parameters.AddWithValue("@Sexe", patient.Sexe);
+			command.Parameters.AddWithValue("@Telephone", patient.Telephone);
+			command.Parameters.AddWithValue("@Adresse", patient.Adresse);
 
+			return command;
+		}
+
+
+		/// <summary>
+		/// Fonction pour créer une command pour l'objet Secretaire
+		/// </summary>
+		/// <param name="connection"></param>
+		/// <param name="sqlstr"></param>
+		/// <param name="Secretaire"></param>
+		/// <returns>command a executer pour un Medecin</returns>
 		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Secretaire secretaire)
 		{
 			SqlCommand command = new SqlCommand(sqlstr, connection);
@@ -133,7 +147,13 @@ namespace radio1.Models.DAL.Connection
 			return command;
 		}
 
-
+		/// <summary>
+		/// Fonction pour créer une command pour l'objet user
+		/// </summary>
+		/// <param name="connection"></param>
+		/// <param name="sqlstr"></param>
+		/// <param name="user"></param>
+		/// <returns>command a executer pour un Medecin</returns>
 		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Users user)
 		{
 			SqlCommand command = new SqlCommand(sqlstr, connection);
@@ -143,12 +163,8 @@ namespace radio1.Models.DAL.Connection
 			return command;
 		}
 
-
-
-
-
 		/// <summary>
-		/// Methode pour créer une command apartir d'une connection et la requete sql et affecter les parametre de command 
+		/// Fonction pour créer une command pour l'objet doctor
 		/// </summary>
 		/// <param name="connection"></param>
 		/// <param name="sqlstr"></param>
@@ -172,10 +188,14 @@ namespace radio1.Models.DAL.Connection
             return command;
         }
 
-
-
-
-        public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Salle salle)
+		/// <summary>
+		/// Fonction pour créer une command pour l'objet salle
+		/// </summary>
+		/// <param name="connection"></param>
+		/// <param name="sqlstr"></param>
+		/// <param name="salle"></param>
+		/// <returns>command a executer pour un Medecin</returns>
+		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, Salle salle)
         {
             SqlCommand command = new SqlCommand(sqlstr, connection);
             command.Parameters.AddWithValue("@Nom", salle.Nom);
@@ -184,7 +204,28 @@ namespace radio1.Models.DAL.Connection
             return command;
         }
 
-    }
+		/// <summary>
+		/// Fonction pour créer une command pour l'objet rendez-vous
+		/// </summary>
+		/// <param name="connection"></param>
+		/// <param name="sqlstr"></param>
+		/// <param name="salle"></param>
+		/// <returns>command a executer pour un Medecin</returns>
+		public static SqlCommand CommandCreate(SqlConnection connection, string sqlstr, RendezVous rendezvous)
+		{
+			SqlCommand command = new SqlCommand(sqlstr, connection);
+			command.Parameters.AddWithValue("@Date", rendezvous.Date);
+			command.Parameters.AddWithValue("@Status", rendezvous.Status);
+			command.Parameters.AddWithValue("@Examen", rendezvous.Examen);
+			command.Parameters.AddWithValue("@Nom_Patient", rendezvous.Nom_Patient);
+			command.Parameters.AddWithValue("@TypeOperationId", rendezvous.TypeOperation.Id);
+			command.Parameters.AddWithValue("@DoctorId", rendezvous.doctor.Id);
+			command.Parameters.AddWithValue("@TechnicienId", rendezvous.technicien.Id);
+			command.Parameters.AddWithValue("@SecretaireId", rendezvous.secretaire.Id);
+			return command;
+		}
+
+	}
 }
 
 

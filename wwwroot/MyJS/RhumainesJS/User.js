@@ -5,23 +5,25 @@ var Id = localStorage.getItem("Id");
 var Role = localStorage.getItem("Role");
 document.getElementById("Id").textContent = "Utilisateur : " + UserName;
 document.getElementById("Role").textContent = "Designation : " + Role;
-//if (Role = "Admin") {
-//		$.ajax({
-//			url: "/Admin/State",
-//			type: 'GET',
-//			success: function (response) {
-//				var medcount = document.getElementById('tech_count');
-//				medcount.textContent = response.tech_Count;
-//				var techcount = document.getElementById('med_count');
-//				techcount.textContent = response.doctor_Count;
-//				var sallecount = document.getElementById('salle_count');
-//				sallecount.textContent = response.salle_Count;
-//			},
-//			error: function (error) {
-//				console.log(error);
-//			}
-//		});
-//}
+if (Role = "Admin") {
+		$.ajax({
+			url: "/Admin/State",
+			type: 'GET',
+			success: function (response) {
+				var medcount = document.getElementById('tech_count');
+				medcount.textContent = response.workersCount;
+				var techcount = document.getElementById('med_count');
+				techcount.textContent = response.doctorsCount;
+				var sallecount = document.getElementById('salle_count');
+				sallecount.textContent = response.sallesCount;
+				var sallecount = document.getElementById('app_count');
+				sallecount.textContent = response.appareilsCount;
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+}
 
 
 
@@ -29,9 +31,10 @@ document.getElementById("Role").textContent = "Designation : " + Role;
 function CheckAuth(location) {
 	var url = '/' + location + '/' + location + 'List';
 	console.log(url);
+	
 	$.ajax({
 		type: "GET",
-		url: url,
+		url: '/Account/Auth',
 		success: function (result) {
 			window.location.href = url;
 		},
@@ -48,19 +51,49 @@ function CheckAuth(location) {
 			}
 			else if (xhr.status == 401)
 			{
-				$('#error-modal-text').text("Session expirer !");
+				$('#error-modal-text').text("Session expiré veuillez vous reconnecter !");
 				$('#error-modal').modal('show');
 				setTimeout(function () {
 					$('#error-modal').modal('hide');
+					window.location.href = '/Account/Logout';
 				}, 2000);
 			}
 		}
 	});
 }
 
+function CheckAuthAdd(location) {
+	var url = '/' + location + '/Add'+ location ;
+	console.log(url);
 
-
-
+	$.ajax({
+		type: "GET",
+		url: '/Account/AuthAdd',
+		success: function (result) {
+			window.location.href = url;
+		},
+		error: function (xhr, status, error) {
+			console.log(xhr);
+			console.log(status);
+			console.log(error);
+			if (xhr.status == 403) {
+				$('#error-modal-text').text("Tu n'a pas l'autorisation !");
+				$('#error-modal').modal('show');
+				setTimeout(function () {
+					$('#error-modal').modal('hide');
+				}, 2000);
+			}
+			else if (xhr.status == 401) {
+				$('#error-modal-text').text("Session expiré veuillez vous reconnecter !");
+				$('#error-modal').modal('show');
+				setTimeout(function () {
+					$('#error-modal').modal('hide');
+					window.location.href = '/Account/Logout';
+				}, 2000);
+			}
+		}
+	});
+}
 
 
 

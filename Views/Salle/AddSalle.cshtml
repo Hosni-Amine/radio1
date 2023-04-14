@@ -7,12 +7,8 @@
 
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Preclinic - Gestionnaire des Salle</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-</head>
+
+	<title>Preclinic - Gestionnaire des Salle</title></head>
 <body>
 	<div class="main-wrapper">
 		<div class="page-wrapper">
@@ -61,7 +57,7 @@
 												<select class="select" id="Toperations_salle" multiple data-mdb-filter="true" data-mdb-clear-button="true">
 													@foreach (var item in Model.Operations)
 													{
-														<option value="@item.Nom" data-mdb-secondary-text="Secondary text">@item.Nom</option>
+														<option value="@item" data-mdb-secondary-text="Secondary text">@item</option>
 													}
 												</select>
 												<a style="margin:15px;" href="#" onclick="new_operation_set()" id="new_operation_set"><i class="fa-solid fa-pen-to-square m-r-5"></i>Ajouter un nouveau type</a>
@@ -83,7 +79,7 @@
 										<div class="col-12">
 											<div class="doctor-submit text-end">
 												<button type="button" class="btn btn-primary submit-form me-2" onclick="submit_add_salle()">Ajouter</button>
-												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+												<button type="button" class="btn btn-primary cancel-form" onclick="goBack()">Annuler</button>
 											</div>
 										</div>
 									</div>
@@ -95,6 +91,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="~/MyJS/RessourcesJS/Salle.js"></script>
 
 </body>
 

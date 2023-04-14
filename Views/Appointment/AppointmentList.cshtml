@@ -1,0 +1,30 @@
+﻿@{
+	Layout = "_AppointmentLayout";
+}
+<link rel="stylesheet" type="text/css" href="~/MyCSS/TableStyle.css">
+<script src='~/fullcalendar/fullcalendar-6.1.5/dist/index.global.js'></script>
+<script src='~/fullcalendar/fullcalendar-6.1.5/packages/core/locales/fr-ca.global.js'></script>
+
+
+<div class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="content">
+			<!-- Page Header -->
+			<div class="page-header">
+				<div class="row">
+					<div class="col-sm-12">
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a>Rendez-Vous </a></li>
+							<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+							<li class="breadcrumb-item active"> Calendrier des Rendez-Vous</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- /Page Header -->
+			<div id='calendar'></div>
+		</div>
+	</div>
+</div>
+<script src="~/MyJS/RV_Planification/Events.js"></script>
+

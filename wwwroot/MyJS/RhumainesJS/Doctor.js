@@ -14,12 +14,14 @@ function search_doctor() {
 	$('#search-doctor-modal').modal('show');
 }
 $(document).ready(function () {
+
 	$('#search-doctor-modal input').on('keyup', function () {
-		var searchText1 = $('#search-doctor-modal #search-nom').val().toLowerCase();
-		var searchText2 = $('#search-doctor-modal #search-prenom').val().toLowerCase();
-		var searchText3 = $('#search-doctor-modal #search-matricule').val().toLowerCase();
-		var searchText4 = $('#search-doctor-modal #search-email').val().toLowerCase();
-		$('#search-doctor-modal tbody tr').filter(function () {
+		var modal = $(this).closest('.modal'); // Get the closest modal
+		var searchText1 = modal.find('#search-nom-doc').val().toLowerCase();
+		var searchText2 = modal.find('#search-prenom-doc').val().toLowerCase();
+		var searchText3 = modal.find('#search-matricule-doc').val().toLowerCase();
+		var searchText4 = modal.find('#search-email-doc').val().toLowerCase();
+		modal.find('tbody tr').filter(function () {
 			var nom = $(this).find('td:nth-child(1)').text().toLowerCase();
 			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase();
 			var matricule = $(this).find('td:nth-child(3)').text().toLowerCase();
@@ -104,7 +106,7 @@ $('#add-doctor-form').on('submit', function (event) {
 							$('#success-modal-text').text(data.message);
 							$('#success-modal').modal('show');
 							setTimeout(function () {
-								window.location.href = '/Doctor/DoctorList';
+								window.location.href = '/Doctor/DoctorList=';
 							}, 1500);
 
 						}

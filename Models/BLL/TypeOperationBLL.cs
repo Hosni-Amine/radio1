@@ -16,17 +16,13 @@ namespace radio1.Models.BLL
 		{
 			return TypeOperationDAL.AddTypeOperation(operation);
 		}
-		public static Message EditTypeOperation(TypeOperation operation)
-		{
-			return TypeOperationDAL.EditTypeOperation(operation);
-		}
 		public static Message DeleteTypeOperation(int id)
 		{
 			return TypeOperationDAL.DeleteTypeOperation(id);
 		}
-		public static List<TypeOperation> GetAll(int? SalleId)
+		public static List<TypeOperation> GetAll(int? App_id,int? SalleId)
 		{
-			return TypeOperationDAL.GetAll(SalleId);
+			return TypeOperationDAL.GetAll(App_id,SalleId);
 		}
 		public static TypeOperation GetById(int Id)
 		{

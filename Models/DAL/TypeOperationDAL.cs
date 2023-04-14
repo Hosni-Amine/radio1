@@ -20,11 +20,21 @@ namespace radio1.Models.DAL
 				using (SqlConnection connection = DbConnection.GetConnection())
 				{
                     Migration.CreateTypeOperationTableIfNotExists();
-                    string sqlstr = "INSERT INTO dbo.TypeOperation (Nom , SalleId) VALUES (@Nom ,@SalleId)";
+					string sqlstr = "INSERT INTO dbo.TypeOperation (Nom , SalleId , AppareilRadioId) VALUES (@Nom ,@SalleId,@AppareilRadioId)";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
+					if (operation.AppareilRadioId == null)
+					{
+						sqlstr = "INSERT INTO dbo.TypeOperation (Nom , SalleId , AppareilRadioId) VALUES (@Nom ,@SalleId,@AppareilRadioId)";
+						command = new SqlCommand(sqlstr, connection);
+						command.Parameters.AddWithValue("@AppareilRadioId", DBNull.Value);
+					}
+					else 
+					{
+						command.Parameters.AddWithValue("@AppareilRadioId", operation.AppareilRadioId);
+					}
 					command.Parameters.AddWithValue("@Nom", operation.Nom);
 					command.Parameters.AddWithValue("@SalleId", operation.SalleId);
-					DbConnection.NonQueryRequest(command);
+					DbConnection.NonQueryRequest(command);	
 				}
 				return new Message(true, "Type d'operation ajouter avec succés");
 			}
@@ -47,7 +57,7 @@ namespace radio1.Models.DAL
 					string sqlstr = "DELETE FROM TypeOperation WHERE id = @id";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
 					command.Parameters.AddWithValue("@id", id);
-					Connection.DbConnection.NonQueryRequest(command);
+					DbConnection.NonQueryRequest(command);
 				}
 				return new Message(true, "Type d'operation supprimer avec succés");
 			}
@@ -61,20 +71,24 @@ namespace radio1.Models.DAL
 		/// </summary>
 		/// <param name="operation"></param>
 		/// <returns></returns>
-		public static Message EditTypeOperation(TypeOperation operation)
+		public static Message EditTypeOperations(List<TypeOperation> operations)
 		{
 			try
 			{
 				using (SqlConnection connection = DbConnection.GetConnection())
 				{
-					Migration.CreateTypeOperationTableIfNotExists();
-					string sqlstr = "UPDATE TypeOperation SET Nom = @Nom WHERE Id = @Id";
+					connection.Open();
+					string sqlstr = "DELETE FROM dbo.TypeOperation WHERE AppareilRadioId = @AppareilRadioId;";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
-					command.Parameters.AddWithValue("@Nom", operation.Nom);
-					command.Parameters.AddWithValue("@Id", operation.Id);
-					DbConnection.NonQueryRequest(command);
+					command.Parameters.AddWithValue("@AppareilRadioId", operations[0].AppareilRadioId);
+					command.ExecuteNonQuery();
+					connection.Close();
+					foreach (var operation in operations) 
+					{
+						AddTypeOperation(operation);
+					}
 				}
-				return new Message(true, "Type d'operation modifier avec succés");
+				return new Message(true, "Types d'operation modifier avec succés");
 			}
 			catch (Exception ex)
 			{
@@ -127,7 +141,6 @@ namespace radio1.Models.DAL
 				return Message.HandleException(ex, "la suppression");
 			}
 		}
-
 		/// <summary>
 		/// 3 methode permet de retirer tous les elements de la base de données specifiquement pour GetAll qui peut retourner les types associé a une salle
 		/// </summary>
@@ -149,16 +162,21 @@ namespace radio1.Models.DAL
 				return null;
 			}
 		}
-		public static List<TypeOperation> GetAll(int? SalleId)
+		public static List<TypeOperation> GetAll(int? App_id,int? SalleId)
 		{
             Migration.CreateTypeOperationTableIfNotExists();
             SqlConnection connection = Connection.DbConnection.GetConnection();
-			string sqlstr = "SELECT * FROM dbo.TypeOperation";
+			string sqlstr = "SELECT DISTINCT Nom FROM dbo.TypeOperation";
 			SqlCommand command = new SqlCommand();
 			if (SalleId != null) 
 			{
-				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE SalleId = @SalleId";
+				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE SalleId = @SalleId AND AppareilRadioId IS NULL";
 				command.Parameters.AddWithValue("@SalleId", SalleId);
+			}
+			else if (App_id != null) 
+			{
+				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE AppareilRadioId = @AppareilRadio";
+				command.Parameters.AddWithValue("@AppareilRadio", App_id);
 			}
 			command.CommandText = sqlstr;
 			command.Connection = connection;
@@ -173,10 +191,13 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
-                TypeOperation app = new TypeOperation();
-				app.Id = Int32.Parse(raw["Id"].ToString());
+				TypeOperation app = new TypeOperation();
+				if (raw.Table.Columns.Contains("Id") && raw.Table.Columns.Contains("SalleId"))
+				{
+					app.Id = Int32.Parse(raw["Id"].ToString());
+					app.SalleId = Int32.Parse(raw["SalleId"].ToString());
+				}
 				app.Nom = raw["Nom"].ToString();
-				app.SalleId = Int32.Parse(raw["SalleId"].ToString());
 				return app;
 			}
 			catch

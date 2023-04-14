@@ -24,16 +24,16 @@
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a>Medecins </a></li>
 								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-								<li class="breadcrumb-item active">Liste des Medecins</li>
+								<li class="breadcrumb-item active">Gestion des Medecins</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<!-- /Page Header -->
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="card card-table show-entire">
-							<div class="card-body">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card card-table show-entire" style="background-color: #e4e8ee;">
+								<div class="card-body">
 								<!-- Table Header -->
 								<div class="page-table-header mb-2">
 									<div class="row align-items-center">
@@ -61,16 +61,16 @@
 											<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-02.svg" alt=""></a>
 											<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-03.svg" alt=""></a>
 											<a href="javascript:;"><img src="~/assets/img/icons/pdf-icon-04.svg" alt=""></a>
-
 										</div>
 									</div>
 								</div>
 								<!-- /Table Header -->
-
-									<div class="table-responsive" style="margin: 0px 15px 0px 0px ; padding: 15px;" id="doctor-table">
+									<div class="table-responsive" id="doctor-table" style="padding: 0px 15px;">
 									<table class="table border-0 custom-table comman-table datatable mb-0" >
 										<thead>
-											<tr>
+											<tr style="
+    background: linear-gradient(to bottom, #96acc9 0%, #f5f5f6 100%);
+">
 												<th>Nom</th>
 												<th>Prenom</th>
 												<th>Matricule</th>
@@ -98,7 +98,7 @@
 																<div class="dropdown-menu dropdown-menu-end">
 																	<a class="dropdown-item" href="#" onclick="profil_doctor_btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> détails</a>
 																	<a class="dropdown-item" href="#" onclick="edit_doctor_btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
-																	<a class="dropdown-item" href="#" onclick="delete_doctor_btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+																		<a class="dropdown-item" href="#" onclick="delete_doctor_btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
 																</div>
 															</div>
 														</td>
@@ -117,6 +117,8 @@
 	</div>
 </body>
 @Html.Partial("DoctorApiModal")
+	<script src="~/MyJS/RhumainesJS/Doctor.js"></script>
+
 </html>
 
 

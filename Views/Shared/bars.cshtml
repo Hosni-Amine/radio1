@@ -118,19 +118,18 @@
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-06.svg" alt=""></span> <span> Ressources </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="#" onclick="CheckAuth('Salle')">Gestion des Salles </a></li>
-						<li><a href="#" onclick="">Gestion des Appareils </a></li>
+						<li><a href="#" onclick="CheckAuth('AppareilRadio')">Gestion des Appareils </a></li>
 						<li><a href="#" onclick="operation_list()"> Types des operations </a></li>
 					</ul>
 				</li>
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-04.svg" alt=""></span> <span> Rendez-Vous</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="appointments.html">Liste des Rendez-vous</a></li>
-						<li><a href="add-appointment.html">Gestion des rendez-vous</a></li>
-						<li><a href="edit-appointment.html">Edit Appointment</a></li>
+						<li><a href="@Url.Action("AppointmentList", "Appointment")">Liste des Rendez-vous</a></li>
+						<li><a href="#" onclick="CheckAuthAdd('Appointment')">Ajouter un rendez-vous</a></li>
 					</ul>
 				</li>
-				<li class="submenu" >
+				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-02.svg" alt=""></span> <span> Medecins </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="#" onclick="CheckAuth('Doctor')">Liste des Medecins</a></li>
@@ -151,6 +150,7 @@
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Patients </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
+						<li><a href="#">Patients List</a></li>
 						<li><a href="patients.html">Patients List</a></li>
 					</ul>
 				</li>

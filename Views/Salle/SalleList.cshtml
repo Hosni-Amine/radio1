@@ -5,17 +5,15 @@
 		Layout = "_HomePageLayout";
 	}
 
-
 	<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 		<title>Preclinic - Gestionnaire des Salle</title>
-@*		<link rel="stylesheet" href="~/css/PDF-modal.css">
-*@
 		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	</head>
+	@Html.Partial("SalleApiModal")
 	<body>
 		<div class="main-wrapper">
 			<div class="page-wrapper">
@@ -27,7 +25,7 @@
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item"><a>Salles </a></li>
 									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-									<li class="breadcrumb-item active">Liste des Salles</li>
+									<li class="breadcrumb-item active">Gestion des Salles</li>
 								</ul>
 							</div>
 						</div>
@@ -50,30 +48,19 @@
 															</div>
 														</div>
 														<div class="add-group">
-															<button type="submit" class="btn btn-primary doctor-refresh ms-2">
-																<img src="~/assets/img/icons/search.svg" alt="">
-															</button>
-															<a asp-area="" asp-controller="Salle" asp-action="SalleList" class="btn btn-primary doctor-refresh ms-2"><img src="~/assets/img/icons/re-fresh.svg" alt=""></a>
-															<a href="@Url.Action("AddSalle", "Salle")" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
+															<a href="#" onclick="CheckAuthAdd('Salle')" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
 														</div>
 													</div>
 												</div>
-											</div>
-											<div class="col-auto text-end float-end ms-auto download-grp">
-												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-01.svg" alt=""></a>
-												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-02.svg" alt=""></a>
-												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-03.svg" alt=""></a>
-												<a href="javascript:;"><img src="~/assets/img/icons/pdf-icon-04.svg" alt=""></a>
-
 											</div>
 										</div>
 									</div>
 									<!-- /Table Header -->
 
-									<div class="table-responsive" style="margin: 0px 15px 0px 0px;padding: 15px;" id="salle-table">
+									<div class="table-responsive" style="padding: 0px 15px;" id="salle-table">
 										<table class="table border-0 custom-table comman-table datatable mb-0">
 											<thead>
-												<tr>
+												<tr style="background: linear-gradient(to bottom, #96acc9 0%, #f5f5f6 100%);">
 													<th>Nom</th>
 													<th>Emplacement </th>
 													<th>Respensable </th>
@@ -88,9 +75,9 @@
 													@foreach (var item in Model)
 													{
 														<tr style="background-color: #f5f5f6;">
-															<td>@item.Nom</td>
+															<td id="@item.Id-nom">@item.Nom</td>
 															<td>
-																<a href="#" onclick="Show_PDF('@item.Emplacement')">@item.Emplacement</a>
+																<a id="@item.Id-emp" href="#" onclick="Show_PDF('@item.Emplacement')">@item.Emplacement</a>
 															</td>
 															@if(@item.Responsable != null)
 															{
@@ -100,7 +87,6 @@
 																			@item.Responsable.Nom @item.Responsable.Prenom
 																		</a>
 																		<div class="dropdown-menu dropdown-menu-center">
-																			<a class="dropdown-item" href="#" onclick="profil_doctor_btn(@item.Responsable.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> détails</a>
 																			<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Changer l'affectation</a>
 																		</div>
 																	</div>
@@ -114,22 +100,18 @@
 																			Pas de Responsable affecté
 																		</a>
 																		<div class="dropdown-menu dropdown-menu-center">
-																			<a class="dropdown-item" href="#" onclick="operation_list()"><i class="fa-solid fa-pen-to-square m-r-5"></i> Affecter un responsable</a>
+																			<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Affecter un responsable</a>
 																		</div>
 																	</div>
 																</td>
 															}
 															<td class="text">
 																<div class="dropdown">
-																	<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																	<a href="#" id="@item.Id-count" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 																		@item.Operations.Count Type d'operation
 																	</a>
 																		<div class="dropdown-menu dropdown-menu-center">
-																		@foreach (var operation in item.Operations)
-																		{
-																			<a class="dropdown-item"><i class="fa-solid"></i> @operation.Nom</a>
-																		}
-																		<a class="dropdown-item" href="#" onclick="operation_associee('@item.Id')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter</a>
+																			<a class="dropdown-item" href="#" onclick="operation_associee('@item.Id')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Consulter</a>
 																	</div>
 																</div>
 															</td>
@@ -138,8 +120,8 @@
 																<div class="dropdown dropdown-action">
 																	<a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 																	<div class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item" href="#" onclick="edit__btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
-																		<a class="dropdown-item" href="#" onclick="delete_salle_btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+																		<a class="dropdown-item" href="#" onclick="edit_salle_btn('@item.Id','@item.Emplacement')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
+																		<a class="dropdown-item" href="#" onclick="delete_salle_btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
 																	</div>
 																</div>
 															</td>
@@ -156,7 +138,7 @@
 				</div>
 			</div>
 		</div>
-	
+		<script src="~/MyJS/RessourcesJS/Salle.js"></script>
 	</body>
 </html>
 

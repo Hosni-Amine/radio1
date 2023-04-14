@@ -1,5 +1,262 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@Model IEnumerable<radio1.Models.Entities.Salle>
+@using Newtonsoft.Json	
+@using System.Text.Json
+
 @{
+	Layout = "_HomePageLayout";
 }
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		<title>Preclinic - Gestionnaire des Appareils</title>
+		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<script src="~/MyJS/RessourcesJS/AppareilRadio.js"></script>
+	</head>
+	<body>
+		<div class="main-wrapper">
+			<div class="page-wrapper">
+
+				<div id="content-add" class="content" style="display : none ; padding: 30px 30px 0px 30px; ">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a>Salles </a></li>
+									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+									<li class="breadcrumb-item active">Ajouter une Appareil </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="row" style="background-image: url('~/wwwroot/assets/img/morning-img-03.png');">
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="card-body">
+									<form>
+										<div id="add-app-form" class="row">
+											<div class="col-12">
+												<div class="form-heading">
+													<h4 id="Ajouter-Appareil-text">Ajouter une Appareil</h4>
+												</div>
+											</div>
+											<div class="col-12 col-md-12 col-xl-12">
+												<div class="form-group local-forms">
+													<label>Numéro de Serie <span class="login-danger">*</span></label>
+													<input class="form-control" type="text" id="NumSerie_add" required>
+												</div>
+											</div>
+											<div class="col-12 col-md-12 col-xl-12">
+												<div class="form-group local-forms">
+													<label>Types d'operation disponible <span class="login-danger">*</span></label>
+													<select class="select" multiple id="Toperations_add_app" data-mdb-filter="true" data-mdb-clear-button="true">
+														<option value="">Choisir un responsable </option>
+													</select>
+												</div>
+											</div>
+											<div class="col-12 col-md-12 col-xl-12">
+												<div class="form-group local-forms">
+													<label>Situation <span class="login-danger">*</span></label>
+													<select class="select" id="Maintenance_add">
+														<option class="text-success" value="1">Mise en service  </option>
+														<option class="text-error" value="0">Mise en maintenance  </option>
+													</select>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="doctor-submit text-end">
+													<button type="button" class="btn btn-primary submit-form me-2" id="submit-add-app-btn">Ajouter</button>
+													<button type="button" class="btn btn-primary cancel-form" onclick="Cancel_Appareil_Btn()">Cancel</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="content-edit" class="content" style="display : none ; padding: 30px 30px 0px 30px; ">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a>Salles </a></li>
+									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+									<li class="breadcrumb-item active">Modifier Appareil </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="row" style="background-image: url('~/wwwroot/assets/img/morning-img-03.png');">
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="card-body">
+									<form>
+										<div id="edit-app-form" class="row">
+											<div class="col-12">
+												<div class="form-heading">
+													<h4 id="Modifier-Appareil-text"></h4>
+												</div>
+											</div>
+											<div class="col-12 col-md-12 col-xl-12">
+												<div class="form-group local-forms">
+													<label>Numéro de Serie <span class="login-danger">*</span></label>
+													<input class="form-control" type="text" id="NumSerie_edit" required>
+												</div>
+											</div>
+											<div class="col-12 col-md-12 col-xl-12">
+												<div class="form-group local-forms">
+													<label>Types d'operation disponible<span class="login-danger">*</span></label>
+													<select class="select" multiple id="Toperations_edit_app" data-mdb-filter="true" data-mdb-clear-button="true">
+														<option value="">Choisir un responsable </option>
+													</select>
+												</div>
+											</div>
+											<div class="col-12 col-md-12 col-xl-12">
+												<div class="form-group local-forms">
+													<label>Situation <span class="login-danger">*</span></label>
+													<select class="select" id="Maintenance_edit">
+													</select>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="doctor-submit text-end">
+													<button type="button" class="btn btn-primary submit-form me-2" id="submit-edit-app-btn">Modifier</button>
+													<button type="button" class="btn btn-primary cancel-form" onclick="Cancel_Appareil_Btn()">Cancel</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="content-1" class="content">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a>Salles </a></li>
+									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+									<li class="breadcrumb-item active">Gestion des Appareils</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="row" >
+						<div class="col-sm-12" >
+							<div class="card card-table show-entire" style="background-color: #e4e8ee;padding: 10px 25px;">
+								<div class="card-body">
+									<!-- Table Header -->
+									<div class="page-table-header mb-2" style="padding: 15px 15px 15px 15px;">
+										<div class="row align-items-center">
+											<div class="col">
+												<div class="doctor-table-blk">
+													<h3>liste des Appareils par salle</h3>
+													<div class="doctor-search-blk">
+														<div class="top-nav-search table-search-blk">
+															<div class="top-nav-search table-search-blk">
+																<input type="text" id="search-app-input" class="form-control" placeholder="Recherche...">
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /Table Header -->
+									@if (Model != null)
+									{
+										@foreach (var item in Model)
+										{
+											<div id="col-salle" class="col-12 col-md-12  col-xl-12">
+												<div class="card" style="background-color: #f4f4f5;">
+													<div class="card-header " style="background: linear-gradient(to bottom, #96acc9 0%, #f5f5f6 100%);">
+														<a href="#" onclick="toggleRows(this)" id="show-all-btn" class="patient-views float-end">Afficher</a>
+														<h4 id="namesalle" class="card-title d-inline-block" data-name="@item.Nom">@item.Nom</h4>
+														<a style="margin-right: 25px;" href="#" onclick="Add_Appareil_Btn('@item.Id')" id="Add-app-btn-@item.Id" class="patient-views float-end">Ajouter</a>
+													</div>
+													<div class="card-body p-0 table-dash">
+														<div class="table-responsive" id="@item.Id">
+															<table class="table border-0 custom-table comman-table datatable mb-0">
+																<thead>
+																	<tr class="row-to-hide" style="display: none; background-color: #f4f4f5;">
+																		<th>Numero Serie</th>
+																		<th>Type d'operations</th>
+																		<th>Situation</th>
+																		<th>Date de Mise en service </th>
+																		<th></th>
+																	</tr>
+																</thead>
+																<tbody>
+																	@if (item.AppareilRadios != null)
+																	{
+																		@foreach (var AppareilRadio in item.AppareilRadios)
+																		{
+																			<tr id=@AppareilRadio.Id class="row-to-hide" style="display: none; background-color: #f4f4f5;">
+																				<td id="Num">@AppareilRadio.NumSerie</td>
+																				@if (AppareilRadio.Operations != null)
+																				{
+																					<td class="text">
+																						<div class="dropdown">
+																							<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																								@AppareilRadio.Operations.Count Type d'operation
+																							</a>
+																							<div class="dropdown-menu dropdown-menu-center">
+																								@foreach (var operation in AppareilRadio.Operations)
+																								{
+																									<a class="dropdown-item"><i class="fa-solid"></i> @operation.Nom</a>
+																								}
+																							</div>
+																						</div>
+																					</td>
+																				}
+																				@if (AppareilRadio.Maintenance == 1)
+																				{
+																					<td class="text-success">En service</td>
+																				}
+																				else
+																				{
+																					<td class="text-danger">En Maintenance</td>
+																				}
+																				<td>@AppareilRadio.DateCreation</td>
+																				<td class="text-end">
+																					<div class="dropdown dropdown-action">
+																						<a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+																						<div class="dropdown-menu dropdown-menu-end">
+																							<a class="dropdown-item" href="#" onclick="edit_appareil_btn('@AppareilRadio.Id')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
+																							<a class="dropdown-item" href="#" onclick="delete_appareil_btn('@AppareilRadio.Id')"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
+																						</div>
+																					</div>
+																				</td>
+																			</tr>
+																		}
+																	}
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										}
+									}
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

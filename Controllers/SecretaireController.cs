@@ -18,6 +18,7 @@ namespace radio1.Controllers
 		/// <param name="searchon"></param>
 		/// <returns>retourne une list de Secretaire </returns>
 		[HttpGet]
+		[HttpHead]
 		public IActionResult SecretaireList()
 		{
 			var Secretaires = SecretaireBLL.GetAll();

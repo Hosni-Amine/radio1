@@ -1,4 +1,4 @@
-
+﻿
 //Fonctions API pour les techniciens
 function add_tech_btn() {
 	$('#add-tech-modal').modal('show');
@@ -7,18 +7,18 @@ function add_tech_btn() {
 $('#add-tech-form').on('submit', function (event) {
 	event.preventDefault();
 	console.log($('#add-tech-form').serialize());
-	var Technicien = {
+	var technicien = {
 		Prenom: $('#add-tech-modal #Prenom').val(),
 		Nom: $('#add-tech-modal #Nom').val(),
 		Email: $('#add-tech-modal #Email').val(),
 		Sexe: $('input[name="Sexe"]:checked').val(),
 	};
-	console.log(Technicien);
+	console.log(technicien);
 	if ($('#add-tech-modal #addontime').val() == 'true') {
 		$.ajax({
-			url: '/Technicien/AddTechnicien',
+			url: '/technicien/Addtechnicien',
 			type: 'POST',
-			data: Technicien,
+			data: technicien,
 			success: function (data) {
 				console.log('Success:', data);
 				if (data.success) {
@@ -27,7 +27,7 @@ $('#add-tech-form').on('submit', function (event) {
 					$('#success-modal-text').text(data.message);
 					$('#success-modal').modal('show');
 					setTimeout(function () {
-						window.location.href = '/Technicien/TechnicienList';
+						window.location.href = '/technicien/technicienList';
 					}, 1500);
 
 				}
@@ -51,29 +51,30 @@ $('#add-tech-form').on('submit', function (event) {
 	}
 });
 
+
 function delete_tech_btn(id) {
 	var deletebtn = document.getElementById('delete-modal-btn');
 	deletebtn.onclick = function () {
 		Submit_Delete_technicien(id);
 	};
-	$('#delete-text').text("Voulez-vous vraiment supprimer ce Technicien ?");
+	$('#delete-text').text("Voulez-vous vraiment supprimer ce technicien ?");
 	$('#delete_modal').modal('show');
 }
 function Submit_Delete_technicien(id) {
 	$.ajax({
-		url: "/Technicien/DeleteTechnicien/" + id,
+		url: "/technicien/Deletetechnicien/" + id,
 		type: 'DELETE',
 		success: function (response) {
 			if (response.success) {
 				$('#delete_modal').modal('hide');
 				$('#success-modal-text').text(response.message);
-				$('#search-tech-modal').modal('hide');
 				$('#success-modal').modal('show');
 				setTimeout(function () {
-					window.location.href = '/Technicien/TechnicienList';
+					window.location.href = '/technicien/technicienList';
 				}, 2000);
 			} else {
 				console.log('Error in response:', response);
+				$('#search-tech-modal').modal('hide');
 				$('#error-modal-text').text(response.message);
 				$('#error-modal').modal('show');
 			}
@@ -88,7 +89,7 @@ function Submit_Delete_technicien(id) {
 function edit_tech_btn(id) {
 	console.log(id);
 	$.ajax({
-		url: "/Technicien/GetTechnicienById/" + id,
+		url: "/technicien/GettechnicienById/" + id,
 		type: "GET",
 		dataType: "json",
 		success: function (data) {
@@ -135,9 +136,8 @@ $('#edit-tech-form').on('submit', function (event) {
 		Email: $('#edit-tech-modal #Email').val(),
 		Sexe: sex,
 	};
-	console.log(technicien);
 	$.ajax({
-		url: '/Technicien/SubmitEditTechnicien',
+		url: '/technicien/SubmitEdittechnicien',
 		type: 'POST',
 		data: technicien,
 		success: function (data) {
@@ -147,7 +147,7 @@ $('#edit-tech-form').on('submit', function (event) {
 				$('#success-modal-text').text(data.message);
 				$('#success-modal').modal('show');
 				setTimeout(function () {
-					window.location.href = '/Technicien/TechnicienList';
+					window.location.href = '/technicien/technicienList';
 				}, 1500);
 			} else {
 				console.log('Error in response:', data);
@@ -171,7 +171,7 @@ $('#edit-tech-form').on('submit', function (event) {
 });
 function profil_tech_btn(id) {
 	$.ajax({
-		url: "/Technicien/GetTechnicienById/" + id,
+		url: "/technicien/GettechnicienById/" + id,
 		type: "GET",
 		dataType: "json",
 		success: function (data) {
@@ -212,7 +212,7 @@ $(document).ready(function () {
 		});
 	});
 });
-//Rechercher avanc�e avec modal
+//Rechercher avancée avec modal
 function search_tech() {
 	const tableContent = document.getElementById('tech-table').innerHTML;
 	document.getElementById("table-tech-copy").innerHTML = tableContent;
@@ -220,17 +220,19 @@ function search_tech() {
 }
 $(document).ready(function () {
 	$('#search-tech-modal input').on('keyup', function () {
-		var searchText1 = $('#search-tech-modal #search-nom').val().toLowerCase(); 
-		var searchText2 = $('#search-tech-modal #search-prenom').val().toLowerCase(); 
-		var searchText3 = $('#search-tech-modal #search-email').val().toLowerCase(); 
-		$('#search-tech-modal tbody tr').filter(function () {
-			var name = $(this).find('td:nth-child(1)').text().toLowerCase(); 
-			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase(); 
-			var email = $(this).find('td:nth-child(3)').text().toLowerCase(); 
-			$(this).toggle(name.indexOf(searchText1) > -1 && prenom.indexOf(searchText2) > -1 && email.indexOf(searchText3) > -1 );
+		var modal = $(this).closest('.modal');
+		var searchText1 = modal.find('#search-nom-tech').length ? modal.find('#search-nom-tech').val().toLowerCase() : '';
+		var searchText2 = modal.find('#search-prenom-tech').length ? modal.find('#search-prenom-tech').val().toLowerCase() : '';
+		var searchText3 = modal.find('#search-email-tech').length ? modal.find('#search-email-tech').val().toLowerCase() : '';
+		modal.find('tbody tr').filter(function () {
+			var name = $(this).find('td:nth-child(1)').text().toLowerCase();
+			var prenom = $(this).find('td:nth-child(2)').text().toLowerCase();
+			var email = $(this).find('td:nth-child(3)').text().toLowerCase();
+			$(this).toggle(name.indexOf(searchText1) > -1 && prenom.indexOf(searchText2) > -1 && email.indexOf(searchText3) > -1);
 		});
 	});
 });
+
 
 
 

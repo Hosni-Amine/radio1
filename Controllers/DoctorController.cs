@@ -19,12 +19,13 @@ namespace radio1.Controllers
 		/// <param name="search"></param>
 		/// <param name="searchon"></param>
 		/// <returns>retourne une list de medecin </returns>
+		[HttpHead]
+		[HttpGet]
 		public IActionResult DoctorList()
         {
 		    var doctors = DoctorBLL.GetAll();
 			return View(doctors);
 		}
-
 		public IActionResult DoctorListJson()
 		{
 			var doctors = DoctorBLL.GetAll();

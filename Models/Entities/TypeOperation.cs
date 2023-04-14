@@ -5,6 +5,7 @@
 		public int? Id { get; set; }
 		public string? Nom { get; set; }
 		public int? SalleId { get; set; }
+		public int? AppareilRadioId { get; set; }
 
 		public TypeOperation (){}
 	} 

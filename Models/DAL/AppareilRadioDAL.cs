@@ -2,13 +2,14 @@
 using radio1.Models.Entities;
 using System.Data.SqlClient;
 using System.Data;
+using System.Numerics;
 
 namespace radio1.Models.DAL
 {
 	public class AppareilRadioDAL
 	{
 		/// <summary>
-		/// Permet d'ajouter un type d'appareilradio 
+		/// Permet d'ajouter une Appareilradio 
 		/// </summary>
 		/// <param name="appareilradio"></param>
 		/// <returns></returns>
@@ -16,21 +17,25 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
+				int Id = 0;
 				using (SqlConnection connection = DbConnection.GetConnection())
 				{
 					Migration.CreateAppareilRadioTableIfNotExists();
 					DateTime utcTime = DateTime.UtcNow;
 					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-					string sqlstr = "INSERT INTO dbo.AppareilRadio (NumSerie ,Maintenance,DateCreation, SalleId) VALUES (@NumSerie ,@Maintenance,@DateCreation,@SalleId)";
+					connection.Open();
+					string sqlstr = "INSERT INTO dbo.AppareilRadio (NumSerie ,Maintenance,DateCreation, SalleId) VALUES (@NumSerie ,@Maintenance,@DateCreation,@SalleId)"+
+									"SELECT SCOPE_IDENTITY() AS NouvelElementId;";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
 					command.Parameters.AddWithValue("@NumSerie", appareilradio.NumSerie);
 					command.Parameters.AddWithValue("@SalleId", appareilradio.SalleId);
-					command.Parameters.AddWithValue("@DateCreation", appareilradio.DateCreation);
+					command.Parameters.AddWithValue("@DateCreation",cetTime);
 					command.Parameters.AddWithValue("@Maintenance", appareilradio.Maintenance);
-					DbConnection.NonQueryRequest(command);
+					Id = Convert.ToInt32(command.ExecuteScalar());
+					connection.Close();
 				}
-				return new Message(true, "Type d'appareilradio ajouter avec succés");
+				return new Message(true, "Appareil ajouté avec succés",Id);
 			}
 			catch (Exception ex)
 			{
@@ -39,7 +44,7 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
-		/// Permet de supprimer un type d'appareilradio 
+		/// Permet de supprimer une Appareilradio 
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
@@ -49,7 +54,7 @@ namespace radio1.Models.DAL
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "DELETE FROM AppareilRadio WHERE id = @id";
+					string sqlstr = "DELETE FROM TypeOperation WHERE AppareilRadioId = @id ; DELETE FROM AppareilRadio WHERE id = @id ; ";
 					SqlCommand command = new SqlCommand(sqlstr, connection);
 					command.Parameters.AddWithValue("@id", id);
 					Connection.DbConnection.NonQueryRequest(command);
@@ -63,7 +68,7 @@ namespace radio1.Models.DAL
 		}
 		
 		/// <summary>
-		/// Permet de modifier un type d'appareilradio 
+		/// Permet de modifier une Appareilradio 
 		/// </summary>
 		/// <param name="appareilradio"></param>
 		/// <returns></returns>
@@ -114,7 +119,31 @@ namespace radio1.Models.DAL
 		}
 
 		/// <summary>
-		/// Permet de supprimer les types d'appareilradio associée a une salle
+		/// Permet de retirer une Appareilradio de la base de données
+		/// </summary>
+		/// <param name="Id"></param>
+		/// <returns></returns>
+		public static AppareilRadio GetByName(string str)
+		{
+			using (SqlConnection connection = Connection.DbConnection.GetConnection())
+			{
+				string sqlstr = "SELECT * FROM dbo.AppareilRadio WHERE NumSerie = @str";
+				SqlCommand command = new SqlCommand(sqlstr, connection);
+				command.Parameters.AddWithValue("@str", str);
+				DataTable table = new DataTable();
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				table.Load(reader);
+				connection.Close();
+				if (table != null && table.Rows.Count != 0)
+					return Get(table.Rows[0]);
+				else
+					return null;
+			}
+		}
+
+		/// <summary>
+		/// Permet de supprimer les Appareilradios associée a une salle
 		/// </summary>
 		/// <param name="Salle_Id"></param>
 		/// <returns></returns>
@@ -149,7 +178,10 @@ namespace radio1.Models.DAL
 				List<AppareilRadio> apps = new List<AppareilRadio>();
 				foreach (DataRow row in table.Rows)
 				{
-					apps.Add(Get(row));
+					var app = Get(row);
+					List<TypeOperation> operations = TypeOperationDAL.GetAll(app.Id,null);
+					app.Operations = operations;
+					apps.Add(app);
 				}
 				return apps;
 			}
@@ -161,7 +193,7 @@ namespace radio1.Models.DAL
 		public static List<AppareilRadio> GetAll(int? SalleId)
 		{
 			Migration.CreateAppareilRadioTableIfNotExists();
-			SqlConnection connection = Connection.DbConnection.GetConnection();
+			SqlConnection connection = DbConnection.GetConnection();
 			string sqlstr = "SELECT * FROM dbo.AppareilRadio";
 			SqlCommand command = new SqlCommand();
 			if (SalleId != null)
@@ -187,6 +219,9 @@ namespace radio1.Models.DAL
 				app.NumSerie = raw["NumSerie"].ToString();
 				app.Maintenance= Int32.Parse(raw["Maintenance"].ToString());
 				app.SalleId = Int32.Parse(raw["SalleId"].ToString());
+				app.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());
+				List<TypeOperation> operations = TypeOperationDAL.GetAll(app.Id,null);
+				app.Operations = operations; 
 				return app;
 			}
 			catch

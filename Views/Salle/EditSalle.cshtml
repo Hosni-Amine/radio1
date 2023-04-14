@@ -1,0 +1,109 @@
+﻿@model dynamic
+
+@{
+	Layout = "_HomePageLayout";
+}
+
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Preclinic - Gestionnaire des Salle</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+	<div class="main-wrapper">
+		<div class="page-wrapper">
+			<div class="content" style="padding: 50px 100px 0px 60px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Salles </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Modifier une Salle</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="" asp-action="" id="add-salle-form" method="post">
+									<div class="row">
+										<input type="hidden" id="addontime" value="true">
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Nom de la salle <span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Nom_Salle" id="Nom_Salle" value="@Model.Salle.Nom" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Responsable <span class="login-danger">*</span></label>
+												<select class="select" id="Responsable_salle" data-mdb-filter="true" data-mdb-clear-button="true">
+													<option value="">Choisir un responsable </option>
+													@foreach (var item in Model.Doctors)
+													{
+														if (item.Id == Model.Salle.Responsable.Id)
+														{
+															<option selected value="@item.Id">@item.Nom @item.Prenom</option>
+														}
+														else
+														{
+															<option value="@item.Id">@item.Nom @item.Prenom</option>
+														}
+													}
+												</select>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Type d'operation disponible <span class="login-danger">*</span></label>
+												<select class="select" id="Toperations_salle" multiple data-mdb-filter="true" data-mdb-clear-button="true">
+													@foreach (var item in Model.Operations)
+													{
+														<option value="@item.Nom" data-mdb-secondary-text="Secondary text">@item.Nom</option>
+													}
+												</select>
+												<a style="margin:15px;" href="#" onclick="new_operation_set()" id="new_operation_set"><i class="fa-solid fa-pen-to-square m-r-5"></i>Ajouter un nouveau type</a>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms" id="new-operation">
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-top-form">
+												<label class="local-top">Emplacement <span class="login-danger">*</span></label>
+												<div class="settings-btn upload-files-avator">
+													<input type="file" value="Choisir un fichier " accept=".pdf" name="pdf" id="file" onchange="displayFileName()" class="hide-input">
+													<label style="width:-webkit-fill-available;" for="file" class="upload">@Model.Salle.Emplacement</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="button" class="btn btn-primary submit-form me-2" onclick="submit_add_salle()">Ajouter</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="~/MyJS/RessourcesJS/Salle.js"></script>
+</body>
+
+</html>
+

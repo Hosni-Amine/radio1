@@ -1,4 +1,5 @@
-﻿using radio1.Models.DAL;
+﻿using NuGet.Versioning;
+using radio1.Models.DAL;
 using radio1.Models.Entities;
 
 namespace radio1.Models.BLL
@@ -9,13 +10,23 @@ namespace radio1.Models.BLL
 		{
 			return AppareilRadioDAL.DeleteSalleAppareilRadios(Salle_Id);
 		}
-		public static Message AddAppareilRadio(AppareilRadio operation)
+		public static Message AddAppareilRadio(AppareilRadio appareil)
 		{
-			return AppareilRadioDAL.AddAppareilRadio(operation);
+			return AppareilRadioDAL.AddAppareilRadio(appareil);
 		}
-		public static Message EditAppareilRadio(AppareilRadio operation)
+		public static Message EditAppareilRadio(AppareilRadio appareil)
 		{
-			return AppareilRadioDAL.EditAppareilRadio(operation);
+			var ops = appareil.Operations;
+			for ( var i=0;i<ops.Count;i++)
+			{
+				ops[i].SalleId = appareil.SalleId;
+			}
+			var msg = TypeOperationDAL.EditTypeOperations(ops);
+			return AppareilRadioDAL.EditAppareilRadio(appareil);
+		}
+		public static List<Salle> GetAllwithappareils() 
+		{
+			return SalleDAL.GetAllwithappareils();
 		}
 		public static Message DeleteAppareilRadio(int id)
 		{
@@ -28,6 +39,31 @@ namespace radio1.Models.BLL
 		public static AppareilRadio GetById(int Id)
 		{
 			return AppareilRadioDAL.GetById(Id);
+		}
+		public static AppareilRadio GetByName(string str)
+		{
+			return AppareilRadioDAL.GetByName(str);
+		}
+
+		public static Message AppendTypes(int? app_id, int? salle_id, List<TypeOperation> operation)
+		{
+			try
+			{
+				foreach (var op in operation)
+				{
+					op.SalleId = salle_id;
+					if(app_id != null)
+					{
+						op.AppareilRadioId = app_id;
+					}
+					TypeOperationBLL.AddTypeOperation(op);
+				}
+				return new Message(true, "tous les type ajouter avec success !");
+			}
+			catch (Exception ex)
+			{
+				return new Message(false, ex.Message);
+			}
 		}
 	}
 }

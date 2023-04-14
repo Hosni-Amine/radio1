@@ -1,0 +1,96 @@
+﻿@model IEnumerable<radio1.Models.Entities.TypeOperation>
+
+@{
+	Layout = "_HomePageLayout";
+}
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<body>
+	<div class="main-wrapper">
+		<div class="page-wrapper">
+			<div class="content" style="padding: 50px 100px 0px 60px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Rendez-Vous </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Ajouter un Rendez-Vous</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="" asp-action="" id="add-salle-form" method="post">
+									<div class="row">
+										<input type="hidden" id="addontime" value="true">
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Nom de patient <span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Nom_Patient" id="Nom_Patient" placeholder="Nom de Patient" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Description de l'examen <span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Description" id="Description" placeholder="Description de l'examen " required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Type d'operation disponible <span class="login-danger">*</span></label>
+												<select class="select" id="Type_Operation" >
+													<option value="">Choisir un examen</option>
+													@foreach (var item in Model)
+													{
+														<option value="@item.Nom">@item.Nom</option>
+													}
+												</select>
+											</div>
+										</div>
+										<div id="div_select" class="col-12 col-md-12 col-xl-12" style="display:none;">
+											<div class="form-group local-forms">
+												<label>Affectation <span class="login-danger">*</span></label>
+												<select class="select" id="Affectation" >
+												</select>
+											</div>
+										</div>
+										<div id="div_select_date" class="col-12 col-md-6 col-xl-6" style="display:none;">
+											<div class="form-group local-forms">
+												<label>Date <span class="login-danger">*</span></label>
+												<input class="form-control" id="myDatepicker" style="margin-bottom: 20px; " type="text" placeholder="Select Date">
+											</div>
+										</div>
+										<div class="col-6 col-md-6 col-xl-6" id="Hoursdiv" style="margin-bottom: 20px; display:none;" >
+											<div class="form-group local-forms">
+												<label>Heures Disponibles  <span class="login-danger">*</span></label>
+												<select class="select" id="Heures" data-mdb-filter="true" data-mdb-clear-button="true">
+												</select>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="button" class="btn btn-primary submit-form me-2" onclick="Add_RendezVous_Btn()">Ajouter</button>
+												<button type="button" class="btn btn-primary cancel-form" onclick="goBack()">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="~/MyJS/RV_Planification/RendezVous.js"></script>
+
+</body>
+
+

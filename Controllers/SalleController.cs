@@ -24,6 +24,8 @@ namespace radio1.Controllers
 		/// Methode retourne une liste des salle
 		/// </summary>
 		/// <returns></returns> 
+		[HttpHead]
+		[HttpGet]
 		public IActionResult SalleList()
         {
             var salles = SalleBLL.GetAll();
@@ -31,12 +33,23 @@ namespace radio1.Controllers
         }
 
 		[HttpPost]
+		public IActionResult EditSalle(Salle salle , string Old_Emplacement)
+		{
+			if(Old_Emplacement != salle.Emplacement)
+			{
+				var j = DelPDF(Old_Emplacement);
+			}
+			var Msg = SalleBLL.EditSalle(salle);
+			return Json(new { Success = Msg.Verification, Message = Msg.Msg });
+		}
+
 		/// <summary>
 		/// Fonction qui permet de changer le responsable de la salle
 		/// </summary>
 		/// <param name="salle_id"></param>
 		/// <param name="id"></param>
 		/// <returns></returns>
+		[HttpPost]
 		public IActionResult SalleAffectation(int salle_id, int id)
 		{
 			var msg = SalleBLL.SalleAffectation(salle_id,id);
@@ -47,14 +60,24 @@ namespace radio1.Controllers
 		/// Fonction qui retourn le view pour ajouter une salle 
 		/// </summary>
 		/// <returns></returns>
+		[HttpHead]
+		[HttpGet]
 		public IActionResult AddSalle ()
 		{
-			var operations = TypeOperationBLL.GetAll(null);
+			var operations = TypeOperationBLL.GetAll(null , null);
+			List<string> nomsDistincts = new List<string>();
+			foreach (var operation in operations)
+			{
+				if (!nomsDistincts.Contains(operation.Nom))
+				{
+					nomsDistincts.Add(operation.Nom);
+				}
+			}
 			var doctors = DoctorBLL.GetAll();
 			var viewModel = new
 			{
 				Doctors = doctors,
-				Operations = operations
+				Operations = nomsDistincts
 			};
 			return View(viewModel); 
 		}
@@ -69,7 +92,7 @@ namespace radio1.Controllers
 				Message msg = SalleBLL.AddSalle(salle);
 				if (msg.Verification)
 				{
-					var msg2 = SalleBLL.appendType(salle,operations);
+					var msg2 = SalleBLL.appendTypes(null,msg.MsgId,operations);
 				}
 				return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}

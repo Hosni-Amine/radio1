@@ -17,14 +17,13 @@ namespace radio1.Models.BLL
         {
             return SalleDAL.GetAll();
         }
-        public static Message appendType(Salle salle , List<TypeOperation> operation)
+        public static Message appendTypes(int? app_id , int? salle_id , List<TypeOperation> operation)
         {
             try
             {
-                var sal = SalleDAL.GetByName(salle.Nom);
                 foreach (var op in operation)
                 {
-                    op.SalleId = sal.Id;
+                    op.SalleId = salle_id;
                     TypeOperationBLL.AddTypeOperation(op);
                 }
                 return new Message (true , "tous les type ajouter avec success !");
@@ -34,13 +33,18 @@ namespace radio1.Models.BLL
 				return new Message(false, ex.Message);
 			}
 		}
-        public static Salle GetById(int Id)
+        
+        public static Salle GetById(int? Id)
         {
             return SalleDAL.GetById(Id);
         }
 		public static Message SalleAffectation(int salle_Id, int Id)
         {
             return SalleDAL.SalleAffectation(salle_Id,Id);
+		}
+		public static Message EditSalle(Salle salle)
+        {
+            return SalleDAL.EditSalle(salle);
 		}
 
 	}

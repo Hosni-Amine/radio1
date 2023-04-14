@@ -35,41 +35,6 @@
 	</div>
 </div>
 
-<!--All-Operation-list-Modal -->
-<div class="modal fade bd-example-modal-lg" id="operation-list-modal" tabindex="-1" role="dialog" style=" z-index: 9702;" ;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="content" style="padding: 30px 30px 0px 30px;">
-				<div class="form-heading ">
-					<div class="doctor-table-blk" style="margin: 0px 17px;">
-						<h3 class="text-center">Type d'operation disponible :</h3>
-						<div class="doctor-search-blk">
-							<div class="top-nav-search table-search-blk">
-								<div class="top-nav-search table-search-blk">
-									<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="table-responsive" style="padding: 15px;">
-					<input type="hidden" value="no" id="check_edit"/>
-					<table class="table border-3 custom-table" id="oplist-table">
-						<thead>
-							<tr>
-								<th class="text-center" style="background-color: #f4f5fa;">Nom d'operation </th>
-								<th class="text-center" style="background-color: #f4f5fa;">Action </th>
-							</tr>
-						</thead>
-						<tbody id="operation-table-body">
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <!--Consult-Doctor-list-Modal -->
 <div class="modal fade bd-example-modal-lg" id="doctor-list-modal" tabindex="-1" role="dialog" style=" z-index: 9701;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
@@ -88,7 +53,7 @@
 					</div>
 				</div>
 				<div class="table-responsive" style="padding: 15px;">
-					<table class="table border-3 custom-table" id="oplist-table">
+					<table class="table border-3 custom-table" id="">
 						<thead>
 							<tr>
 								<th class="text-center" style="background-color: #f4f5fa;">Nom d'operation </th>
@@ -103,3 +68,69 @@
 		</div>
 	</div>
 </div>
+
+<!--Edit-Salle-Modal -->
+<div class="modal fade bd-example-modal-lg" id="edit-salle-modal" style="z-index: 9993;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Salle </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Modifier Salle</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="card">
+							<div class="card-body">
+								<form method="post">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Modifier Salle</h4>
+											</div>
+										</div>
+										<input type="hidden" id="Id">
+										<div class="col-12 col-md-12 col-xl-12" style="margin-top: 25px;">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Nom-edit" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-top-form">
+												<label class="local-top">Emplacement <span class="login-danger">*</span></label>
+												<div class="settings-btn upload-files-avator">
+													<input type="file" value="Choisir un fichier " accept=".pdf" name="pdf" id="file-edit" onchange="displayFileNameedit()" class="hide-input">
+													<label style="width:-webkit-fill-available;" for="file-edit" class="upload">Choisir un fichier</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="button" class="btn btn-primary" onclick="submit_edit_salle()" id="submit-edit-btn" style="margin-right: 10px;">
+													Editer
+												</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

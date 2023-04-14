@@ -26,6 +26,111 @@
     </div>
 </div>
 
+<!-- Signin modal-->
+<div class="modal fade bd-example-modal-lg" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" border="50px">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form asp-controller="Account" asp-action="Login" id="Login-form" method="post">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>S'identifier :</h4>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label for="User">Email ou Nom d'utilisateur <span class="login-danger">*</span></label>
+												<input class="form-control" type="email" id="Email" placeholder="Email">
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label for="Pass">Mot de passe <span class="login-danger">*</span></label>
+												<input class="form-control" type="password" id="password" placeholder="Mot de passe">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-center">
+												<button type="button" class="btn btn-primary submit-form me-2" onclick="Submit_Login()">S'identifier</button>
+												<button type="button" class="btn btn-primary Annuler-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Delete modal-->
+<div id="delete_modal" class="modal fade delete-modal" style="z-index: 9999;" role="dialog">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<img src="~/assets/img/sent.png" alt="" width="50" height="46">
+				<h3 id="delete-text"></h3>
+				<div class="m-t-20" id="m-t-20">
+					<button style="margin: 10px;" type="submit" class="btn btn-danger" id="delete-modal-btn">Oui</button>
+					<a style="margin: 10px;" href="#" class="btn btn-white" data-bs-dismiss="modal">Non</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- PDFview modal-->
+<div class="modal fade bd-example-modal-lg" id="pdf-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<iframe src="" height="650" width="100%" title="Iframe" id="PDFiframe"></iframe>
+		</div>
+	</div>
+</div>
+
+<!--All-Operation-list-Modal -->
+<div class="modal fade bd-example-modal-lg" id="operation-list-modal" tabindex="-1" role="dialog" style=" z-index: 9702;" ;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px;">
+				<div class="form-heading ">
+					<div class="doctor-table-blk" style="margin: 0px 17px;">
+						<h3 class="text-center">Type d'operation disponible :</h3>
+						<div class="doctor-search-blk">
+							<div class="top-nav-search table-search-blk">
+								<div class="top-nav-search table-search-blk">
+									<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive" style="padding: 15px;">
+					<input type="hidden" value="no" id="check_edit" />
+					<table class="table border-3 custom-table" id="oplist-table">
+						<thead>
+							<tr>
+								<th class="text-center" style="background-color: #f4f5fa;">Nom d'operation </th>
+								<th class="text-center" style="background-color: #f4f5fa;">Action </th>
+							</tr>
+						</thead>
+						<tbody id="operation-table-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@*
 <!-- Add user-role-doctor modal-->
 <div class="modal fade bd-example-modal-lg" id="add-duser-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -171,7 +276,7 @@
 										</div>
 										<div class="col-12">
 											<div class="doctor-submit text-end">
-												<button type="submit" class="btn btn-primary submit-form me-2" >S'inscrire</button>
+												<button type="submit" class="btn btn-primary submit-form me-2">S'inscrire</button>
 												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
 											</div>
 										</div>
@@ -258,7 +363,7 @@
 										</div>
 										<div class="col-12">
 											<div class="doctor-submit text-end">
-												<button type="submit" class="btn btn-primary submit-form me-2" >S'inscrire</button>
+												<button type="submit" class="btn btn-primary submit-form me-2">S'inscrire</button>
 												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
 											</div>
 										</div>
@@ -330,7 +435,7 @@
 										</div>
 										<div class="col-12">
 											<div class="doctor-submit text-end">
-												<button type="submit" class="btn btn-primary submit-form me-2" >S'inscrire</button>
+												<button type="submit" class="btn btn-primary submit-form me-2">S'inscrire</button>
 												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
 											</div>
 										</div>
@@ -344,72 +449,4 @@
 		</div>
 	</div>
 </div>
-
-<!-- Signin modal-->
-<div class="modal fade bd-example-modal-lg" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" border="50px">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="content">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="card">
-							<div class="card-body">
-								<form asp-controller="Account" asp-action="Login" id="Login-form" method="post">
-									<div class="row">
-										<div class="col-12">
-											<div class="form-heading">
-												<h4>S'identifier :</h4>
-											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-12">
-											<div class="form-group local-forms">
-												<label for="User">Email ou Nom d'utilisateur <span class="login-danger">*</span></label>
-												<input class="form-control" type="email" id="Email" placeholder="Email">
-											</div>
-										</div>
-										<div class="col-12 col-md-12 col-xl-12">
-											<div class="form-group local-forms">
-												<label for="Pass">Mot de passe <span class="login-danger">*</span></label>
-												<input class="form-control" type="password" id="password" placeholder="Mot de passe">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="doctor-submit text-center">
-												<button type="button" class="btn btn-primary submit-form me-2" onclick="Submit_Login()">S'identifier</button>
-												<button type="button" class="btn btn-primary Annuler-form" data-bs-dismiss="modal">Annuler</button>
-											</div>
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Delete modal-->
-<div id="delete_modal" class="modal fade delete-modal" style="z-index: 9999;" role="dialog">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-body text-center">
-				<img src="~/assets/img/sent.png" alt="" width="50" height="46">
-				<h3 id="delete-text"></h3>
-				<div class="m-t-20" id="m-t-20">
-					<button style="margin: 10px;" type="submit" class="btn btn-danger" id="delete-modal-btn">Oui</button>
-					<a style="margin: 10px;" href="#" class="btn btn-white" data-bs-dismiss="modal">Non</a></div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-<!-- PDFview modal-->
-<div class="modal fade bd-example-modal-lg" id="pdf-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<iframe src="" height="650" width="100%" title="Iframe" id="PDFiframe"></iframe>
-		</div>
-	</div>
-</div>
+*@

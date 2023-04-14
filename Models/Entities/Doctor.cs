@@ -2,15 +2,8 @@
 
 namespace radio1.Models.Entities
 {
-
-
-    /// <summary>
-    /// le medecin
-    /// </summary>
     public class Doctor
     {
-
-
         public int Id { get; set; }
         public string? Prenom { get; set; }
         public string? Nom { get; set; }

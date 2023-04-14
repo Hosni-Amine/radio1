@@ -1,9 +1,38 @@
 ﻿using radio1.Models.DAL;
 using radio1.Models.Entities;
+using System.Data.SqlClient;
+using radio1.Models.DAL.Connection;
+using System.Data;
+
 namespace radio1.Models.BLL
 {
 	public class UsersBLL
 	{
+		public static Status State()
+		{
+            using (SqlConnection connection = DbConnection.GetConnection())
+            {
+                string sqlstr = "SELECT (SELECT COUNT(*) FROM Technicien) AS TechnicienCount, (SELECT COUNT(*) FROM Doctor) AS DoctorCount, (SELECT COUNT(*) FROM Salle) AS SalleCount, (SELECT COUNT(*) FROM AppareilRadio) AS AppareilRadioCount;";
+                DataTable table = new DataTable();
+                connection.Open();
+				SqlCommand command = new SqlCommand(sqlstr, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                table.Load(reader);
+                connection.Close();
+				if (table != null && table.Rows.Count != 0)
+				{
+					Status status = new Status();
+					status.WorkersCount = Int32.Parse(table.Rows[0]["TechnicienCount"].ToString());
+					status.DoctorsCount = Int32.Parse(table.Rows[0]["DoctorCount"].ToString());
+					status.SallesCount = Int32.Parse(table.Rows[0]["SalleCount"].ToString());
+					status.AppareilsCount = Int32.Parse(table.Rows[0]["AppareilRadioCount"].ToString());
+					return status;
+				}
+				else
+                    return null;
+            }
+		}
+
 		public static Message AddDoctor_User(Doctor doctor, Users user)
 		{
 			var msguser = UsersDAL.AddUser(user);

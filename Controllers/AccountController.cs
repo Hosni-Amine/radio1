@@ -19,8 +19,19 @@ namespace radio1.Controllers
 		{
 			_config = configuration;
 		}
+		[HttpGet]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Auth()
+		{
+			return Ok();
+		}
 
-
+		[HttpGet]
+		[Authorize(Roles = "Admin,Secretaire")]
+		public async Task<IActionResult> AuthAdd()
+		{
+			return Ok();
+		}
 
 
 		/// <summary>
@@ -48,9 +59,6 @@ namespace radio1.Controllers
 			}
 		}
 
-
-
-
 		/// <summary>
 		/// Methode qui genére un jwt token avec un payload qui contient les données de l'utilisateur
 		/// </summary>
@@ -74,9 +82,6 @@ namespace radio1.Controllers
 			var jwtToken = jwtTokenHundler.WriteToken(token);
 			return jwtToken;
 		}
-
-
-
 
 		/// <summary>
 		/// Methode qui va ajouter le token genérer au cookies s'il y a une authentification
@@ -116,17 +121,12 @@ namespace radio1.Controllers
 			}
 		}
 
-
-
-
 		[HttpGet]
 		public IActionResult Logout()
 		{
 			Response.Cookies.Delete("poupa_donuts");
 			return RedirectToAction("Index","Home");
 		}
-
-
 
 		/// <summary>
 		/// Methode qui initialise l'objet de retour associer au lutilisateur
@@ -160,13 +160,5 @@ namespace radio1.Controllers
 			
 		}
 
-
-
-        [HttpGet]
-        [Authorize]
-		public IActionResult AlertPage()
-		{
-			return View();
-		}
 	}
 }

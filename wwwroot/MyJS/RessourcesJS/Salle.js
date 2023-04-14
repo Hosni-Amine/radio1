@@ -1,5 +1,5 @@
 ﻿
-///Les fonction d'ajout permet d'ajouter une salle une operation affecter un medecin et le pdf de l'emplacement
+//**//Les fonction d'ajout permet d'ajouter une salle, des operations, affecter un medecin et le pdf de l'emplacement
 function submit_add_salle() {
     var pdf = new FormData();
     let pattern1 = /^.{6,}$/;
@@ -26,7 +26,6 @@ function submit_add_salle() {
                         Responsable: doc,
                         Emplacement: pdf.get("pdf").name
                     };
-                    console.log(salle);
                     $.ajax({
                         url: '/Salle/Submit_AddSalle',
                         type: 'POST',
@@ -34,6 +33,7 @@ function submit_add_salle() {
                         success: function (response) {
                             if (response.success) {
                                 add_pdf(pdf, response);
+                                window.location.href = '/Salle/SalleList';
                             }
                             else {
                                 $('#error-modal-text').text(response.message);
@@ -81,9 +81,8 @@ function submit_add_salle() {
         }, 1500);
     }
 }
-
 //Fonctions de gestion pour les PDF
-function add_pdf(pdf, response) {
+function add_pdf(pdf,response) {
     $.ajax({
         url: '/Salle/AddPDF',
         type: 'POST',
@@ -91,12 +90,10 @@ function add_pdf(pdf, response) {
         processData: false,
         contentType: false,
         success: function (name) {
-            $('#add-salle-modal').modal('hide');
             $('#success-modal-text').text(response.message);
             $('#success-modal').modal('show');
             setTimeout(function () {
                 $('#success-modal').modal('hide');
-                window.location.href = '/Salle/SalleList';
             }, 1500);
         },
         error: function (xhr, status, error) {
@@ -108,13 +105,24 @@ function add_pdf(pdf, response) {
 }
 function displayFileName() {
     const pdfFileInput = document.getElementById("file");
-    const uploadLabel = document.querySelector('.upload');
+    const new_Emplacement = document.querySelector('.upload');
 
     if (pdfFileInput.files.length > 0) {
         const pdfFileName = pdfFileInput.files[0].name;
-        uploadLabel.innerHTML = pdfFileName;
+        new_Emplacement.innerHTML = pdfFileName;
     } else {
-        uploadLabel.innerHTML = 'Choisir un fichier';
+        new_Emplacement.innerHTML = 'Choisir un fichier';
+    }
+}
+function displayFileNameedit() {
+    const modal = document.getElementById("edit-salle-modal");
+    const pdfFileInput = modal.querySelector("#file-edit");
+    const new_Emplacement = modal.querySelector(".upload");
+    if (pdfFileInput.files.length > 0) {
+        const pdfFileName = pdfFileInput.files[0].name;
+        new_Emplacement.innerHTML = pdfFileName;
+    } else {
+        new_Emplacement.innerHTML = 'Choisir un fichier';
     }
 }
 function Show_PDF(Name) {
@@ -123,8 +131,7 @@ function Show_PDF(Name) {
     PDFiframe.setAttribute("src", pdfUrl);
     $('#pdf-modal').modal('show');
 }
-
-//Fonction d'ajout nouveau types d'operations
+//Fonction d'ajout nouveau types d'operations pour une salle
 function new_operation_set() {
     var link_new = $('#new-operation');
     var element = document.getElementById('new_operation_set');
@@ -145,15 +152,15 @@ function submit_new_operation_set() {
             $('#error-modal').modal('hide');
         }, 1500);
     }
-    else
-    {
+    else {
         Toperations_salle.append(newOperation);
     }
 }
+//**//
 
-//Fonctions pour les API des salles 
-function delete_salle_btn(id)
-{
+
+//**//Fonctions pour les API des salles 
+function delete_salle_btn(id) {
     var deletebtn = document.getElementById('delete-modal-btn');
     deletebtn.onclick = function () {
         Submit_Delete_salle(id);
@@ -184,6 +191,210 @@ function Submit_Delete_salle(id) {
     });
 }
 
+function edit_salle_btn(id, emplacement)
+{
+    var new_Emplacement = document.querySelector('.upload');
+    new_Emplacement.innerHTML = emplacement;
+    var nom = document.getElementById( id +'-nom');
+    $('#Nom-edit').val(nom.textContent);
+    $('#edit-salle-modal').modal('show');
+    var editbtn = document.getElementById('submit-edit-btn');
+    editbtn.onclick = function () {
+        submit_edit_salle(id,emplacement);
+    };
+}
+function submit_edit_salle(id, Old_Emplacement) {
+    let pattern1 = /^.{6,}$/;
+    var pdf = new FormData();
+    var new_Emplacement = document.querySelector('.upload');
+    var old_name= document.getElementById(id + '-nom');
+    var old_emp = document.getElementById(id + '-emp');
+    console.log("old_name.textContent" + old_name.textContent);
+    console.log('Old_Emplacement'+Old_Emplacement);
+    console.log("new_Emplacement.textContent"+new_Emplacement.textContent);
+    pdf.append("pdf", document.getElementById("file-edit").files[0]);
+    if (($('#Nom-edit').val() != old_name.textContent) || (pdf.get("pdf").name != null && pdf != null)) {
+        if ($('#Nom-edit').val() && pattern1.test($('#Nom-edit').val())) {
+            var salle =
+            {
+                Id: id,
+                Nom: $('#Nom-edit').val(),
+                Emplacement: new_Emplacement.textContent 
+            };
+            $.ajax({
+                url: '/Salle/EditSalle',
+                type: 'POST',
+                data: { salle: salle, Old_Emplacement: Old_Emplacement},
+                success: function (response) {
+                    if (response.success) {
+                        if ((pdf.get("pdf").name) != null && (pdf != null)) {
+                            add_pdf(pdf, response);
+                        }
+                        old_name.textContent = salle.Nom;
+                        old_emp.textContent = salle.Emplacement;
+                        $('#success-modal-text').text(response.message);
+                        $('#edit-salle-modal').modal('hide');
+                        $('#success-modal').modal('show');
+                        setTimeout(function () {
+                            $('#success-modal').modal('hide');
+                        }, 1500);
+                    }
+                    else {
+                        $('#error-modal-text').text(response.message);
+                        $('#edit-salle-modal').modal('hide');
+                        $('#error-modal').modal('show');
+                        setTimeout(function () {
+                            $('#edit-salle-modal').modal('show');
+                            $('#error-modal').modal('hide');
+                        }, 2000);
+                    }
+                },
+                error(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+        else {
+            $('#error-modal-text').text("Choisir un nom qui contient au moin 6 caractere !");
+            $('#edit-salle-modal').modal('hide');
+            $('#error-modal').modal('show');
+            setTimeout(function () {
+                $('#edit-salle-modal').modal('show');
+                $('#error-modal').modal('hide');
+            }, 2000);
+        }
+    }
+    else
+    {
+        $('#error-modal-text').text("Aucun changement !");
+        $('#edit-salle-modal').modal('hide');
+        $('#error-modal').modal('show');
+        setTimeout(function () {
+            $('#edit-salle-modal').modal('show');
+            $('#error-modal').modal('hide');
+        }, 1500);
+    }
+}
+    
+//**//
+
+
+//**//Fonctions API pour la gestion des operations associée a une salle 
+function operation_associee(id) {
+    var addbtn = document.getElementById("add-op-btn");
+    addbtn.setAttribute("onclick", "add_op_btn('" + id + "')");
+    $.ajax({
+        url: '/TypeOperation/TypeOperationList',
+        type: 'GET',
+        data: { SalleId: id },
+        dataType: 'json',
+        success: function (data) {
+            var tbody = $('#operation-salle-table-body');
+            tbody.empty();
+            $.each(data.operations, function (index, operation) {
+                var row = $('<tr style="background-color: #f4f5fa;">');
+                row.append($('<td class="text-center" style="padding: 15px;">').text(operation.nom));
+                row.append('<td class="text-center"></a><a href="#" onclick="delete_op_btn(' + operation.id + "," + operation.salleId + ')"><i class="fa fa-trash-alt m-r-5"></i> Supprimer </a></td>');
+                tbody.append(row);
+            });
+            var countlist = document.getElementById(id + '-count');
+            countlist.textContent = data.operations.length + " Type d'operation";
+            $('#operation-salle-list-modal').modal('show');
+        },
+        error: function (xhr, status, error) {
+            if (xhr.status == 403) {
+                $('#error-modal-text').text("Tu n'a pas l'autorisation !");
+                $('#error-modal').modal('show');
+                setTimeout(function () {
+                    $('#error-modal').modal('hide');
+                }, 1500);
+            }
+        }
+    });
+
+}
+function add_op_btn(salle_id) {
+    var tbody = $('#operation-salle-table-body');
+    var row = $('<tr style="background-color: #f4f5fa;">');
+    row.append($('<td>').append($('<input>').attr('type', 'text').attr('id', 'for_operation_name')));
+    row.append('<td class="text-center"><a href="#" onclick="submit_op_add(' + salle_id + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ajouter     |     </a><a href="#" onclick="operation_associee(' + salle_id + ')"><i class="fa fa-trash-alt m-r-5"></i>  Annuler </a></td>');
+    tbody.append(row);
+}
+function submit_op_add(salle_id) {
+    var nom = $('#for_operation_name').val();
+    var op =
+    {
+        Nom: nom,
+        Salleid: salle_id
+    }
+    $.ajax({
+        url: '/TypeOperation/AddTypeOperation',
+        type: 'POST',
+        data: { operation: op },
+        success: function (response) {
+            if (response.success) {
+                $('#success-modal-text').text("Type ajouter avec succées !");
+                $('#success-modal').modal('show');
+                setTimeout(function () {
+                    $('#success-modal').modal('hide');
+                    operation_associee(salle_id);
+                }, 1500);
+            }
+            else {
+                $('#error-modal-text').text(response.message);
+                $('#error-modal').modal('show');
+                setTimeout(function () {
+                    $('#error-modal').modal('hide');
+                    operation_associee(id);
+                }, 1500);
+            }
+        },
+        error: function (xhr, status, error) {
+            $('#error-modal-text').text(status + "//" + error);
+            $('#error-modal').modal('show');
+            setTimeout(function () {
+                $('#error-modal').modal('hide');
+                operation_associee(id);
+            }, 1500);
+        }
+    });
+}
+function delete_op_btn(op_id, salle_id) {
+    $('#delete_modal').modal('show');
+    $('#delete-text').text("Voulez-vous vraiment supprimer ce type d'operation ?");
+    var deletebtn = document.getElementById('delete-modal-btn');
+    deletebtn.onclick = function () {
+        Submit_Delete_Operation(op_id, salle_id);
+    };
+}
+function Submit_Delete_Operation(op_id, salle_id) {
+    $.ajax({
+        url: "/TypeOperation/DeleteTypeOperation/" + op_id,
+        type: 'DELETE',
+        success: function (response) {
+            if (response.success) {
+                $('#delete_modal').modal('hide');
+                $('#success-modal-text').text(response.message);
+                $('#success-modal').modal('show');
+                setTimeout(function () {
+                    $('#success-modal').modal('hide');
+                    operation_associee(salle_id);
+                }, 2000);
+            } else {
+                $('#error-modal-text').text(response.message);
+                $('#error-modal').modal('show');
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+//**//
+
+
+
+//**//Fonction d'affectaion de medecin
 function changer_affectation(salle_id)
 {
     $.ajax({
@@ -199,7 +410,7 @@ function changer_affectation(salle_id)
                     row.append('<td class="text-center"></a><a href="#" onclick="AffecterDocteur(' + salle_id + ',' + doctor.id + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Affecter </a></td>');
 					tbody.append(row);
 				});
-				$('#operation-list-modal').modal('show');
+                $('#doctor-list-modal').modal('show');
 			}
 			else {
 				$('#success-modal-text').text("pas de Medecins trouvée ajouter une Medecin d'abord !");
@@ -225,7 +436,7 @@ function AffecterDocteur(salle_id , id)
         type: 'POST',
         success: function (response) {
             if (response.success) {
-                $('#operation-list-modal').modal('hide');
+                $('#doctor-list-modal').modal('hide');
                 $('#success-modal-text').text(response.message);
                 $('#success-modal').modal('show');
                 setTimeout(function () {
@@ -241,6 +452,8 @@ function AffecterDocteur(salle_id , id)
         }
     });
 }
+//**//
+
 
 //recherche dans liste des salle 
 $(document).ready(function () {
@@ -251,3 +464,17 @@ $(document).ready(function () {
         });
     });
 });
+//Recherche dans la list des operations de salle
+$(document).ready(function () {
+    $('#operation-salle-list-modal input').on('keyup', function () {
+        var searchText1 = $('#operation-salle-list-modal #search-input').val().toLowerCase();
+        $('#operation-salle-list-modal tbody tr').filter(function () {
+            var name = $(this).find('td:nth-child(1)').text().toLowerCase();
+            $(this).toggle(name.indexOf(searchText1) > -1);
+        });
+    });
+});
+
+function goBack() {
+    window.history.back();
+}
