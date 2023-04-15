@@ -36,7 +36,7 @@
 					<div class="col-sm-12">
 						<div class="card">
 							<div class="card-body">
-								<form asp-controller="Doctor" asp-action="AddDoctor" id="add-doctor-form" method="post">
+								<form >
 									<div class="row">
 										<div class="col-12">
 											<div class="form-heading">
@@ -65,7 +65,7 @@
 										<div class="col-12 col-md-6 col-xl-6">
 											<div class="form-group local-forms">
 												<label>Telephone<span class="login-danger">*</span></label>
-												<input class="form-control" type="text" name="Telephonea" id="Telephonea" required>
+												<input class="form-control" type="text" name="Telephoneaa" id="Telephoneaa" required>
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-xl-6">
@@ -91,22 +91,22 @@
 												<label class="gen-label">Situation Conjugale<span class="login-danger">*</span></label>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" class="form-check-input" value="Celibataire" required>Célibataire
+														<input type="radio" name="SituationCEE" class="form-check-input" value="Celibataire" required>Célibataire
 													</label>
 												</div>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" class="form-check-input" value="Marie">Marié(e)
+														<input type="radio" name="SituationCEE" class="form-check-input" value="Marie">Marié(e)
 													</label>
 												</div>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" class="form-check-input" value="Divorce">Divorcé(e)
+														<input type="radio" name="SituationCEE" class="form-check-input" value="Divorce">Divorcé(e)
 													</label>
 												</div>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" class="form-check-input" value="Veuf">Veuf(e)
+														<input type="radio" name="SituationCEE" class="form-check-input" value="Veuf">Veuf(e)
 													</label>
 												</div>
 											</div>
@@ -146,7 +146,7 @@
 										</div>
 										<div class="col-12">
 											<div class="doctor-submit text-end">
-												<button type="submit" class="btn btn-primary submit-form me-2" id="submit-btn">Ajouter</button>
+												<button type="button" class="btn btn-primary submit-form me-2" onclick="submit_add_doctor()">Ajouter</button>
 												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
 											</div>
 										</div>
@@ -239,22 +239,22 @@
 												<label class="gen-label">Situation Conjugale<span class="login-danger">*</span></label>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" id="Celibatairee" class="form-check-input" value="Celibataire" required>Célibataire
+														<input type="radio" name="SituationCEE" id="Celibatairee" class="form-check-input" value="Celibataire" required>Célibataire
 													</label>
 												</div>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" id="Marie" class="form-check-input" value="Marie">Marié(e)
+														<input type="radio" name="SituationCEE" id="Marie" class="form-check-input" value="Marie">Marié(e)
 													</label>
 												</div>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" id="Divorce" class="form-check-input" value="Divorce">Divorcé(e)
+														<input type="radio" name="SituationCEE" id="Divorce" class="form-check-input" value="Divorce">Divorcé(e)
 													</label>
 												</div>
 												<div class="form-check-inline">
 													<label class="form-check-label">
-														<input type="radio" name="SituationCE" id="Veuf" class="form-check-input" value="Divorce">Veuf(e)
+														<input type="radio" name="SituationCEE" id="Veuf" class="form-check-input" value="Divorce">Veuf(e)
 													</label>
 												</div>
 											</div>

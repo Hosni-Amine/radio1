@@ -20,14 +20,17 @@
 
 	<!-- Feathericon CSS -->
 	<link rel="stylesheet" href="~/assets/plugins/feather/feather.css">
-
+	<link rel="stylesheet" href="~/MyCSS/Spinner.css">
 	<!-- Main CSS -->
 	<link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
 	<script src="~/assets/js/fr.js"></script>
 
 </head>
 <body>
-
+	<div id="spinner">
+		<div class="spinner-icon"></div>
+	</div>
+	<script src="~/MyJS/Spinner.js"></script>
 	<div class="main-wrapper">
 		@Html.Partial("modals")
 		@Html.Partial("bars")
@@ -53,6 +56,7 @@
 	<!-- Custom JS -->
 	<script src="~/assets/js/app.js"></script>
 	<script src="~/MyJS/RessourcesJS/Operation.js"></script>
-	
+
 </body>
+
 </html>

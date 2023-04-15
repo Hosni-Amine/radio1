@@ -32,7 +32,7 @@
             {
                 return new Message(false, "cette matricule est déjà utilisée.");
             }
-            else if (ex.Message.Contains("unq_telephone"))
+            else if (ex.Message.Contains("unq_telephone") || ex.Message.Contains("unq_telephone1"))
             {
                 return new Message(false, "ce numero de telephone est déjà utilisée.");
             }

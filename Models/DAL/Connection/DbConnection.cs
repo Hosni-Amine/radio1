@@ -122,13 +122,15 @@ namespace radio1.Models.DAL.Connection
 			SqlCommand command = new SqlCommand(sqlstr, connection);
 			command.Parameters.AddWithValue("@Prenom", patient.Prenom);
 			command.Parameters.AddWithValue("@Nom", patient.Nom);
-			command.Parameters.AddWithValue("@Sexe", patient.Sexe);
 			command.Parameters.AddWithValue("@Telephone", patient.Telephone);
+			command.Parameters.AddWithValue("@DateN", patient.DateN);
+			command.Parameters.AddWithValue("@LieuN", patient.LieuN);
+			command.Parameters.AddWithValue("@SituationC", patient.SituationC);
+			command.Parameters.AddWithValue("@Sexe", patient.Sexe);
 			command.Parameters.AddWithValue("@Adresse", patient.Adresse);
-
+			command.Parameters.AddWithValue("@Ville", patient.Ville);
 			return command;
 		}
-
 
 		/// <summary>
 		/// Fonction pour créer une command pour l'objet Secretaire
@@ -217,7 +219,7 @@ namespace radio1.Models.DAL.Connection
 			command.Parameters.AddWithValue("@Date", rendezvous.Date);
 			command.Parameters.AddWithValue("@Status", rendezvous.Status);
 			command.Parameters.AddWithValue("@Examen", rendezvous.Examen);
-			command.Parameters.AddWithValue("@Nom_Patient", rendezvous.Nom_Patient);
+			command.Parameters.AddWithValue("@PatientId", rendezvous.patient.Id);
 			command.Parameters.AddWithValue("@TypeOperationId", rendezvous.TypeOperation.Id);
 			command.Parameters.AddWithValue("@DoctorId", rendezvous.doctor.Id);
 			command.Parameters.AddWithValue("@TechnicienId", rendezvous.technicien.Id);

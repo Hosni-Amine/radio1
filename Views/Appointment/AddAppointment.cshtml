@@ -30,10 +30,16 @@
 								<form asp-controller="" asp-action="" id="add-salle-form" method="post">
 									<div class="row">
 										<input type="hidden" id="addontime" value="true">
-										<div class="col-12 col-md-12 col-xl-12">
+										<div class="col-11 col-md-11 col-xl-11" style="margin-right: -11px;">
 											<div class="form-group local-forms">
 												<label>Nom de patient <span class="login-danger">*</span></label>
-												<input class="form-control" type="text" name="Nom_Patient" id="Nom_Patient" placeholder="Nom de Patient" required>
+												<select class="select" id="select_patient">
+												</select>
+											</div>
+										</div>
+										<div class="col-1 col-md-1 col-xl-1" style="padding: 2px 0px;">
+											<div class="add-group">
+												<a href="#" onclick="add_patient_btn()" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
 											</div>
 										</div>
 										<div class="col-12 col-md-12 col-xl-12">
@@ -91,6 +97,7 @@
 	</div>
 	<script src="~/MyJS/RV_Planification/RendezVous.js"></script>
 
+	<script src="~/MyJS/RhumainesJS/Patient.js"></script>
 </body>
 
 

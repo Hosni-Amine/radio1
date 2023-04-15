@@ -1,4 +1,6 @@
-﻿function Add_RendezVous_Btn()
+﻿
+
+function Add_RendezVous_Btn()
 {
     var Id = localStorage.getItem("Id");
     var Role = localStorage.getItem("Role");
@@ -16,8 +18,15 @@
         {
         Nom : $('#Type_Operation').val()
         },
-        Examen: $('#Description').val(),
-        Nom_Patient: $('#Nom_Patient').val(),
+        Examen : $('#Description').val(),
+        doctor: doctor =
+        {
+            Id: 2
+        },
+        patient: patient =
+        {
+            Id: $('#select_patient').val() 
+        },            
         secretaire: user =
         {
             Id: 2
@@ -31,8 +40,12 @@
         url: '/Appointment/SubmitAddAppointment',
         type: 'POST',
         data: { rendezvous: rendezvous, selectedAppareil: selectedAppareil },
-        success: function (dispos) {
-            
+        success: function (response) {
+            $('#success-modal-text').text(response.message);
+            $('#success-modal').modal('show');
+            setTimeout(function () {
+                $('#success-modal').modal('hide');
+            }, 1500);
         },
         error: function (xhr, status, error) {
         }
@@ -40,7 +53,39 @@
 
     }
 
+var check = false;
+
+function Set_Patients_List(check1) {
+    if (!check || !check1) {
+        check = true;
+        $.ajax({
+            url: '/Patient/PatientListJson',
+            type: 'GET',
+            success: function (patient) {
+                var select_patient = document.getElementById('select_patient');
+                select_patient.innerHTML = '';
+                var option = document.createElement('option');
+                option.text = 'Choisir un patient ';
+                select_patient.add(option);
+                if (patient.length != 0) {
+                    for (var i = 0; i < patient.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = patient[i].id;
+                        console.log(option.value);
+                        option.text = 'Patient : ' + patient[i].nom + '  ' + patient[i].prenom + ' | Telephone : ' + patient[i].telephone;
+                        select_patient.add(option);
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+            }
+        });
+    }
+}
+
 $(document).ready(function () {
+    Set_Patients_List(true);
+
     $('#Type_Operation').on('change', function () {
         var Hoursdiv = $('#Hoursdiv');
         Hoursdiv.hide();

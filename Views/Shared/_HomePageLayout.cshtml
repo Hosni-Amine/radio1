@@ -10,7 +10,6 @@
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap.min.css">
-
 	<!-- Feathericon CSS -->
 	<link rel="stylesheet" href="~/assets/plugins/feather/feather.css">
 
@@ -28,18 +27,25 @@
 	<link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css">
 	<!-- Datatables CSS -->
 	<link rel="stylesheet" href="~/assets/plugins/datatables/datatables.min.css">
+	<link rel="stylesheet" href="~/MyCSS/Spinner.css">
 
 	
 </head>
 <body>
+	<div id="spinner">
+		<div class="spinner-icon"></div>
+	</div>
+	<script src="~/MyJS/Spinner.js"></script>
 
 	<div class="main-wrapper">
 		@Html.Partial("modals")
 		@Html.Partial("bars")
+		@Html.Partial("PatientApiModal")
 		@RenderBody()
 	</div>
 
 	<div class="sidebar-overlay" data-reff=""></div>
+
 	<script src="~/MyJS/RhumainesJS/User.js"></script>
 
 	<!-- Bootstrap Core JS -->

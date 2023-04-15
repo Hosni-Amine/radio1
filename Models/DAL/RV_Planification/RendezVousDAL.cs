@@ -18,7 +18,7 @@ namespace radio1.Models.DAL.RV_Planification
 		{
 			Migration.CreateRendezVousTableIfNotExists();
 			SqlConnection connection = Connection.DbConnection.GetConnection();
-			string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName , d.Prenom AS DoctorName2 , d.Nom AS DoctorName,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id";
+			string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName , p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id  LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id\r\n";
             connection.Open();
 			SqlCommand command = new SqlCommand(sqlstr, connection);
 			DataTable table = new DataTable();
@@ -51,11 +51,16 @@ namespace radio1.Models.DAL.RV_Planification
 				rendezvous.doctor = new Doctor();
 				rendezvous.technicien = new Technicien();
 				rendezvous.secretaire = new Secretaire();
+				rendezvous.patient = new Patient();
 				rendezvous.Id = Convert.ToInt32(raw["Id"]);
 				rendezvous.Date = Convert.ToDateTime(raw["Date"]);
 				rendezvous.Status = Convert.ToString(raw["Status"]);
 				rendezvous.Examen = Convert.ToString(raw["Examen"]);
-				rendezvous.Nom_Patient = Convert.ToString(raw["Nom_Patient"]);
+				// Données relative au Patient
+				rendezvous.patient.Id = Convert.ToInt32(raw["PatientId"]);
+				rendezvous.patient.Id = Convert.ToInt32(raw["PatientName"]);
+				rendezvous.patient.Id = Convert.ToInt32(raw["PatientName2"]);
+				rendezvous.patient.Id = Convert.ToInt32(raw["PatientPhone"]);
 				// Données relative au Medecin
 				rendezvous.doctor.Id = Convert.ToInt32(raw["DoctorId"]);
 				rendezvous.doctor.Nom = Convert.ToString(raw["DoctorName"]);
@@ -122,7 +127,7 @@ namespace radio1.Models.DAL.RV_Planification
 					DateTime utcTime = DateTime.UtcNow;
 					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-					string sqlstr = "INSERT INTO [dbo].[RendezVous] ([Date], [Status], [Examen], [Nom_Patient], [TypeOperationId], [DoctorId], [TechnicienId], [SecretaireId]) VALUES (@Date, @Status, @Examen, @Nom_Patient, @TypeOperationId, @DoctorId, @TechnicienId, @SecretaireId)";
+					string sqlstr = "INSERT INTO [dbo].[RendezVous] ([Date], [Status], [Examen], [PatientId], [TypeOperationId], [DoctorId], [TechnicienId], [SecretaireId]) VALUES (@Date, @Status, @Examen, @PatientId, @TypeOperationId, @DoctorId, @TechnicienId, @SecretaireId)";
 					SqlCommand command = DbConnection.CommandCreate(connection, sqlstr, RendezVous);
 					Connection.DbConnection.NonQueryRequest(command);
 				}

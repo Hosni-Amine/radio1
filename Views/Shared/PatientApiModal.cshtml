@@ -1,0 +1,128 @@
+﻿<!-- Add Patient modal-->
+<div class="modal fade bd-example-modal-lg" id="add-patient-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Patient </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Ajouter un Patient</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form>
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Ajouter un Patient</h4>
+											</div>
+										</div>
+										<input type="hidden" id="addontime" value="true">
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Nom" id="Nom" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Prenom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Prenom" id="Prenom" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Telephone<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Telephonea" id="Telephonea" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms cal-icon">
+												<label>Date de naissance<span class="login-danger">*</span></label>
+												<input class="form-control datetimepicker" name="DateN" id="DateN" oninvalid="this.setCustomValidity('Veuillez entrer une date de la forme jj/mm/aaaa.')" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" type="text" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Lieu de naissance <span class="login-danger">*</span></label>
+												<input class="form-control" name="LieuN" id="LieuN" type="text" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Situation Conjugale<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Celibataire" required>Célibataire
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Marie">Marié(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Divorce">Divorcé(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCE" class="form-check-input" value="Veuf">Veuf(e)
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Sexe<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Homme" required>Homme
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Femme">Femme
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Addresse<span class="login-danger">*</span></label>
+												<textarea class="form-control" name="Adresse" id="Adresse" rows="3" cols="30" required></textarea>
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Ville<span class="login-danger">*</span></label>
+												<input class="form-control" name="Ville" id="Ville" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary submit-form me-2" onclick="submit_add_patient()">Ajouter</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

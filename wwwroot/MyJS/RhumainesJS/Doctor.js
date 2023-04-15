@@ -70,11 +70,11 @@ function add_doctor_btn() {
 	$('#add-modal').modal('show');
 	$('#addontime').attr('value', 'true');
 }
-$('#add-doctor-form').on('submit', function (event) {
+function submit_add_doctor()
+{ 
 	let pattern1 = /^\+\d{11,}$/;
 	let pattern2 = /^\d{4,6}$/;
-	event.preventDefault();
-	if ($('#add-modal #Telephonea').val() && pattern1.test($('#add-modal #Telephonea').val()))
+	if ($('#add-modal #Telephoneaa').val() && pattern1.test($('#add-modal #Telephoneaa').val()))
 	{
 		if ($('#add-modal #CodePostale').val() && pattern2.test($('#add-modal #CodePostale').val()))
 		{
@@ -82,12 +82,12 @@ $('#add-doctor-form').on('submit', function (event) {
 				Prenom: $('#add-modal #Prenom').val(),
 				Nom: $('#add-modal #Nom').val(),
 				Matricule: $('#add-modal #Matricule').val(),
-				Telephone: $('#add-modal #Telephonea').val(),
+				Telephone: $('#add-modal #Telephoneaa').val(),
 				Email: $('#add-modal #Email').val(),
 				DateN: $('#add-modal #DateN').val(),
 				LieuN: $('#add-modal #LieuN').val(),
 				Sexe: $('input[name="Sexe"]:checked').val(),
-				SituationC: $('input[name="SituationCE"]:checked').val(),
+				SituationC: $('input[name="SituationCEE"]:checked').val(),
 				Adresse: $('#add-modal #Adresse').val(),
 				Ville: $('#add-modal #Ville').val(),
 				CodePostal: $('#add-modal #CodePostale').val()
@@ -105,10 +105,7 @@ $('#add-doctor-form').on('submit', function (event) {
 							$('#add-modal').modal('hide');
 							$('#success-modal-text').text(data.message);
 							$('#success-modal').modal('show');
-							setTimeout(function () {
-								window.location.href = '/Doctor/DoctorList=';
-							}, 1500);
-
+							window.location.href = '/Doctor/DoctorList';
 						}
 						else if (($('#addontime').val() == 'true')) {
 							console.log('Error in response:', data);
@@ -149,7 +146,7 @@ $('#add-doctor-form').on('submit', function (event) {
 			$('#add-modal').modal('show');
 		}, 1500);
 	}
-});
+}
 
 function edit_doctor_btn(id) {
 	console.log(id);

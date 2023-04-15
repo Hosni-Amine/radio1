@@ -68,7 +68,7 @@ namespace radio1.Models.DAL
 					DateTime utcTime = DateTime.UtcNow;
 					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-					string sqlstr = "INSERT INTO Patient (Prenom, Nom, Matricule, Telephone, Email, DateN, LieuN, SituationC, Sexe, Adresse, Ville, CodePostal,DateCreation ,User_Id) VALUES ( @Prenom, @Nom, @Matricule, @Telephone, @Email, @DateN, @LieuN, @SituationC, @Sexe, @Adresse, @Ville, @CodePostal, @DateCreation , @User_Id)";
+					string sqlstr = "INSERT INTO Patient (Prenom, Nom , Telephone , DateN, LieuN, SituationC, Sexe, Adresse, Ville , DateCreation ,User_Id) VALUES ( @Prenom, @Nom , @Telephone, @DateN, @LieuN, @SituationC, @Sexe, @Adresse, @Ville , @DateCreation , @User_Id)";
 					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, patient);
 					command.Parameters.AddWithValue("@DateCreation", cetTime);
 					if (User_Id != null) { command.Parameters.AddWithValue("@User_Id", User_Id); }
@@ -175,7 +175,7 @@ namespace radio1.Models.DAL
 				Patient.Id = Int32.Parse(raw["Id"].ToString());
 				Patient.Prenom = raw["Prenom"].ToString();
 				Patient.Nom = raw["Nom"].ToString();
-				Patient.Telephone = Int32.Parse(raw["Telephone"].ToString());
+				Patient.Telephone = raw["Telephone"].ToString();
 				Patient.Sexe = raw["Sexe"].ToString();
 				Patient.Adresse = raw["Adresse"].ToString();
 				Patient.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());

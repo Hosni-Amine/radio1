@@ -53,7 +53,7 @@ namespace radio1.Controllers
 			rendezvous.doctor = new Doctor();
 			rendezvous.doctor = salle.Responsable;
 			var msg = RendezVousBLL.AddRendezVous(rendezvous);
-			return Json(msg);
+			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
 	}
 

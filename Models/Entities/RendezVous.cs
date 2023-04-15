@@ -14,7 +14,7 @@
 		public string? Status { get; set; }
 		public TypeOperation? TypeOperation { get; set; }
 		public string? Examen { get; set; }
-		public string? Nom_Patient { get; set; }
+		public Patient? patient { get; set; }
 		public Doctor? doctor { get; set; }
 		public Technicien? technicien { get; set; }
 		public Secretaire? secretaire { get; set; }
