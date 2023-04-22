@@ -62,7 +62,7 @@ function edit_appareil_btn(id) {
 			$.ajax({
 				url: '/TypeOperation/TypeOperationList',
 				type: 'GET',
-				data: { SalleId : response.salleId },
+				data: { ForApp: false , ForSalle: true, SalleId: response.salleId },
 				success: function (list) {
 					console.log(list);
 					var selectops = $('#Toperations_edit_app');
@@ -254,8 +254,8 @@ function submit_add_app(salle_id) {
 					if (response.success) {
 						$('#success-modal-text').text(response.message);
 						$('#success-modal').modal('show');
-						window.location.href = '/AppareilRadio/AppareilRadioList';
 						setTimeout(function () {
+							window.location.href = '/AppareilRadio/AppareilRadioList';
 							$('#success-modal').modal('hide');
 						}, 5000);
 					}

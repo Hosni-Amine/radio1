@@ -19,7 +19,7 @@ namespace radio1.Models.DAL
 				{
 					Connection.Migration.CreateUsersTableIfNotExists();
 					DateTime utcTime = DateTime.UtcNow;
-					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+					TimeZoneInfo cetTimeZone = TimeZoneInfo.Local;
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
 					Console.Write(cetTime);
 					string sqlstr = "INSERT INTO dbo.Users (UserName, Password, Role, DateCreation) VALUES (@UserName, @Password ,@Role,@DateCreation)";

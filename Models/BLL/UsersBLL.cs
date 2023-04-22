@@ -12,7 +12,7 @@ namespace radio1.Models.BLL
 		{
             using (SqlConnection connection = DbConnection.GetConnection())
             {
-                string sqlstr = "SELECT (SELECT COUNT(*) FROM Technicien) AS TechnicienCount, (SELECT COUNT(*) FROM Doctor) AS DoctorCount, (SELECT COUNT(*) FROM Salle) AS SalleCount, (SELECT COUNT(*) FROM AppareilRadio) AS AppareilRadioCount;";
+				string sqlstr = "SELECT (SELECT COUNT(*) FROM Technicien) AS TechnicienCount, (SELECT COUNT(*) FROM Doctor) AS DoctorCount, (SELECT COUNT(*) FROM Salle) AS SalleCount, (SELECT COUNT(*) FROM AppareilRadio) AS AppareilRadioCount;";
                 DataTable table = new DataTable();
                 connection.Open();
 				SqlCommand command = new SqlCommand(sqlstr, connection);

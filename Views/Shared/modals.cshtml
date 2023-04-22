@@ -1,12 +1,12 @@
 ﻿<!-- Success Modal -->
 <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="success-modal-label" style=" z-index: 9992;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-		<div class="modal-content" style="background-color: #7aff9785; padding: 40px;">
+	<div class="modal-dialog" role="document" style="max-width: fit-content;">
+		<div class="modal-content" style="background-color: #7aff9747;">
             <div class="modal-header text-center " style="  display: flex;justify-content: center;align-items: center;">
-                <img src="~/assets/img/success.png" alt="" width="50" height="50">
+				<img src="~/assets/img/icons/tick-circle.svg" alt="" width="47" height="47">
             </div>
-            <div class="modal-body text-center">
-                <h3 id="success-modal-text"></h3>
+			<div class="modal-body text-center" style="margin: 0px 50px;">
+                <h4 id="success-modal-text"></h4>
             </div>
         </div>
     </div>
@@ -14,13 +14,13 @@
 
 <!--Error Modal -->
 <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style=" z-index: 9991;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" style="  background-color: #ff000021;padding: 40px;">
+	<div class="modal-dialog" role="document" style="max-width: fit-content;">
+		<div class="modal-content" style="  background-color: #ff000021;">
             <div class="modal-header text-center " style="  display: flex;justify-content: center;align-items: center;">
-                <img src="~/assets/img/failed.png" alt="" width="50" height="50">
+                <img src="~/assets/img/sent.png" alt="" width="45" height="40">
             </div>
-            <div class="modal-body text-center" style="  display: flex;justify-content: center;align-items: center;">
-                <h3 id="error-modal-text"></h3>
+			<div class="modal-body text-center" style="margin: 0px 50px;">
+				<h4 id="error-modal-text"></h4>
             </div>
         </div>
     </div>
@@ -39,12 +39,12 @@
 									<div class="row">
 										<div class="col-12">
 											<div class="form-heading">
-												<h4>S'identifier :</h4>
+												<h3 style="font-size: 15px; margin: 6px 0px 20px 5px; ">S'identifier :</h3>
 											</div>
 										</div>
 										<div class="col-12 col-md-12 col-xl-12">
 											<div class="form-group local-forms">
-												<label for="User">Email ou Nom d'utilisateur <span class="login-danger">*</span></label>
+												<label for="User">Nom d'utilisateur <span class="login-danger">*</span></label>
 												<input class="form-control" type="email" id="Email" placeholder="Email">
 											</div>
 										</div>

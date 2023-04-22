@@ -32,8 +32,6 @@ namespace radio1.Controllers
 			return Json(doctors);
 		}
 
-
-
 		/// <summary>
 		/// La methode DeleteDoctor pour supprimer un medecin de database
 		/// </summary>

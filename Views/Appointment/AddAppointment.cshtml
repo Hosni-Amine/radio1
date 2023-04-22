@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <body>
+	@Html.Partial("PatientApiModal")
 	<div class="main-wrapper">
 		<div class="page-wrapper">
 			<div class="content" style="padding: 50px 100px 0px 60px; ">
@@ -27,7 +28,7 @@
 					<div class="col-sm-12">
 						<div class="card">
 							<div class="card-body">
-								<form asp-controller="" asp-action="" id="add-salle-form" method="post">
+								<form asp-controller="" asp-action="" method="post">
 									<div class="row">
 										<input type="hidden" id="addontime" value="true">
 										<div class="col-11 col-md-11 col-xl-11" style="margin-right: -11px;">
@@ -83,7 +84,6 @@
 										<div class="col-12">
 											<div class="doctor-submit text-end">
 												<button type="button" class="btn btn-primary submit-form me-2" onclick="Add_RendezVous_Btn()">Ajouter</button>
-												<button type="button" class="btn btn-primary cancel-form" onclick="goBack()">Annuler</button>
 											</div>
 										</div>
 									</div>
@@ -96,7 +96,6 @@
 		</div>
 	</div>
 	<script src="~/MyJS/RV_Planification/RendezVous.js"></script>
-
 	<script src="~/MyJS/RhumainesJS/Patient.js"></script>
 </body>
 

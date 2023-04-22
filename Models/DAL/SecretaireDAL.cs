@@ -89,7 +89,7 @@ namespace radio1.Models.DAL
 				{
 					Connection.Migration.CreateSecretaireTableIfNotExists();
 					DateTime utcTime = DateTime.UtcNow;
-					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+					TimeZoneInfo cetTimeZone = TimeZoneInfo.Local;
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
 					string sqlstr = "INSERT INTO Secretaire (Prenom, Nom,Email, Sexe,DateCreation , User_Id ) VALUES ( @Prenom , @Nom ,@Email, @Sexe ,@DateCreation,@User_Id)";
 					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, Secretaire);

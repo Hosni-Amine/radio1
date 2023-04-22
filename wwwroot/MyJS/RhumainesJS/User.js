@@ -6,6 +6,7 @@ var Role = localStorage.getItem("Role");
 document.getElementById("Id").textContent = "Utilisateur : " + UserName;
 document.getElementById("Role").textContent = "Designation : " + Role;
 if (Role = "Admin") {
+	if (window.location.href.includes('/Account/HomePage')) {
 		$.ajax({
 			url: "/Admin/State",
 			type: 'GET',
@@ -20,52 +21,73 @@ if (Role = "Admin") {
 				sallecount.textContent = response.appareilsCount;
 			},
 			error: function (error) {
-				console.log(error);
+				var medcount = document.getElementById('tech_count');
+				medcount.textContent = "0";
+				var techcount = document.getElementById('med_count');
+				techcount.textContent = "0";
+				var sallecount = document.getElementById('salle_count');
+				sallecount.textContent = "0";
+				var sallecount = document.getElementById('app_count');
+				sallecount.textContent = "0";
 			}
 		});
+	}
 }
-
 
 
 //Fonction principale pour la verification de l'autorisation 
 function CheckAuth(location) {
 	var url = '/' + location + '/' + location + 'List';
-	console.log(url);
-	
-	$.ajax({
-		type: "GET",
-		url: '/Account/Auth',
-		success: function (result) {
-			window.location.href = url;
-		},
-		error: function (xhr, status, error) {
-			console.log(xhr);
-			console.log(status);
-			console.log(error);
-			if (xhr.status == 403) {
-				$('#error-modal-text').text("Tu n'a pas l'autorisation !");
-				$('#error-modal').modal('show');
-				setTimeout(function () {
-					$('#error-modal').modal('hide');
-				}, 2000);
+	if (location === 'Appointment') {
+		$.ajax({
+			type: "HEAD",
+			url: url,
+			success: function (result) {
+				window.location.href = url;
+			},
+			error: function (xhr, status, error) {
+				CheckError(xhr);
 			}
-			else if (xhr.status == 401)
-			{
-				$('#error-modal-text').text("Session expiré veuillez vous reconnecter !");
-				$('#error-modal').modal('show');
-				setTimeout(function () {
-					$('#error-modal').modal('hide');
-					window.location.href = '/Account/Logout';
-				}, 2000);
+		});
+	}
+	else if (location === 'AppareilRadio') {
+		$.ajax({
+			type: "GET",
+			url: "/AppareilRadio/AppareilRadioJson",
+			success: function (result) {
+				if (Object.keys(result).length !== 0) {
+					window.location.href = url;
+				}
+				else {
+					$('#success-modal-text').text("Tu dois d'abord d'ajouter une salle");
+					$('#success-modal').modal('show');
+					setTimeout(function () {
+						$('#success-modal').modal('hide');
+						window.location.href = '/Salle/SalleList';
+					}, 2000);
+				}
+			},
+			error: function (xhr, status, error) {
+				CheckError(xhr);
 			}
-		}
-	});
+		});
+	}
+	else {
+		$.ajax({
+			type: "GET",
+			url: '/Account/Auth',
+			success: function (result) {
+				window.location.href = url;
+			},
+			error: function (xhr, status, error) {
+				CheckError(xhr);
+			}
+		});
+	}
 }
 
 function CheckAuthAdd(location) {
 	var url = '/' + location + '/Add'+ location ;
-	console.log(url);
-
 	$.ajax({
 		type: "GET",
 		url: '/Account/AuthAdd',
@@ -73,29 +95,98 @@ function CheckAuthAdd(location) {
 			window.location.href = url;
 		},
 		error: function (xhr, status, error) {
-			console.log(xhr);
-			console.log(status);
-			console.log(error);
-			if (xhr.status == 403) {
-				$('#error-modal-text').text("Tu n'a pas l'autorisation !");
-				$('#error-modal').modal('show');
-				setTimeout(function () {
-					$('#error-modal').modal('hide');
-				}, 2000);
-			}
-			else if (xhr.status == 401) {
-				$('#error-modal-text').text("Session expiré veuillez vous reconnecter !");
-				$('#error-modal').modal('show');
-				setTimeout(function () {
-					$('#error-modal').modal('hide');
-					window.location.href = '/Account/Logout';
-				}, 2000);
-			}
+			CheckError(xhr);
 		}
 	});
 }
 
+function CheckAuthAdd_Depends(location) {
+	var url = '/' + location + '/Add' + location;
+	if (location === 'Appointment') {
+		$.ajax({
+			type: "GET",
+			url: '/Account/AuthAdd',
+			success: function (result) {
+				$.ajax({
+					type: "GET",
+					url: '/TypeOperation/TypeOperationList',
+					dataType: 'json',
+					success: function (result) {
+						if (Object.keys(result).length !== 0) {
+							window.location.href = url;
+						}
+						else {
+							$('#success-modal-text').text("Tu dois ajouter au moins un type d'operation pour planifié un rendez-vous");
+							$('#success-modal').modal('show');
+							window.location.href = '/Doctor/DoctorList';
+						}
+					},
+					error: function (xhr, status, error) {
+						CheckError(xhr);
+					}
+				});
+			},
+			error: function (xhr, status, error) {
+				CheckError(xhr);
+			}
+		});
+	}
+	else if (location === 'Salle')
+	{
+		$.ajax({
+			type: "GET",
+			url: '/Account/AuthAdd',
+			success: function (result) {
+				$.ajax({
+					type: "GET",
+					url: '/Doctor/DoctorListJson',
+					dataType: 'json',
+					success: function (result) {
+						if (Object.keys(result).length !== 0) {
+							window.location.href = url;
+						}
+						else {
+							$('#success-modal-text').text("Tu dois ajouter des Medecin pour l'affecter a la salle");
+							$('#success-modal').modal('show');
+							setTimeout(function () {
+								$('#success-modal').modal('hide');
+								window.location.href = '/Doctor/DoctorList';
+							}, 2000);
+						}
+					},
+					error: function (xhr, status, error) {
+						CheckError(xhr);
+					}
+				});
+			},
+			error: function (xhr, status, error) {
+				CheckError(xhr);
+			}
+		});
+	}
+	else {
+		CheckAuthAdd(location);
+	}
+}
 
+
+function CheckError(xhr) {
+	if (xhr.status == 403) {
+		$('#error-modal-text').text("Tu n'a pas l'autorisation !");
+		$('#error-modal').modal('show');
+		setTimeout(function () {
+			$('#error-modal').modal('hide');
+		}, 2000);
+	}
+	else if (xhr.status == 401) {
+		$('#error-modal-text').text("Session expire veuillez vous reconnecter !");
+		$('#error-modal').modal('show');
+		setTimeout(function () {
+			$('#error-modal').modal('hide');
+			window.location.href = '/Account/Logout';
+		}, 2000);
+	}
+}
 
 
 //Ajout user avec role specifique 

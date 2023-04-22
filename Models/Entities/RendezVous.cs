@@ -10,7 +10,7 @@
     public class RendezVous
 	{
 		public int? Id { get; set; }
-		public DateTime? Date { get; set; }
+		public DateTime Date { get; set; }
 		public string? Status { get; set; }
 		public TypeOperation? TypeOperation { get; set; }
 		public string? Examen { get; set; }
@@ -18,5 +18,6 @@
 		public Doctor? doctor { get; set; }
 		public Technicien? technicien { get; set; }
 		public Secretaire? secretaire { get; set; }
+		public String? Appareil_NumSerie { get; set; }
 	}
 }

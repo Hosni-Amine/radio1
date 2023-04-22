@@ -3,6 +3,7 @@
 	public class Disponibilite
 	{
         public  List<DateTime>? Dates { get; set; }
+		public int? TypeOperation_Id { get; set; }
 		public string? Nom_Appareil { get; set; }
 		public string? Nom_Salle { get; set; }
 		public string? Nom_Doctor { get; set; }

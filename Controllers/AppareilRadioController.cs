@@ -21,11 +21,14 @@ namespace radio1.Controllers
 		public IActionResult AppareilRadioList()
 		{
 			var salles = AppareilRadioBLL.GetAllwithappareils();
-			if(salles.Count == 0 )
-			{
-				return RedirectToAction("AddSalle", "Salle");
-			}
 			return View(salles);
+		}
+		[HttpGet]
+		[HttpHead]
+		public IActionResult AppareilRadioJson()
+		{
+			var salles = AppareilRadioBLL.GetAllwithappareils();
+			return Json(salles);
 		}
 
 		/// <summary>

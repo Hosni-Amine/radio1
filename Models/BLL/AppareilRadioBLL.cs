@@ -32,9 +32,9 @@ namespace radio1.Models.BLL
 		{
 			return AppareilRadioDAL.DeleteAppareilRadio(id);
 		}
-		public static List<AppareilRadio> GetAll(int? SalleId)
+		public static List<AppareilRadio> GetAll()
 		{
-			return AppareilRadioDAL.GetAll(SalleId);
+			return AppareilRadioDAL.GetAll();
 		}
 		public static AppareilRadio GetById(int Id)
 		{

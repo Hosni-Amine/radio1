@@ -25,8 +25,8 @@ namespace radio1.Models.DAL
 					connection.Open();
 					Migration.CreateSalleIfNotExists();
                     DateTime utcTime = DateTime.UtcNow;
-                    TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-                    DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
+					TimeZoneInfo cetTimeZone = TimeZoneInfo.Local;
+					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
                     string sql = "INSERT INTO dbo.Salle (Nom, Responsable, Emplacement, DateCreation) VALUES (@Nom, @Responsable, @Emplacement, @DateCreation)"+
 					"SELECT SCOPE_IDENTITY() AS NouvelElementId;";
 					SqlCommand command = DbConnection.CommandCreate(connection, sql, salle);
@@ -176,15 +176,20 @@ namespace radio1.Models.DAL
 			try
 			{
 				List<Salle> salles = new List<Salle>();
+				List<TypeOperation> operations = TypeOperationDAL.GetAll(false, true, null);
 				foreach (DataRow row in table.Rows)
 				{
 					var salle = Get(row);
-					List<AppareilRadio> apps = AppareilRadioDAL.GetAll(salle.Id);
-					List<TypeOperation> operations = TypeOperationDAL.GetAll(null,salle.Id);		
+					salle.Operations = new List<TypeOperation>();
+					foreach(var op in operations)
+					{
+						if(op.SalleId ==  salle.Id)
+						{
+							salle.Operations.Add(op);
+						}
+					}
 					var doc = DoctorDAL.GetById(salle.Responsable.Id);
 					salle.Responsable = doc;
-					salle.AppareilRadios = apps;
-					salle.Operations = operations;
 					salles.Add(salle);
 				}
 				return salles;
@@ -212,11 +217,18 @@ namespace radio1.Models.DAL
 			try
 			{
 				List<Salle> salles = new List<Salle>();
+				List<AppareilRadio> apps = AppareilRadioDAL.GetAll();
 				foreach (DataRow row in table.Rows)
 				{
 					var salle = Get(row);
-					List<AppareilRadio> apps = AppareilRadioDAL.GetAll(salle.Id);
-					salle.AppareilRadios = apps;
+					salle.AppareilRadios = new List<AppareilRadio>();
+					foreach(var app in apps)
+					{
+						if (salle.Id == app.SalleId)
+						{
+							salle.AppareilRadios.Add(app);
+						}
+					}
 					salles.Add(salle);
 				}
 				return salles;
@@ -226,10 +238,11 @@ namespace radio1.Models.DAL
 				return null;
 			}
 		}
+	
 		public static List<Salle> GetAll()
 		{
 			Migration.CreateSalleIfNotExists();
-			SqlConnection connection = Connection.DbConnection.GetConnection();
+			SqlConnection connection = DbConnection.GetConnection();
 			string sqlstr = "SELECT * FROM dbo.Salle";
 			connection.Open();
 			SqlCommand command = new SqlCommand(sqlstr, connection);

@@ -36,6 +36,10 @@
             {
                 return new Message(false, "ce numero de telephone est déjà utilisée.");
             }
+			else if (ex.Message.Contains("uc_RendezVous"))
+			{
+				return new Message(false, "Le patient ne peut pas avoir deux rendez-vous au même temps .");
+			}
 			else if (ex.Message.Contains("unq_Nom"))
 			{
 				return new Message(false, "ce Nom est déjà utilisée.");
@@ -71,6 +75,10 @@
             else if (ex.Message.Contains("unq_NumSerie"))
 			{
 				return new Message(false, "Ce Numero de Serie deja exist ! ");
+			}
+			else if (ex.Message.Contains("which was not supplied."))
+			{
+				return new Message(false, "Tu dois remplir tout le formulaire ! ");
 			}
 			else 
             { 

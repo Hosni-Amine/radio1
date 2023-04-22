@@ -4,7 +4,7 @@ body {
 
 }
 .fc .fc-daygrid-day.fc-day-today {
-    background-color: rgb(255 209 40 / 53%);
+    background: radial-gradient(circle, white 84%, rgb(76, 255, 0) 100%);
 }
 
 .fc .fc-daygrid-more-link {

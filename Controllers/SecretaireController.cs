@@ -7,7 +7,7 @@ using System.Data;
 
 namespace radio1.Controllers
 {
-	[Authorize(Roles = "Admin,Doctor")]
+	[Authorize(Roles = "Admin")]
 	public class SecretaireController : Controller
 	{
 
@@ -24,9 +24,6 @@ namespace radio1.Controllers
 			var Secretaires = SecretaireBLL.GetAll();
 			return View(Secretaires);
 		}
-
-
-
 
 		/// <summary>
 		/// La methode DeleteSecretaire pour supprimer un Secretaire de database
@@ -49,9 +46,6 @@ namespace radio1.Controllers
 			}
 		}
 
-
-
-
 		/// <summary>
 		/// Methode de recherche d'un Secretaire apartir de son Id
 		/// </summary>
@@ -63,9 +57,6 @@ namespace radio1.Controllers
 			var Secretaire = SecretaireBLL.GetById(Id);
 			return Json(Secretaire);
 		}
-
-
-
 
 		/// <summary>
 		/// La methide Submit qui prendre en parametre les donneés de docteur et retourne un Json file qui decrire le resultat
@@ -87,9 +78,6 @@ namespace radio1.Controllers
 			}
 		}
 
-
-
-
 		/// <summary>
 		/// methode de controlleur pour l'ajout de Secretaire 
 		/// </summary>
@@ -110,6 +98,5 @@ namespace radio1.Controllers
 				return Json(new { Success = msg.Verification, Message = msg.Msg });
 			}
 		}
-
 	}
 }

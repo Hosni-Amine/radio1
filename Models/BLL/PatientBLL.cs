@@ -17,7 +17,7 @@ namespace radio1.Models.BLL
 		{
 			return PatientDAL.DeletePatient(Id);
 		}
-		public static Patient GetById(int id)
+		public static Patient GetPatientById(int id)
 		{
 			return PatientDAL.GetById(id);
 		}
@@ -32,7 +32,6 @@ namespace radio1.Models.BLL
 		public static Patient GetByStr(string Str)
 		{
 			return PatientDAL.GetByStr(Str);
-
 		}
 	}
 }

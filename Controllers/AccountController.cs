@@ -26,11 +26,12 @@ namespace radio1.Controllers
 			return Ok();
 		}
 
+
 		[HttpGet]
 		[Authorize(Roles = "Admin,Secretaire")]
 		public async Task<IActionResult> AuthAdd()
 		{
-			return Ok();
+			return Content("OK");
 		}
 
 

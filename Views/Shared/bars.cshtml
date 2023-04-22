@@ -125,8 +125,14 @@
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-04.svg" alt=""></span> <span> Rendez-Vous</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="@Url.Action("AppointmentList", "Appointment")">Liste des Rendez-vous</a></li>
-						<li><a href="#" onclick="CheckAuthAdd('Appointment')">Ajouter un rendez-vous</a></li>
+						<li><a href="#" onclick="CheckAuth('Appointment')">Liste des Rendez-vous</a></li>
+						<li><a href="#" onclick="CheckAuthAdd_Depends('Appointment')">Ajouter un rendez-vous</a></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Patients </span> <span class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a href="#" onclick="CheckAuth('Patient')">Patients List</a></li>
 					</ul>
 				</li>
 				<li class="submenu">
@@ -147,13 +153,7 @@
 						<li><a href="#" onclick="CheckAuth('Secretaire')">Liste des Secrétaires</a></li>
 					</ul>
 				</li>
-				<li class="submenu">
-					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Patients </span> <span class="menu-arrow"></span></a>
-					<ul style="display: none;">
-						<li><a href="#">Patients List</a></li>
-						<li><a href="#" onclick="add_patient_btn()">Ajouter un Patient </a></li>
-					</ul>
-				</li>
+				
 				@*
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="~/assets/img/icons/menu-icon-05.svg" alt=""></span> <span> Doctor Schedule </span> <span class="menu-arrow"></span></a>

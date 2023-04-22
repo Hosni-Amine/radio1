@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using radio1.Models.BLL;
 using radio1.Models.DAL;
 using radio1.Models.Entities;
-using System.Linq;
 
 namespace radio1.Controllers
 {
@@ -16,9 +15,9 @@ namespace radio1.Controllers
 		/// <param name="SalleId"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public IActionResult TypeOperationList(int? App_id,int? SalleId)
+		public IActionResult TypeOperationList(bool? ForApp,bool? ForSalle,int? SalleId)
 		{
-			var operations=TypeOperationBLL.GetAll(App_id,SalleId);
+			var operations=TypeOperationBLL.GetAll(ForApp,ForSalle,SalleId);
 			return Json(new { operations });
 		}
 

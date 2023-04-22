@@ -10,20 +10,6 @@ namespace radio1.Controllers
 	[Authorize(Roles = "Admin")]
 	public class AdminController : Controller
 	{
-
-
-		/// <summary>
-		/// A changer !!!!!
-		/// </summary>
-		/// <returns></returns>
-		[HttpGet]
-		public async Task<ActionResult> State()
-		{
-			var status = UsersBLL.State();
-			return Json(status);
-		}
-
-
 		/// <summary>
 		/// 3 methodes d'inscription d'utilisateurs avec ces roles
 		/// </summary>
@@ -45,5 +31,17 @@ namespace radio1.Controllers
 		var msg = UsersBLL.AddAdmin_User(user);
 		return Json(new { Success = msg.Verification, Message = msg.Msg });
 	}
+	
+		/// <summary>
+		/// A changer !!!!!
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public async Task<ActionResult> State()
+		{
+			var status = UsersBLL.State();
+			Console.WriteLine(status);
+			return Json(status);
+		}
 	}
 }

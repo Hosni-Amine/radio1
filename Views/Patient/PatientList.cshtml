@@ -1,0 +1,111 @@
+﻿@Model IEnumerable<radio1.Models.Entities.Patient>
+
+	@{
+		Layout = "_HomePageLayout";
+	}
+	<head>
+		<title>Preclinic - Gestionnaire des Patients</title>
+	</head>
+	<body>
+		@Html.Partial("PatientApiModal")
+		<div class="main-wrapper">
+			<div class="page-wrapper">
+				<div class="content">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a>Patients </a></li>
+									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+									<li class="breadcrumb-item active">Gestion des Patients</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card card-table show-entire" style="background-color: #e4e8ee;">
+								<div class="card-body" style="padding-bottom: 13px;">
+									<!-- Table Header -->
+									<div class="page-table-header mb-2">
+										<div class="row align-items-center">
+											<div class="col">
+												<div class="doctor-table-blk">
+													<h3>liste de patients</h3>
+													<div class="doctor-search-blk">
+														<div class="top-nav-search table-search-blk">
+															<div class="top-nav-search table-search-blk">
+																<input type="text" id="search-patient-input" class="form-control" placeholder="Recherche...">
+															</div>
+														</div>
+														<div class="add-group">
+															<button type="submit" class="btn btn-primary doctor-refresh ms-2" onclick="search_patient()">
+																<img src="~/assets/img/icons/search.svg" alt="">
+															</button>
+															<a href="#" onclick="add_patient_btn()" class="btn btn-primary add-pluss ms-2"><img src="~/assets/img/icons/plus.svg" alt=""></a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-auto text-end float-end ms-auto download-grp">
+												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-01.svg" alt=""></a>
+												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-02.svg" alt=""></a>
+												<a href="javascript:;" class=" me-2"><img src="~/assets/img/icons/pdf-icon-03.svg" alt=""></a>
+												<a href="javascript:;"><img src="~/assets/img/icons/pdf-icon-04.svg" alt=""></a>
+											</div>
+										</div>
+									</div>
+									<!-- /Table Header -->
+									<div class="table-responsive" id="patient-table" style="padding: 0px 15px;">
+										<table class="table border-0 custom-table comman-table datatable mb-0">
+											<thead>
+												<tr style=" background: linear-gradient(to bottom, #96acc9 0%, #f5f5f6 100%);">
+													<th>Nom</th>
+													<th>Prenom</th>
+													<th>Telephone</th>
+													<th>Date de premier rendez-vous</th>
+													<th></th>
+												</tr>
+											</thead>
+											@if (Model != null)
+											{
+												<tbody>
+													@foreach (var item in Model)
+													{
+														<tr style="background-color: #f5f5f6;">
+															<td>@item.Nom</td>
+															<td>@item.Prenom</td>
+															<td><a href="javascript:;">@item.Telephone</a></td>
+															<td>@item.DateCreation</td>
+															<td class="text-end">
+																<div class="dropdown dropdown-action">
+																	<a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+																	<div class="dropdown-menu dropdown-menu-end">
+																		<a class="dropdown-item" href="#" onclick="profil_patient_btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> détails</a>
+																		<a class="dropdown-item" href="#" onclick="edit_patient_btn(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier</a>
+																		<a class="dropdown-item" href="#" onclick="delete_patient_btn(@item.Id)"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													}
+												</tbody>
+											}
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="~/MyJS/RhumainesJS/Patient.js"></script>
+	</body>
+
+
+
+
+

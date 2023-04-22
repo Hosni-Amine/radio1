@@ -63,7 +63,7 @@ html {
 }
 body {
 	font-family: 'Poppins', sans-serif;
-	font-size: 16px;
+	font-size: 15px;
 	color: #333448;
 	background: linear-gradient(0deg, rgba(51, 53, 72, 0.05), rgba(51, 53, 72, 0.05)), #FFFFFF;
 	overflow-x: hidden;
@@ -6493,11 +6493,11 @@ a.status-grey {
     border-radius: 10px;
 }
 .doctor-submit .btn-primary {
-	min-width: 131px;
-	font-size: 14px;
-	font-weight: 500;
+	min-width: 125px;
+	font-size: 12px;
 	border-radius: 12px;
-	padding: 10px 15px;
+	padding: 7px 15px;
+	margin-bottom: 8px;
 }
 .doctor-submit .cancel-form {
 	background: rgba(51, 52, 72, 0.05);

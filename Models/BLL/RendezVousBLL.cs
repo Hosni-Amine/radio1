@@ -7,9 +7,9 @@ namespace radio1.Models.BLL
 {
     public class RendezVousBLL
     {
-        public static List<RendezVous> GetAll()
+        public static List<RendezVous> GetAll(Users user)
         {
-            return RendezVousDAL.GetAll();
+            return RendezVousDAL.GetAll(user);
         }
 		public static DAL.Message AddRendezVous(RendezVous rendezvous)
 		{
@@ -19,6 +19,10 @@ namespace radio1.Models.BLL
         public static List<Disponibilite> GetDisponibilite(string typeoperation)
         {
             return RendezVousDAL.GetDisponibilite(typeoperation);
+        }
+        public static DAL.Message DeleteRendezVous(int id)
+        {
+            return RendezVousDAL.DeleteRendezVous(id);
         }
 	}
 }

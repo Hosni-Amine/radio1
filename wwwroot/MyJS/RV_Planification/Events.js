@@ -12,8 +12,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
         right: 'dayGridMonth,dayGridWeek,listDay'
     },
     eventClick: function (info) {
-        var eventObj = info.event;
-        alert('Clicked ' + eventObj.title);
+        event_details(info.event.extendedProps.object, info.event.start);
     },
     views: {
         dayGridMonth: {
@@ -23,26 +22,22 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'listDay',
     initialDate: currentDate,
     navLinks: true,
-    weekends: false,
     nowIndicator: true,
     locale: 'fr',
-
     eventDidMount: function (info) {
-        if (info.event.extendedProps.status === 'En attente') {
-            info.el.style.backgroundColor = '#ffea003d';
-        }
-        else if (info.event.extendedProps.status === 'Terminé') {
-            info.el.style.backgroundColor = '#0064ff47';
+        if (info.event.extendedProps.status === 'Terminé')
+        {
+            info.el.style.backgroundColor = '#21ff0063';
         }
         else if (info.event.extendedProps.status === 'Planifié') {
-            info.el.style.backgroundColor = '#0064ff47';
+            info.el.style.backgroundColor = '#ffea003d';
         }
         else if (info.event.extendedProps.status === 'Annulé') {
             info.el.style.backgroundColor = '#ff000045';
         }
         else if (info.event.extendedProps.status === 'En cours') {
             info.el.style.backgroundColor = '#0064ff47';
-        }
+        }    
     }
 
 });
@@ -59,14 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         title: event.typeOperation.nom + ' : ' + event.examen + '  ( ' + event.status + ' )',
                         start: event.date,
                         extendedProps: {
-                            status: event.status
+                            status: event.status,
+                            object: event
                         }
                     };
-                    (function (event) {
-                        newEvent.extendedProps.onclick = function () {
-                            console.log('Event clicked:', event.examen);
-                        };
-                    })(event);
                     calendar.addEvent(newEvent);
                 }
             }
@@ -78,9 +69,54 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 2500);
             }
         },
-        error: function () {
+        error: function (xhr) {
+            CheckError(xhr);
         }
     });
     calendar.render();
 
 });
+
+function event_details(object, date)
+{
+    const formattedDate = date.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+    $("#RV-modal #Examen").text(object.examen);
+    $("#RV-modal #Nom_patient").text(object.patient.nom + ' ' + object.patient.prenom);
+    $("#RV-modal #Nom_doc").text(object.doctor.nom + ' ' + object.doctor.prenom);
+    if (object.secretaire.nom != null) {
+        $("#RV-modal #Nom_sec").text(object.secretaire.nom + ' ' + object.secretaire.prenom);
+    }
+    else {
+        $("#RV-modal #Nom_sec").text("( Administrateur )");
+    }
+    $("#RV-modal #Nom_app").text(object.appareil_NumSerie);
+    $("#RV-modal #Nom_tec").text(object.technicien.nom + ' ' + object.technicien.prenom);
+    $("#RV-modal #Nom_op").text(object.typeOperation.nom);
+    $("#RV-modal #Date").text(formattedDate);
+    if (object.status === "Planifié") {
+        $("#RV-modal #Status").text(object.status).css("color", "#d3a600");
+    }
+    else if (object.status === "Annulé") {
+        $("#RV-modal #Status").text(object.status).css("color", "#d00000");
+    }
+    else if (object.status === 'Terminé') {
+        $("#RV-modal #Status").text(object.status).css("color", "#16ac00");
+    }
+    else if (object.status === 'En cours') {
+        $("#RV-modal #Status").text(object.status).css("color", "#2200ad");
+    }  
+    $('#RV-modal').modal('show');
+    var button = document.getElementById("Delete_RendezVous");
+    button.setAttribute("onclick", "Delete_RendezVous_btn('" + object.id + "')");
+    var button = document.getElementById("Edit_RendezVous");
+    $("#RV-modal #Id").text(object.id);
+    button.setAttribute("onclick", "Edit_RendezVous_btn('" + object.typeOperation.nom + "', '" + object.typeOperation.id + "')");
+}

@@ -66,7 +66,7 @@ namespace radio1.Models.DAL
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
                 {
 					DateTime utcTime = DateTime.UtcNow;
-					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+					TimeZoneInfo cetTimeZone = TimeZoneInfo.Local;
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
 					string sqlstr = "INSERT INTO Doctor (Prenom, Nom, Matricule, Telephone, Email, DateN, LieuN, SituationC, Sexe, Adresse, Ville, CodePostal,DateCreation ,User_Id) VALUES ( @Prenom, @Nom, @Matricule, @Telephone, @Email, @DateN, @LieuN, @SituationC, @Sexe, @Adresse, @Ville, @CodePostal, @DateCreation , @User_Id)";
                     SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, doctor);

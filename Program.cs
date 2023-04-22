@@ -8,7 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationInsightsTelemetry();
 
-
+  
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(
+		policy =>
+		{
+			policy.WithOrigins("http://example.com",
+								"http://www.contoso.com");
+		});
+});
+  
 builder.Services.AddAuthentication(Options =>
 {
 	Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -61,6 +71,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors();
 
 
 
@@ -74,7 +85,6 @@ app.Use(async (context, next) =>
     }
     await next();
 });
-
 
 app.UseAuthentication();
 app.UseAuthorization();

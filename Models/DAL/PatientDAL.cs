@@ -66,7 +66,7 @@ namespace radio1.Models.DAL
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
 					DateTime utcTime = DateTime.UtcNow;
-					TimeZoneInfo cetTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+					TimeZoneInfo cetTimeZone = TimeZoneInfo.Local;
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
 					string sqlstr = "INSERT INTO Patient (Prenom, Nom , Telephone , DateN, LieuN, SituationC, Sexe, Adresse, Ville , DateCreation ,User_Id) VALUES ( @Prenom, @Nom , @Telephone, @DateN, @LieuN, @SituationC, @Sexe, @Adresse, @Ville , @DateCreation , @User_Id)";
 					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, patient);
@@ -101,12 +101,12 @@ namespace radio1.Models.DAL
 			{
 				using (SqlConnection connection = Connection.DbConnection.GetConnection())
 				{
-					string sqlstr = "UPDATE Patient SET Prenom = @Prenom, Nom = @Nom, Matricule = @Matricule, Telephone = @Telephone, Email = @Email, DateN = @DateN, LieuN = @LieuN, SituationC = @SituationC, Sexe = @Sexe, Adresse = @Adresse, Ville = @Ville, CodePostal = @CodePostal WHERE id = @id";
+					string sqlstr = "UPDATE Patient SET Prenom = @Prenom, Nom = @Nom , Telephone = @Telephone , DateN = @DateN, LieuN = @LieuN, SituationC = @SituationC, Sexe = @Sexe, Adresse = @Adresse, Ville = @Ville WHERE id = @id";
 					SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, Patient);
 					command.Parameters.AddWithValue("@Id", Patient.Id);
 					Connection.DbConnection.NonQueryRequest(command);
 				}
-				return new Message(true, "Element modifier avec succés");
+				return new Message(true, "Patient modifier avec succés");
 			}
 			catch (Exception ex)
 			{
@@ -179,6 +179,10 @@ namespace radio1.Models.DAL
 				Patient.Sexe = raw["Sexe"].ToString();
 				Patient.Adresse = raw["Adresse"].ToString();
 				Patient.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());
+				Patient.DateN = raw["DateN"].ToString();
+				Patient.LieuN = raw["LieuN"].ToString();
+				Patient.SituationC = raw["SituationC"].ToString();
+				Patient.Ville = raw["Ville"].ToString();
 
 				return Patient;
 			}

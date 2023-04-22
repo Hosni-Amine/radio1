@@ -7,7 +7,7 @@ using System.Data;
 
 namespace radio1.Controllers
 {
-	[Authorize(Roles = "Admin,Doctor")]
+	[Authorize(Roles = "Admin")]
 	public class TechnicienController : Controller
 	{
 
@@ -24,9 +24,6 @@ namespace radio1.Controllers
 			var techniciens = TechnicienBLL.GetAll();
 			return View(techniciens);
 		}
-
-
-
 
 		/// <summary>
 		/// La methode DeleteTechnicien pour supprimer un Technicien de database
@@ -49,9 +46,6 @@ namespace radio1.Controllers
 			}
 		}
 
-
-
-
 		/// <summary>
 		/// Methode de recherche d'un Technicien apartir de son Id
 		/// </summary>
@@ -63,8 +57,6 @@ namespace radio1.Controllers
 			var Technicien = TechnicienBLL.GetById(Id);
 			return Json(Technicien);
 		}
-
-
 
 
 		/// <summary>
@@ -86,8 +78,6 @@ namespace radio1.Controllers
 				return Json(new { Success = msg.Verification, Message = msg.Msg });
 			}
 		}
-
-
 
 
 		/// <summary>

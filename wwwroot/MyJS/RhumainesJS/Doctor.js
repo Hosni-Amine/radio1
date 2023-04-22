@@ -92,7 +92,6 @@ function submit_add_doctor()
 				Ville: $('#add-modal #Ville').val(),
 				CodePostal: $('#add-modal #CodePostale').val()
 			};
-			console.log(doctor);
 			if ($('#addontime').val() == 'true') {
 				$.ajax({
 					url: '/Doctor/AddDoctor',
@@ -119,6 +118,7 @@ function submit_add_doctor()
 						}
 					},
 					error: function (xhr, status, error) {
+						CheckError(xhr);
 						console.log('Error:', xhr, status, error);
 						$('#error-modal-text').text('An error occurred: ' + error);
 						$('#error-modal').modal('show');

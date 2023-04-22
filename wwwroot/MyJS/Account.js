@@ -22,7 +22,7 @@ function Submit_Login() {
 				localStorage.setItem("Id", response.user.id);
 				localStorage.setItem("Role", response.user.role);
 				localStorage.setItem("UserName", response.user.userName);
-				$('#success-modal-text').text("Utilisateur identifier");
+				$('#success-modal-text').text("vous etes bien identifie");
 				$('#sign-in-modal').modal('hide');
 				$('#success-modal').modal('show');
 				setTimeout(function () {

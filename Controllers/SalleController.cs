@@ -21,7 +21,7 @@ namespace radio1.Controllers
 		}
 
 		/// <summary>
-		/// Methode retourne une liste des salle
+		/// Fonction retourne une liste des salle
 		/// </summary>
 		/// <returns></returns> 
 		[HttpHead]
@@ -32,6 +32,12 @@ namespace radio1.Controllers
             return View(salles);
         }
 
+		/// <summary>
+		/// Fonction qui permet de modifier le fichier emplacement de salle 
+		/// </summary>
+		/// <param name="salle"></param>
+		/// <param name="Old_Emplacement"></param>
+		/// <returns></returns>
 		[HttpPost]
 		public IActionResult EditSalle(Salle salle , string Old_Emplacement)
 		{
@@ -64,7 +70,7 @@ namespace radio1.Controllers
 		[HttpGet]
 		public IActionResult AddSalle ()
 		{
-			var operations = TypeOperationBLL.GetAll(null , null);
+			var operations = TypeOperationBLL.GetAll(false,false , null);
 			List<string> nomsDistincts = new List<string>();
 			foreach (var operation in operations)
 			{

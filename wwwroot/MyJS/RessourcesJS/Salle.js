@@ -335,6 +335,7 @@ function submit_op_add(salle_id) {
             if (response.success) {
                 $('#success-modal-text').text("Type ajouter avec succées !");
                 $('#success-modal').modal('show');
+                $('#operation-salle-list-modal').modal('hide');
                 setTimeout(function () {
                     $('#success-modal').modal('hide');
                     operation_associee(salle_id);
@@ -376,6 +377,7 @@ function Submit_Delete_Operation(op_id, salle_id) {
                 $('#delete_modal').modal('hide');
                 $('#success-modal-text').text(response.message);
                 $('#success-modal').modal('show');
+                $('#operation-salle-list-modal').modal('hide');
                 setTimeout(function () {
                     $('#success-modal').modal('hide');
                     operation_associee(salle_id);

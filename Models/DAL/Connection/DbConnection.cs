@@ -10,8 +10,8 @@ namespace radio1.Models.DAL.Connection
 {
     public class DbConnection
     {
-        static string CS = "workstation id=radiologie.mssql.somee.com;packet size=4096;user id=hosniamine_SQLLogin_1;pwd=kkke54dsdo;data source=radiologie.mssql.somee.com;persist security info=False;initial catalog=radiologie";
-        //static string CS = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=radio;Integrated Security=True";
+        //static string CS = "workstation id=radiologie.mssql.somee.com;packet size=4096;user id=hosniamine_SQLLogin_1;pwd=kkke54dsdo;data source=radiologie.mssql.somee.com;persist security info=False;initial catalog=radiologie";
+        static string CS = "data source=(localdb)\\mssqllocaldb;initial catalog=radio;integrated security=true";
 
         public static SqlConnection? GetConnection()
         {
@@ -223,7 +223,14 @@ namespace radio1.Models.DAL.Connection
 			command.Parameters.AddWithValue("@TypeOperationId", rendezvous.TypeOperation.Id);
 			command.Parameters.AddWithValue("@DoctorId", rendezvous.doctor.Id);
 			command.Parameters.AddWithValue("@TechnicienId", rendezvous.technicien.Id);
-			command.Parameters.AddWithValue("@SecretaireId", rendezvous.secretaire.Id);
+			if (rendezvous.secretaire.Id == 0) {
+                command.Parameters.AddWithValue("@SecretaireId", DBNull.Value); 
+            }
+			else {
+                command.Parameters.AddWithValue("@SecretaireId", rendezvous.secretaire.Id);
+			}
+
+			;
 			return command;
 		}
 

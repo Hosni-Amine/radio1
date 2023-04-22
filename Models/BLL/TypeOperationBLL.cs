@@ -20,9 +20,9 @@ namespace radio1.Models.BLL
 		{
 			return TypeOperationDAL.DeleteTypeOperation(id);
 		}
-		public static List<TypeOperation> GetAll(int? App_id,int? SalleId)
+		public static List<TypeOperation> GetAll(bool? ForApp, bool? ForSalle, int? SalleId)
 		{
-			return TypeOperationDAL.GetAll(App_id,SalleId);
+			return TypeOperationDAL.GetAll(ForApp, ForSalle, SalleId);
 		}
 		public static TypeOperation GetById(int Id)
 		{

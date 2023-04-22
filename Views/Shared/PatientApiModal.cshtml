@@ -126,3 +126,339 @@
 		</div>
 	</div>
 </div>
+
+<!-- Edit Patient modal-->
+<div class="modal fade bd-example-modal-lg" id="edit-patient-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9992;" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Patients </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Modifier un Patient</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="card">
+							<div class="card-body">
+								<form>
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Ajouter un Patient</h4>
+											</div>
+										</div>
+										<input type="hidden" id="Id">
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Nom"  required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Prenom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="Prenom"  required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Telephone<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" id="telephone" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms cal-icon">
+												<label>Date de naissance<span class="login-danger">*</span></label>
+												<input class="form-control datetimepicker" id="DateN" oninvalid="this.setCustomValidity('Veuillez entrer une date de la forme jj/mm/aaaa.')" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" type="text" placeholder="DateN" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Lieu de naissance <span class="login-danger">*</span></label>
+												<input class="form-control" id="LieuN" type="text"  required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Situation Conjugale<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCEE" id="Celibatairee" class="form-check-input" value="Celibataire" required>Célibataire
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCEE" id="Marie" class="form-check-input" value="Marie">Marié(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCEE" id="Divorce" class="form-check-input" value="Divorce">Divorcé(e)
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="SituationCEE" id="Veuf" class="form-check-input" value="Divorce">Veuf(e)
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-4">
+											<div class="form-group select-gender">
+												<label class="gen-label" id="Sexe">Sexe<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" id="HSexe" name="Sexe" class="form-check-input" value="Homme">Homme
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" id="FSexe" name="Sexe" class="form-check-input" value="Femme">Femme
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-sm-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Adresse<span class="login-danger">*</span></label>
+												<textarea class="form-control" id="Adresse" rows="3" cols="30" placeholder=Adresse required></textarea>
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-4">
+											<div class="form-group local-forms">
+												<label>Ville<span class="login-danger">*</span></label>
+												<input class="form-control" id="Ville" placeholder=Ville required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary" onclick="Submit_edit_patient()">Submit</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Cancel</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Search Patient modal-->
+<div class="modal fade bd-example-modal-lg" id="search-patient-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px;">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-heading">
+											<h4>Recherche :</h4>
+										</div>
+									</div>
+									<div class="col-12 col-md-12 col-xl-12">
+										<div class="form-group local-forms">
+											<label>Recherche par Nom :</label>
+											<input class="form-control" type="text" name="search-nom" id="search-nom-pat" required>
+										</div>
+									</div>
+									<div class="col-12 col-md-12 col-xl-12">
+										<div class="form-group local-forms">
+											<label>Recherche par Prenom :</label>
+											<input class="form-control" type="text" name="search-prenom" id="search-prenom-pat" required>
+										</div>
+									</div>
+									<div class="col-12 col-md-12 col-xl-12">
+										<div class="form-group local-forms">
+											<label>Recherche par Email :</label>
+											<input class="form-control" type="text" name="search-email" id="search-telephone-pat" required>
+										</div>
+									</div>
+									<div class="table-responsive" id="table-copy" style="padding: 15px;">
+									</div>
+									<div class="col-12" style=" margin: 30px 15px;">
+										<div class="doctor-submit text-end">
+											<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Rendez-Vous details modal-->
+<div class="modal fade bd-example-modal-lg" id="RV-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9991;" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="doctor-personals-grp">
+							<div class="card" style="background-color: #f5f5f6;">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav" style="justify-content: center;">
+												<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/health-img.svg" alt=""></span>Détails du rendez-vous </a>
+												</li>
+											</ul>
+										</div>
+									<div class="personal-list-out">
+										<div class="row">
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Examen : </h2>
+													<h2 style = "margin-top: 3px;" id="Examen"></h2>
+												</div>
+											</div>
+												<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Type d'operation : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_op"></h2>
+												</div>
+											</div>
+												<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Appareil : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_app"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Patient : </h2>
+													<h2 style = "margin-top: 3px;" id="Nom_patient"></h2>
+												</div>
+											</div>
+												<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Nom de Radioligue : </h2>
+													<h2 style = "margin-top: 3px;" id="Nom_doc"></h2>
+												</div>
+											</div>
+
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Nom de Technicien : </h2>
+													<h2 style = "margin-top: 3px;" id="Nom_tec"></h2>
+												</div>
+											</div>
+											
+												<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Planifié par : </h2>
+													<h2 style = "margin-top: 3px;" id="Nom_sec"></h2>
+												</div>
+											</div>
+												<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Date : </h2>
+													<h2 style = "margin-top: 3px;" id="Date"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Status : </h2>
+													<h2 style="margin-top: 3px;" id="Status"></h2>
+												</div>
+											</div>
+										</div>
+									</div>			
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12" style="margin-bottom: 15px;">
+						<div class="doctor-submit text-end">
+							<button type="button" class="btn btn-primary cancel-form " id="Edit_RendezVous">Modifier</button>
+							<button type="button" class="btn btn-primary cancel-form " id="Delete_RendezVous">Supprimer</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	h2 {
+		display: inline-block;
+		vertical-align: top;
+		font-size: 18px;
+	}
+</style>
+
+<div class="modal fade bd-example-modal-lg" id="edit-RendezVous-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9992;" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="card">
+							<div class="card-body">
+								<form>
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h4>Replanification de rendez-vous</h4>
+											</div>
+										</div>
+										<input type="hidden" id="Id">
+										<div id="div_select" class="col-12 col-md-12 col-xl-12" style="display:none;">
+											<div class="form-group local-forms">
+												<label>Affectation <span class="login-danger">*</span></label>
+												<select class="select" id="Affectation_edit">
+												</select>
+											</div>
+										</div>
+										<div id="div_select_date" class="col-12 col-md-6 col-xl-6" style="display:block;">
+											<div class="form-group local-forms">
+												<label>Date <span class="login-danger">*</span></label>
+												<input class="form-control" id="myDatepicker_edit" style="margin-bottom: 20px; " type="text" placeholder="Select Date">
+											</div>
+										</div>
+										<div class="col-6 col-md-6 col-xl-6" id="Hoursdiv" style="margin-bottom: 20px; display:block;">
+											<div class="form-group local-forms">
+												<label>Heures Disponibles  <span class="login-danger">*</span></label>
+												<select class="select" id="Heures_edit" data-mdb-filter="true" data-mdb-clear-button="true">
+												</select>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary" onclick="Submit_edit_patient()">Submit</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Cancel</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -101,7 +101,7 @@ namespace radio1.Models.DAL
 		/// <returns></returns>
 		public static AppareilRadio GetById(int Id)
 		{
-			using (SqlConnection connection = Connection.DbConnection.GetConnection())
+			using (SqlConnection connection = DbConnection.GetConnection())
 			{
 				string sqlstr = "SELECT * FROM dbo.AppareilRadio WHERE Id = @Id";
 				SqlCommand command = new SqlCommand(sqlstr, connection);
@@ -175,12 +175,19 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
+				List<TypeOperation> operations = TypeOperationDAL.GetAll(true , false ,null);
 				List<AppareilRadio> apps = new List<AppareilRadio>();
 				foreach (DataRow row in table.Rows)
 				{
 					var app = Get(row);
-					List<TypeOperation> operations = TypeOperationDAL.GetAll(app.Id,null);
-					app.Operations = operations;
+					app.Operations = new List<TypeOperation>();
+					foreach(var op in operations )
+					{
+						if(op.AppareilRadioId == app.Id)
+						{
+							app.Operations.Add(op);
+						}
+					}
 					apps.Add(app);
 				}
 				return apps;
@@ -190,17 +197,12 @@ namespace radio1.Models.DAL
 				return null;
 			}
 		}
-		public static List<AppareilRadio> GetAll(int? SalleId)
+		public static List<AppareilRadio> GetAll()
 		{
 			Migration.CreateAppareilRadioTableIfNotExists();
 			SqlConnection connection = DbConnection.GetConnection();
 			string sqlstr = "SELECT * FROM dbo.AppareilRadio";
 			SqlCommand command = new SqlCommand();
-			if (SalleId != null)
-			{
-				sqlstr = "SELECT * FROM dbo.AppareilRadio WHERE SalleId = @SalleId";
-				command.Parameters.AddWithValue("@SalleId", SalleId);
-			}
 			command.CommandText = sqlstr;
 			command.Connection = connection;
 			connection.Open();
@@ -215,13 +217,13 @@ namespace radio1.Models.DAL
 			try
 			{
 				AppareilRadio app = new AppareilRadio();
+				app.Operations = new List<TypeOperation>();
 				app.Id = Int32.Parse(raw["Id"].ToString());
+				app.Operations = TypeOperationDAL.GetAll(true, false, app.Id);
 				app.NumSerie = raw["NumSerie"].ToString();
 				app.Maintenance= Int32.Parse(raw["Maintenance"].ToString());
 				app.SalleId = Int32.Parse(raw["SalleId"].ToString());
 				app.DateCreation = DateTime.Parse(raw["DateCreation"].ToString());
-				List<TypeOperation> operations = TypeOperationDAL.GetAll(app.Id,null);
-				app.Operations = operations; 
 				return app;
 			}
 			catch

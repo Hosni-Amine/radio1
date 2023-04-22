@@ -5,12 +5,15 @@ using radio1.Models.BLL;
 using radio1.Models.DAL;
 using radio1.Models.Entities;
 using System.Data;
+using System.Security.Claims;
 
 namespace radio1.Controllers
 {
 	[Authorize]
 	public class AppointmentController : Controller
 	{
+		[HttpHead]
+		[HttpGet]
 		public IActionResult AppointmentList()
 		{
             return View();
@@ -19,12 +22,15 @@ namespace radio1.Controllers
 		[HttpGet]
 		public IActionResult EventsList()
 		{
-            var rendezvous = RendezVousBLL.GetAll();
+			Users user = new Users();
+			user.Id= Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			user.Role = User.FindFirstValue(ClaimTypes.Role);
+			var rendezvous = RendezVousBLL.GetAll(user);
 			return Json(rendezvous);
 		}
 
 		[HttpGet]
-		public IActionResult GetDisponibility(string operation) 
+		public IActionResult GetDisponibility(string? operation ) 
 		{
 			var dispos = RendezVousBLL.GetDisponibilite(operation);
 			return Json(dispos);
@@ -34,10 +40,11 @@ namespace radio1.Controllers
 		[Authorize(Roles = "Admin , Secretaire")]
 		public IActionResult AddAppointment()
 		{
-			var operations = TypeOperationBLL.GetAll(null, null);
+			var operations = TypeOperationBLL.GetAll(false,false, null);
 			return View(operations);
 		}
 
+		[Authorize(Roles = "Admin , Secretaire")]
 		[HttpPost]
 		public IActionResult SubmitAddAppointment(RendezVous rendezvous ,string selectedAppareil)
 		{
@@ -53,6 +60,14 @@ namespace radio1.Controllers
 			rendezvous.doctor = new Doctor();
 			rendezvous.doctor = salle.Responsable;
 			var msg = RendezVousBLL.AddRendezVous(rendezvous);
+			return Json(new { Success = msg.Verification, Message = msg.Msg });
+		}
+
+		[Authorize(Roles = "Admin , Secretaire")]
+		[HttpDelete]
+		public IActionResult DeleteAppointment(int id)
+		{
+			var msg = RendezVousBLL.DeleteRendezVous(id);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
 	}

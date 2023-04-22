@@ -162,21 +162,29 @@ namespace radio1.Models.DAL
 				return null;
 			}
 		}
-		public static List<TypeOperation> GetAll(int? App_id,int? SalleId)
+		public static List<TypeOperation> GetAll(bool? ForApp,bool? ForSalle ,int? SalleId)
 		{
             Migration.CreateTypeOperationTableIfNotExists();
-            SqlConnection connection = Connection.DbConnection.GetConnection();
+            SqlConnection connection = DbConnection.GetConnection();
 			string sqlstr = "SELECT DISTINCT Nom FROM dbo.TypeOperation";
 			SqlCommand command = new SqlCommand();
-			if (SalleId != null) 
+			if (ForSalle == false && ForApp == true && SalleId != null)
 			{
-				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE SalleId = @SalleId AND AppareilRadioId IS NULL";
+				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE AppareilRadioId = @SalleId AND SalleId IS NOT NULL";
 				command.Parameters.AddWithValue("@SalleId", SalleId);
 			}
-			else if (App_id != null) 
+			else if (ForSalle == true && ForApp == false && SalleId != null)
 			{
-				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE AppareilRadioId = @AppareilRadio";
-				command.Parameters.AddWithValue("@AppareilRadio", App_id);
+				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE AppareilRadioId IS NULL AND SalleId = @SalleId";
+				command.Parameters.AddWithValue("@SalleId", SalleId);
+			}
+			else if (ForApp == true) 
+			{
+				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE AppareilRadioId IS NOT NULL";
+			}
+			else if (ForSalle == true)
+			{
+				sqlstr = "SELECT * FROM dbo.TypeOperation WHERE AppareilRadioId IS NULL";
 			}
 			command.CommandText = sqlstr;
 			command.Connection = connection;
@@ -196,6 +204,10 @@ namespace radio1.Models.DAL
 				{
 					app.Id = Int32.Parse(raw["Id"].ToString());
 					app.SalleId = Int32.Parse(raw["SalleId"].ToString());
+				}
+				if (raw.Table.Columns.Contains("AppareilRadioId") && (raw["AppareilRadioId"] != DBNull.Value))
+				{
+					app.AppareilRadioId = Int32.Parse(raw["AppareilRadioId"].ToString());
 				}
 				app.Nom = raw["Nom"].ToString();
 				return app;
