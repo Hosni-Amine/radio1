@@ -27,6 +27,79 @@
 			<div id='calendar'></div>
 		</div>
 	</div>
+	<!-- Edit Rendez-Vous modal-->
+	<div class="modal fade bd-example-modal-lg" id="edit-RendezVous-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9992;" aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="content" style="padding: 30px 30px 0px 30px; ">
+
+					<div class="row">
+						<div class="col-sm-12">
+
+							<div class="card">
+								<div class="card-body">
+									<form>
+										<div class="row">
+											<div class="col-12">
+												<div class="form-heading">
+													<h4>Replanification de rendez-vous</h4>
+												</div>
+											</div>
+											<input type="hidden" id="Id_edit">
+											<div id="div_select" class="col-12 col-md-12 col-xl-12" style="display:none;">
+												<div class="form-group local-forms">
+													<label>Affectation <span class="login-danger">*</span></label>
+													<select class="select" id="Affectation_edit">
+													</select>
+												</div>
+											</div>
+											<div id="div_select_date" class="col-12 col-md-12 col-xl-12" style="display:block;">
+												<div class="form-group local-forms">
+													<label>Date <span class="login-danger">*</span></label>
+													<input class="form-control" id="myDatepicker_edit" style="margin-bottom: 20px; " type="text" placeholder="Select Date">
+												</div>
+											</div>
+											<div class="col-4 col-md-4 col-xl-4"  id="Hoursdiv" style="margin-bottom: 20px; display:block;">
+												<div class="form-group local-forms">
+													<select id="Heures_edit" style=" width: max-content;height: 46px;box-shadow: none;padding: 10px 15px;font-size: 14px;min-height: 45px;border: 2px solid rgba(46, 55, 164, 0.1);border-radius: 10px;">
+													</select>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="doctor-submit text-end">
+													<button type="submit" class="btn btn-primary" onclick="Submit_Edit_RendezVous_btn()">Submit</button>
+													<button type="button" class="btn btn-primary" onclick="hide_Edit_RendezVous_btn()">Cancel</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<style>
+		Heures_edit {
+			font-size: 16px; /* taille de police */
+			padding: 8px; /* espacement interne */
+			border: 1px solid #ccc; /* bordure */
+			border-radius: 4px; /* coins arrondis */
+			background-color: #fff; /* couleur de fond */
+			color: #333; /* couleur de texte */
+		}
+
+			Heures_edit option {
+				font-size: 16px; /* taille de police */
+				padding: 8px; /* espacement interne */
+				background-color: #fff; /* couleur de fond */
+				color: #333; /* couleur de texte */
+			}
+	</style>
+
 </div>
 <script src="~/MyJS/RV_Planification/Events.js"></script>
 <script src="~/MyJS/RV_Planification/RendezVous.js"></script>

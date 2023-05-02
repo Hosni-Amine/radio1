@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(Options =>
 
 var app = builder.Build();
 
-
+ 
 //Middleware pour personalisé les erreurs d'authentification et d'autorisation
 app.Use(async (context, next) =>
 {

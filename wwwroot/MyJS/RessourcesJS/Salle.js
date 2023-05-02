@@ -286,7 +286,7 @@ function operation_associee(id) {
     $.ajax({
         url: '/TypeOperation/TypeOperationList',
         type: 'GET',
-        data: { SalleId: id },
+        data: { ForApp : false, ForSalle: true, SalleId: id },
         dataType: 'json',
         success: function (data) {
             var tbody = $('#operation-salle-table-body');
@@ -439,6 +439,65 @@ function AffecterDocteur(salle_id , id)
         success: function (response) {
             if (response.success) {
                 $('#doctor-list-modal').modal('hide');
+                $('#success-modal-text').text(response.message);
+                $('#success-modal').modal('show');
+                setTimeout(function () {
+                    window.location.href = '/Salle/SalleList';
+                }, 2000);
+            } else {
+                $('#error-modal-text').text(response.message);
+                $('#error-modal').modal('show');
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+//**//
+
+//**//Fonction d'affectation de technicien
+function changer_affectation_tech(salle_id)
+{
+    $.ajax({
+        url: '/Technicien/TechnicienListJson',
+        type: 'Get',
+        success: function (doctors) {
+            if (doctors.length !== 0) {
+                var tbody = $('#tech-table-body');
+                tbody.empty();
+                $.each(doctors, function (index, doctor) {
+                    var row = $('<tr id="' + doctor.nom + doctor.Prenom + '" style="background-color: #f4f5fa;">');
+                    row.append($('<td class="text-center" style="padding: 15px;">').text( doctor.nom + ' ' + doctor.prenom));
+                    row.append('<td class="text-center"></a><a href="#" onclick="AffecterTech(' + salle_id + ',' + doctor.id + ')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Affecter </a></td>');
+                    tbody.append(row);
+                });
+                $('#tech-list-modal').modal('show');
+            }
+            else {
+                $('#success-modal-text').text("pas de Technicien trouvée ajouter un Technicien d'abord !");
+                $('#success-modal').modal('show');
+                setTimeout(function () {
+                    $('#success-modal').modal('hide');
+                }, 2500);
+            }
+        },
+        error(xhr, status, error) {
+            console.log(error);
+        }
+    });
+
+
+
+}
+function AffecterTech(salle_id, id) {
+    $.ajax({
+        url: "/Salle/SalleAffectationtech/",
+        data: { salle_id: salle_id, id: id },
+        type: 'POST',
+        success: function (response) {
+            if (response.success) {
+                $('#tech-list-modal').modal('hide');
                 $('#success-modal-text').text(response.message);
                 $('#success-modal').modal('show');
                 setTimeout(function () {

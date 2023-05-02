@@ -64,6 +64,7 @@
 													<th>Nom</th>
 													<th>Emplacement </th>
 													<th>Respensable </th>
+													<th>Technicien affecté </th>
 													<th>Type d'operation</th>
 													<th>Date d'ajout</th>
 													<th></th>
@@ -101,6 +102,32 @@
 																		</a>
 																		<div class="dropdown-menu dropdown-menu-center">
 																			<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Affecter un responsable</a>
+																		</div>
+																	</div>
+																</td>
+															}
+															@if (@item.technicien != null)
+															{
+																<td class="text">
+																	<div class="dropdown">
+																		<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																			@item.technicien.Nom @item.technicien.Prenom
+																		</a>
+																		<div class="dropdown-menu dropdown-menu-center">
+																			<a class="dropdown-item" href="#" onclick="changer_affectation_tech(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Changer l'affectation</a>
+																		</div>
+																	</div>
+																</td>
+															}
+															else
+															{
+																<td class="text">
+																	<div class="dropdown">
+																		<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																			Pas de Technicien affecté
+																		</a>
+																		<div class="dropdown-menu dropdown-menu-center">
+																			<a class="dropdown-item" href="#" onclick="changer_affectation1(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Affecter un Technicien</a>
 																		</div>
 																	</div>
 																</td>

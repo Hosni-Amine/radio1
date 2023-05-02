@@ -12,6 +12,7 @@
 		public string? Sexe { get; set; }
 		public string? Adresse { get; set; }
 		public string? Ville { get; set; }
+		public List<RendezVous>? rendezVous { get; set; }
 		public DateTime? DateCreation { get; set; }
 
 		public Patient() { }

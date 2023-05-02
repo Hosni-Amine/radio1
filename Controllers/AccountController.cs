@@ -143,6 +143,7 @@ namespace radio1.Controllers
 				var user = UsersBLL.GetById(userId);
 				Doctor doctor = null;
 				Technicien technicien = null;
+				Secretaire secretaire = null;
 				if (user.Role == "Doctor")
 				{
 					doctor = DoctorBLL.GetByUserId(user.Id);
@@ -151,7 +152,11 @@ namespace radio1.Controllers
 				{
 					technicien = TechnicienBLL.GetByUserId(user.Id);
 				}
-				var viewModel = new { Admin = user, Doctor = doctor, Technicien = technicien };
+				else if (user.Role == "Secretaire")
+				{
+					secretaire = SecretaireBLL.GetByUserId(user.Id);
+				}
+				var viewModel = new { Admin = user, Doctor = doctor,Secretaire = secretaire, Technicien = technicien };
 				return View(viewModel);
 			}
 			else

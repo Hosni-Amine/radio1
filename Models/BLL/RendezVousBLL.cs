@@ -1,13 +1,16 @@
-﻿using NuGet.Protocol.Plugins;
-using radio1.Models.DAL;
-using radio1.Models.DAL.RV_Planification;
+﻿using radio1.Models.DAL.RV_Planification;
 using radio1.Models.Entities;
 
 namespace radio1.Models.BLL
 {
     public class RendezVousBLL
     {
-        public static List<RendezVous> GetAll(Users user)
+        public static RendezVous GetById(int Id)
+        {
+            return RendezVousDAL.GetById(Id);
+        }
+
+		public static List<RendezVous> GetAll(Users user)
         {
             return RendezVousDAL.GetAll(user);
         }
@@ -24,5 +27,9 @@ namespace radio1.Models.BLL
         {
             return RendezVousDAL.DeleteRendezVous(id);
         }
+		public static DAL.Message EditRendezVous(RendezVous rendezVous)
+		{
+			return RendezVousDAL.EditRendezVous(rendezVous);
+		}
 	}
 }

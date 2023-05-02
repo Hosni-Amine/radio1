@@ -42,7 +42,7 @@ namespace radio1.Controllers
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
 
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin , Secretaire")]
 		[HttpGet]
 		public IActionResult GetPatientById(int id)
 		{
@@ -50,7 +50,7 @@ namespace radio1.Controllers
 			return Json(patient);
 		}
 
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin , Secretaire")]
 		[HttpPost]
 		public IActionResult SubmitEditPatient(Patient patient)
 		{

@@ -61,7 +61,13 @@ namespace radio1.Controllers
 			var msg = SalleBLL.SalleAffectation(salle_id,id);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
+		
+		public IActionResult SalleAffectationtech(int salle_id, int id)
+		{
+			var msg = SalleBLL.SalleAffectationtech(salle_id, id);
+			return Json(new { Success = msg.Verification, Message = msg.Msg });
 
+		}
 		/// <summary>
 		/// Fonction qui retourn le view pour ajouter une salle 
 		/// </summary>

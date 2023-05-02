@@ -6,7 +6,7 @@ using radio1.Models.Entities;
 
 namespace radio1.Controllers
 {
-	[Authorize (Roles ="Admin")]
+	[Authorize (Roles ="Admin,Secretaire")]
 	public class TypeOperationController : Controller
 	{
 		/// <summary>

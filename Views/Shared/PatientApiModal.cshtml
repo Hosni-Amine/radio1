@@ -407,56 +407,36 @@
 		font-size: 18px;
 	}
 </style>
-
-<div class="modal fade bd-example-modal-lg" id="edit-RendezVous-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index: 9992;" aria-hidden="true">
-	<div class="modal-dialog modal-md">
+<!-- liste des Rendez-Vous par patient modal-->
+<div class="modal fade bd-example-modal-lg" id="RVS-modal" tabindex="-1" role="dialog" style=" z-index: 9702;" ;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="content" style="padding: 30px 30px 0px 30px; ">
-
-				<div class="row">
-					<div class="col-sm-12">
-
-						<div class="card">
-							<div class="card-body">
-								<form>
-									<div class="row">
-										<div class="col-12">
-											<div class="form-heading">
-												<h4>Replanification de rendez-vous</h4>
-											</div>
-										</div>
-										<input type="hidden" id="Id">
-										<div id="div_select" class="col-12 col-md-12 col-xl-12" style="display:none;">
-											<div class="form-group local-forms">
-												<label>Affectation <span class="login-danger">*</span></label>
-												<select class="select" id="Affectation_edit">
-												</select>
-											</div>
-										</div>
-										<div id="div_select_date" class="col-12 col-md-6 col-xl-6" style="display:block;">
-											<div class="form-group local-forms">
-												<label>Date <span class="login-danger">*</span></label>
-												<input class="form-control" id="myDatepicker_edit" style="margin-bottom: 20px; " type="text" placeholder="Select Date">
-											</div>
-										</div>
-										<div class="col-6 col-md-6 col-xl-6" id="Hoursdiv" style="margin-bottom: 20px; display:block;">
-											<div class="form-group local-forms">
-												<label>Heures Disponibles  <span class="login-danger">*</span></label>
-												<select class="select" id="Heures_edit" data-mdb-filter="true" data-mdb-clear-button="true">
-												</select>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="doctor-submit text-end">
-												<button type="submit" class="btn btn-primary" onclick="Submit_edit_patient()">Submit</button>
-												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Cancel</button>
-											</div>
-										</div>
-									</div>
-								</form>
+			<div class="content" style="padding: 30px 30px 0px 30px;">
+				<div class="form-heading ">
+					<div class="doctor-table-blk" style="margin: 0px 17px;">
+						<h3 id="Patient_Name" class="text-center">Liste des Rendez-Vous :</h3>
+						<div class="doctor-search-blk">
+							<div class="top-nav-search table-search-blk">
+								<div class="top-nav-search table-search-blk">
+									<input type="text" id="search-input" class="form-control" placeholder="Recherche...">
+								</div>
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="table-responsive" style="padding: 15px;">
+					<input type="hidden" value="no" id="check_edit" />
+					<table class="table border-3 custom-table" id="oplist-table">
+						<thead>
+							<tr>
+								<th class="text-center" style="background-color: #f4f5fa;">Rendez-Vous </th>
+								<th class="text-center" style="background-color: #f4f5fa;">Date</th>
+								<th class="text-center" style="background-color: #f4f5fa;">details</th>
+							</tr>
+						</thead>
+						<tbody id="RVS-table-body">
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

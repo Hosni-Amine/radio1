@@ -166,6 +166,26 @@ namespace radio1.Models.DAL
 			}
 		}
 
+		public static Message SalleAffectationtech(int salle_Id, int Id)
+		{
+			try
+			{
+				using (SqlConnection connection = Connection.DbConnection.GetConnection())
+				{
+					string sqlstr = "UPDATE [dbo].[Salle] SET [technicien_id]=@Id WHERE ([dbo].[Salle].[Id] = @salle_Id);";
+					SqlCommand command = new SqlCommand(sqlstr, connection);
+					command.Parameters.AddWithValue("@Id", Id);
+					command.Parameters.AddWithValue("@salle_Id", salle_Id);
+					Connection.DbConnection.NonQueryRequest(command);
+				}
+				return new Message(true, "Technicien affecté avec Succés ");
+			}
+			catch (Exception ex)
+			{
+				return Message.HandleException(ex, "l'affectation !");
+			}
+		}
+
 		/// <summary>
 		/// 3 Fonction permet de retourner la liste des salle de la base de données
 		/// </summary>
@@ -180,16 +200,17 @@ namespace radio1.Models.DAL
 				foreach (DataRow row in table.Rows)
 				{
 					var salle = Get(row);
-					salle.Operations = new List<TypeOperation>();
-					foreach(var op in operations)
+					var list_op = new List<TypeOperation>();
+					salle.Operations = list_op;
+					foreach (var op in operations)
 					{
 						if(op.SalleId ==  salle.Id)
 						{
 							salle.Operations.Add(op);
 						}
 					}
-					var doc = DoctorDAL.GetById(salle.Responsable.Id);
-					salle.Responsable = doc;
+					salle.Responsable = DoctorDAL.GetById(salle.Responsable.Id);
+					salle.technicien = TechnicienDAL.GetById(salle.technicien.Id);
 					salles.Add(salle);
 				}
 				return salles;
@@ -262,6 +283,12 @@ namespace radio1.Models.DAL
 					Doctor doc = new Doctor();
 					salle.Responsable = doc;
 					salle.Responsable.Id = Int32.Parse(raw["Responsable"].ToString());
+				}
+				if (!string.IsNullOrEmpty(raw["technicien_id"].ToString()))
+				{
+					Technicien tec = new Technicien();
+					salle.technicien = tec;
+					salle.technicien.Id = Int32.Parse(raw["technicien_id"].ToString());
 				}
 				salle.Id = Int32.Parse(raw["Id"].ToString());
 				salle.Nom = raw["Nom"].ToString();

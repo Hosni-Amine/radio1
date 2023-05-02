@@ -171,8 +171,9 @@ $('#edit-tech-form').on('submit', function (event) {
 });
 function profil_tech_btn(id) {
 	$.ajax({
-		url: "/technicien/GettechnicienById/" + id,
+		url: "/technicien/GettechnicienById/",
 		type: "GET",
+		data: {id : id },
 		dataType: "json",
 		success: function (data) {
 			if (data != null) {

@@ -52,7 +52,7 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
-				using (SqlConnection connection = Connection.DbConnection.GetConnection())
+				using (SqlConnection connection = DbConnection.GetConnection())
 				{
 					string sqlstr = "DELETE FROM TypeOperation WHERE id = @id";
 					SqlCommand command = new SqlCommand(sqlstr, connection);

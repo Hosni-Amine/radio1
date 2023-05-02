@@ -301,8 +301,9 @@ $('#edit-doctor-form').on('submit', function (event) {
 
 function profil_doctor_btn(id) {
 	$.ajax({
-		url: "/Doctor/GetDoctorById/" + id,
+		url: "/Doctor/GetDoctorById/",
 		type: "GET",
+		data: { id : id },
 		dataType: "json",
 		success: function (data) {
 			if (data != null) {

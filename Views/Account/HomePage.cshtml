@@ -144,161 +144,127 @@
 				</div>
 			</div>
 		}
-		else if (Model.Admin != null)
+		else if (@Model.Secretaire != null)
 		{
 			<div class="row">
-			<div class="col-12 col-md-6 col-lg-6 col-xl-6 d-flex">
-				<div class="struct-point">
-						<div class="card patient-structure" style="background-color: #e4e8ee;">
-						<div class="card-body">
-							<h5>Nombre des Medecins en Service :</h5>
-							<h3 id="med_count"><span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
-						</div>
-					</div>
-					<div class="card patient-structure"  style="background-color: #e4e8ee;">
-						<div class="card-body">
-							<h5>Nombre des Techniciens en Service :</h5>
-							<h3 id="tech_count"><span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-12 col-md-6 col-lg-6 col-xl-6 d-flex">
-				<div class="struct-point">
-					<div class="card patient-structure"  style="background-color: #e4e8ee;">
-						<div class="card-body">
-							<h5>Nombre des Salles en Service :</h5>
-							<h3 id="salle_count"><span class="status-green"><img src="~/assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
-						</div>
-					</div>
-					<div class="card patient-structure"  style="background-color: #e4e8ee;">
-						<div class="card-body">
-							<h5>Nombre des Appareils en Service :</h5>
-								<h3 id="app_count">35<span class="status-pink"><img src="~/assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
-						</div>
-					</div>
-				</div>
-			</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-lg-12 col-xl-12 d-flex">
-					<div class="card flex-fill comman-shadow" style="background-color: #e4e8ee;">
-						<div class="card-header">
-							<h4 class="card-title d-inline-block">Recent Appointments</h4> <a href="appointments.html" class="patient-views float-end">Show all</a>
-						</div>
-						<div class="card-body">
-							<div class="teaching-card">
-								<ul class="steps-history">
-									<li>08:00</li>
-									<li>09:00</li>
-									<li>10:00</li>
-									<li>11:00</li>
-								</ul>
-								<ul class="activity-feed">
-									<li class="feed-item d-flex align-items-center">
-										<div class="dolor-activity hide-activity">
-											<ul class="doctor-date-list mb-2">
-												<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Benjamin Bruklin</span></li>
-												<li class="stick-line"><i class="fas fa-circle me-2"></i>08:00 <span>Andrea Lalema</span></li>
-												<li class=" dropdown ongoing-blk ">
-													<a href="#" class="dropdown-toggle  active-doctor" data-bs-toggle="dropdown">
-														<i class="fas fa-circle me-2 active-circles"></i>08:00 <span>Andrea Lalema</span><span class="ongoing-drapt">Ongoing <i class="feather-chevron-down ms-2"></i></span>
-													</a>
-													<ul class="doctor-sub-list dropdown-menu">
-														<li class="patient-new-list dropdown-item">Patient<span>Marie kennedy</span><a href="javascript:;" class="new-dot status-green"><i class="fas fa-circle me-1 fa-2xs"></i>New</a></li>
-														<li class="dropdown-item">Time<span>8:30 - 9:00 (30min)</span></li>
-														<li class="schedule-blk mb-0 pt-2 dropdown-item">
-															<ul class="nav schedule-time">
-																<li><a href="javascript:;"><img src="~/assets/img/icons/trash.svg" alt=""></a></li>
-																<li><a href="javascript:;"><img src="~/assets/img/icons/profile.svg" alt=""></a></li>
-																<li><a href="javascript:;"><img src="~/assets/img/icons/edit.svg" alt=""></a></li>
-															</ul>
-															<a class="btn btn-primary appoint-start">Start Appointment</a>
-														</li>
-													</ul>
-												</li>
-											</ul>
+				<div class="col-lg-12">
+					<div class="doctor-personals-grp">
+						<div class="card">
+							<div class="card-body">
+								<div class="tab-content-set">
+									<ul class="nav">
+										<li>
+											<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/menu-icon-08.svg" alt=""></span>Données Personel</a>
+										</li>
+									</ul>
+								</div>
+								<div class="personal-list-out">
+									<div class="row" style="margin: 19px 0px;">
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
+												<h2>Nom</h2>
+												<h3 id="">@Model.Secretaire.Nom</h3>
+											</div>
 										</div>
-									</li>
-									<li class="feed-item d-flex align-items-center">
-										<div class="dolor-activity">
-											<ul class="doctor-date-list mb-2">
-												<li><i class="fas fa-circle me-2"></i>09:00 <span>Galaviz Lalema</span></li>
-												<li><i class="fas fa-circle me-2"></i>09:20 <span>Benjamin Bruklin</span></li>
-												<li><i class="fas fa-circle me-2"></i>09:40 <span>Jenny Smith</span></li>
-											</ul>
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
+												<h2>Prenom</h2>
+												<h3 id="">@Model.Secretaire.Prenom</h3>
+											</div>
 										</div>
-									</li>
-									<li class="feed-item d-flex align-items-center">
-										<div class="dolor-activity">
-											<ul class="doctor-date-list mb-2">
-												<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
-												<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
-											</ul>
+										<div class="col-xl-4 col-md-4">
+											<div class="detail-personal">
+												<h2>Sexe</h2>
+												<h3 id="">@Model.Secretaire.Sexe</h3>
+											</div>
 										</div>
-									</li>
-									<li class="feed-item d-flex align-items-center">
-										<div class="dolor-activity">
-											<ul class="doctor-date-list mb-2">
-												<li><i class="fas fa-circle me-2"></i>10:00 <span>Cristina Groves</span></li>
-												<li><i class="fas fa-circle me-2"></i>10:30 <span>Benjamin Bruklin</span></li>
-											</ul>
-										</div>
-									</li>
-								</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		}
-		<div class="doctor-list-blk">
+		else if (Model.Admin != null)
+		{
 			<div class="row">
-						<div class="col-xl-3 col-md-6">
-							<div class="doctor-widget border-right-bg" >
-								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
-									<img src="~/assets/img/icons/doctor-dash-01.svg" alt="">
-								</div>
-								<div class="doctor-content dash-count flex-grow-1">
-									<h4><span class="counter-up">30</span><span>/85</span><span class="status-green">+60%</span></h4>
-									<h5>Appointments (le reste du contenu est en commun)</h5>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-md-6">
-							<div class="doctor-widget border-right-bg" >
-								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
-									<img src="~/assets/img/icons/doctor-dash-02.svg" alt="">
-								</div>
-								<div class="doctor-content dash-count flex-grow-1">
-									<h4><span class="counter-up">20</span><span>/125</span><span class="status-pink">-20%</span></h4>
-									<h5>Consultations</h5>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-md-6">
-							<div class="doctor-widget border-right-bg" >
-								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
-									<img src="~/assets/img/icons/doctor-dash-03.svg" alt="">
-								</div>
-								<div class="doctor-content dash-count flex-grow-1">
-									<h4><span class="counter-up">12</span><span>/30</span><span class="status-green">+40%</span></h4>
-									<h5>Operations</h5>
-								</div>
-							</div>
-						</div><div class="col-xl-3 col-md-6">
-							<div class="doctor-widget">
-								<div class="doctor-box-icon flex-shrink-0" style="height: 58px;width: 58px;">
-									<img src="~/assets/img/icons/doctor-dash-04.svg" alt="">
-								</div>
-								<div class="doctor-content dash-count flex-grow-1">
-									<h4>$<span class="counter-up">530</span><span></span><span class="status-green">+50%</span></h4>
-									<h5>Earnings</h5>
+				<div class="col-12">
+					<div class="struct-point">
+						<div class="card patient-structure" style="background-color: #e4e8ee;">
+							<div class="card-body">
+								<h5>Ajouter un compte Admin :</h5>
+								<div class="doctor-submit text-center">
+									<button type="button" style="background-color: #2e6abeb3;" class="btn btn-primary submit-form me-2" onclick="add_admin_btn()">Ajouter un Compte (Role Admin)</button>
 								</div>
 							</div>
 						</div>
 					</div>
-		</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+					<div class="struct-point">
+						<div class="card patient-structure" style="background-color: #e4e8ee;">
+							<div class="card-body">
+								<h5>Nombre des Medecins en service :</h5>
+								<h3 id="med_count"></h3>
+								<div class="doctor-submit text-right">
+									<button type="button" style="background-color: #2e6abeb3;" class="btn btn-primary submit-form me-2" onclick="add_duser_btn()">Ajouter un Compte (Role Médecin)</button>
+								</div>
+							</div>
+						</div>
+						<div class="card patient-structure"  style="background-color: #e4e8ee;">
+							<div class="card-body">
+								<h5>Nombre des Techniciens en service :</h5>
+								<h3 id="tech_count"></h3>
+								<div class="doctor-submit text-right">
+									<button type="button" style="background-color: #2e6abeb3;" class="btn btn-primary submit-form me-2" onclick="add_tuser_btn()">Ajouter un Compte (Role Technicien)</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-6 col-xl-6 d-flex">
+					<div class="struct-point">
+						<div class="card patient-structure" style="background-color: #e4e8ee;">
+							<div class="card-body">
+								<h5>Nombre des Sécretaires en service :</h5>
+								<h3 id="secretaire_count"></h3>
+								<div class="doctor-submit text-right">
+									<button type="button" style="background-color: #2e6abeb3;" class="btn btn-primary submit-form me-2" onclick="add_suser_btn()">Ajouter un Compte (Role Secretaire)</button>
+								</div>
+							</div>
+						</div>
+						<div class="card patient-structure" style="background-color: #e4e8ee;">
+							<div class="card-body">
+								<h5>Nombre de patients enregistrées :</h5>
+								<h3 id="patient_count"></h3>
+								<div class="doctor-submit text-right">
+									<button type="button" style="background-color: #2e6abeb3;" class="btn btn-primary submit-form me-2" >Pas disponible pour le moment !</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex">
+					<div class="struct-point">
+						<div class="card patient-structure" style="background-color: #e4e8ee;">
+							<div class="card-body">
+								<h5>Nombre des Salles en Service :</h5>
+								<h3 id="salle_count"></h3>
+							</div>
+						</div>
+						<div class="card patient-structure" style="background-color: #e4e8ee;">
+							<div class="card-body">
+								<h5>Nombre des Appareils en Service :</h5>
+								<h3 id="app_count"></h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
 	</div>
 </div>
 

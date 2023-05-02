@@ -12,13 +12,17 @@ if (Role = "Admin") {
 			type: 'GET',
 			success: function (response) {
 				var medcount = document.getElementById('tech_count');
-				medcount.textContent = response.workersCount;
+				medcount.textContent = response.technicienCount;
 				var techcount = document.getElementById('med_count');
 				techcount.textContent = response.doctorsCount;
 				var sallecount = document.getElementById('salle_count');
 				sallecount.textContent = response.sallesCount;
 				var sallecount = document.getElementById('app_count');
 				sallecount.textContent = response.appareilsCount;
+				var sallecount = document.getElementById('secretaire_count');
+				sallecount.textContent = response.secretaireCount;
+				var sallecount = document.getElementById('patient_count');
+				sallecount.textContent = response.patientCount;
 			},
 			error: function (error) {
 				var medcount = document.getElementById('tech_count');
@@ -33,7 +37,7 @@ if (Role = "Admin") {
 		});
 	}
 }
-
+   
 
 //Fonction principale pour la verification de l'autorisation 
 function CheckAuth(location) {
@@ -200,6 +204,7 @@ $('#add-tuser-form').on('submit', function (event) {
 		var Technicien = {
 			Prenom: $('#add-tuser-modal #Prenom').val(),
 			Nom: $('#add-tuser-modal #Nom').val(),
+			Email: $('#add-tuser-modal #Email').val(),
 			Sexe: $('input[name="Sexe"]:checked').val(),
 		};
 		var User = {
@@ -211,7 +216,7 @@ $('#add-tuser-form').on('submit', function (event) {
 		console.log(User);
 		if ($('#add-tuser-modal #addontime').val() == 'true') {
 			$.ajax({
-				url: '/Account/AddTech_User',
+				url: '/Admin/AddTech_User',
 				type: 'POST',
 				data: { Technicien: Technicien, User: User },
 				success: function (data) {
@@ -219,21 +224,19 @@ $('#add-tuser-form').on('submit', function (event) {
 					if (data.success) {
 						$('#add-tuser-modal #addontime').val('false');
 						$('#add-tuser-modal').modal('hide');
-						$('#success-modal-text').text(data.message);
+						$('#success-modal-text').text("" + data.message + " avec le UserName : <<" + User.UserName + ">>");
 						$('#success-modal').modal('show');
-						setTimeout(function () {
-							$('#success-modal').modal('hide');
-						}, 1500);
-
+						var sallecount = document.getElementById('tech_count');
+						i = parseInt(sallecount.textContent);
+						sallecount.textContent = i + 1;
 					}
 					else if (($('#add-tuser-modal #addontime').val() == 'true')) {
 						console.log('Error in response:', data);
-						$('#error-modal-text').text(data.message);
 						$('#add-tuser-modal').modal('hide');
+						$('#error-modal-text').text(data.message);
 						$('#error-modal').modal('show');
 						setTimeout(function () {
 							$('#error-modal').modal('hide');
-							$('#add-tuser-modal').modal('show');
 						}, 1500);
 					}
 				},
@@ -255,7 +258,70 @@ $('#add-tuser-form').on('submit', function (event) {
 		}, 1500);
 	}
 });
-
+function add_suser_btn() {
+	$('#add-suser-modal').modal('show');
+	$('#add-suser-modal #addontime').attr('value', 'true');
+}
+$('#add-suser-form').on('submit', function (event) {
+	event.preventDefault();
+	if ($('#add-suser-modal #Password').val() == $('#add-suser-modal #Password1').val()) {
+		var Secretaire = {
+			Prenom: $('#add-suser-modal #Prenom').val(),
+			Nom: $('#add-suser-modal #Nom').val(),
+			Email: $('#add-suser-modal #Email').val(),
+			Sexe: $('input[name="Sexe"]:checked').val(),
+		};
+		var User = {
+			UserName: $('#add-suser-modal #UserName').val(),
+			Password: $('#add-suser-modal #Password').val(),
+			Role: "Secretaire",
+		};
+		console.log(Secretaire);
+		console.log(User);
+		if ($('#add-suser-modal #addontime').val() == 'true') {
+			$.ajax({
+				url: '/Admin/AddSec_User',
+				type: 'POST',
+				data: { Secretaire: Secretaire, User: User },
+				success: function (data) {
+					console.log('Success:', data);
+					if (data.success) {
+						$('#add-suser-modal #addontime').val('false');
+						$('#add-suser-modal').modal('hide');
+						$('#success-modal-text').text("" + data.message + " avec le UserName : <<" + User.UserName + ">>");
+						$('#success-modal').modal('show');
+						var sallecount = document.getElementById('secretaire_count');
+						i = parseInt(sallecount.textContent);
+						sallecount.textContent = i+1;
+					}
+					else if (($('#add-suser-modal #addontime').val() == 'true')) {
+						console.log('Error in response:', data);
+						$('#add-suser-modal').modal('hide');
+						$('#error-modal-text').text(data.message);
+						$('#error-modal').modal('show');
+						setTimeout(function () {
+							$('#error-modal').modal('hide');
+						}, 1500);
+					}
+				},
+				error: function (xhr, status, error) {
+					console.log('Error:', xhr, status, error);
+					$('#error-modal-text').text('An error occurred: ' + error);
+					$('#error-modal').modal('show');
+				}
+			});
+		}
+	}
+	else {
+		$('#error-modal-text').text("Les deux mots de passe choisis ne sont pas identiques!");
+		$('#add-suser-modal').modal('hide');
+		$('#error-modal').modal('show');
+		setTimeout(function () {
+			$('#error-modal').modal('hide');
+			$('#add-suser-modal').modal('show');
+		}, 1500);
+	}
+});
 function add_duser_btn() {
 	$('#add-duser-modal').modal('show');
 	$('#addontime').attr('value', 'true');
@@ -289,7 +355,7 @@ $('#add-duser-form').on('submit', function (event) {
 				console.log(doctor);
 				if ($('#addontime').val() == 'true') {
 					$.ajax({
-						url: '/Account/AddDoctor_User',
+						url: '/Admin/AddDoctor_User',
 						type: 'POST',
 						data: { Doctor: doctor, User: User },
 						success: function (data) {
@@ -297,12 +363,11 @@ $('#add-duser-form').on('submit', function (event) {
 							if (data.success) {
 								$('#addontime').val('false');
 								$('#add-duser-modal').modal('hide');
-								$('#success-modal-text').text(data.message);
+								$('#success-modal-text').text("" + data.message + " avec le UserName : <<" + User.UserName + ">>");
 								$('#success-modal').modal('show');
-								setTimeout(function () {
-									$('#success-modal').modal('hide');
-								}, 1500);
-
+								var sallecount = document.getElementById('med_count');
+								i = parseInt(sallecount.textContent);
+								sallecount.textContent = i + 1;
 							}
 							else if (($('#addontime').val() == 'true')) {
 								console.log('Error in response:', data);
@@ -353,7 +418,6 @@ $('#add-duser-form').on('submit', function (event) {
 		}, 1500);
 	}
 });
-
 function add_admin_btn() {
 	$('#add-auser-modal').modal('show');
 	$('#add-auser-modal #addontime').attr('value', 'true');
@@ -369,7 +433,7 @@ $('#add-auser-form').on('submit', function (event) {
 		console.log(User);
 		if ($('#add-auser-modal #addontime').val() == 'true') {
 			$.ajax({
-				url: '/Account/AddAdmin_User',
+				url: '/Admin/AddAdmin_User',
 				type: 'POST',
 				data: { User: User },
 				success: function (data) {
@@ -377,12 +441,8 @@ $('#add-auser-form').on('submit', function (event) {
 					if (data.success) {
 						$('#add-auser-modal #addontime').val('false');
 						$('#add-auser-modal').modal('hide');
-						$('#success-modal-text').text(data.message);
+						$('#success-modal-text').text(""+data.message+" avec le UserName : <<"+User.UserName+">>");
 						$('#success-modal').modal('show');
-						setTimeout(function () {
-							$('#success-modal').modal('hide');
-						}, 1500);
-
 					}
 					else if (($('#add-auser-modal #addontime').val() == 'true')) {
 						console.log('Error in response:', data);

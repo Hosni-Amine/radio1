@@ -18,6 +18,6 @@
 		public Doctor? doctor { get; set; }
 		public Technicien? technicien { get; set; }
 		public Secretaire? secretaire { get; set; }
-		public String? Appareil_NumSerie { get; set; }
+		public string? Appareil_NumSerie { get; set; }
 	}
 }

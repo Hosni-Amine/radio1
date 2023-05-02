@@ -33,7 +33,7 @@
 			<div class="content">
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="card">
+						<div class="card" style="margin-bottom: 0px;">
 							<div class="card-body">
 								<form asp-controller="Account" asp-action="Login" id="Login-form" method="post">
 									<div class="row">
@@ -130,8 +130,6 @@
 	</div>
 </div>
 
-
-@*
 <!-- Add user-role-doctor modal-->
 <div class="modal fade bd-example-modal-lg" id="add-duser-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -152,7 +150,7 @@
 				<!-- /Page Header -->
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="card">
+						<div class="card" style="margin-bottom: 0px;">
 							<div class="card-body">
 								<form asp-controller="Account" asp-action="AddDoctor_User" id="add-duser-form" method="post">
 									<div class="row">
@@ -312,7 +310,7 @@
 				<!-- /Page Header -->
 				<div class="row" style="background-image: url('~/wwwroot/assets/img/morning-img-03.png');">
 					<div class="col-sm-12">
-						<div class="card">
+						<div class="card" style="margin-bottom: 0px;">
 							<div class="card-body">
 								<form asp-controller="Account" asp-action="AddTech_User" id="add-tuser-form" method="post">
 									<div class="row">
@@ -333,6 +331,105 @@
 											<div class="form-group local-forms">
 												<label>Prenom<span class="login-danger">*</span></label>
 												<input class="form-control" type="text" name="Prenom" id="Prenom" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Email <span class="login-danger">*</span></label>
+												<input class="form-control" type="email" name="Email" id="Email" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group select-gender">
+												<label class="gen-label">Sexe<span class="login-danger">*</span></label>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Homme" required>Homme
+													</label>
+												</div>
+												<div class="form-check-inline">
+													<label class="form-check-label">
+														<input type="radio" name="Sexe" class="form-check-input" value="Femme">Femme
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Mot de passe<span class="login-danger">*</span></label>
+												<input class="form-control" type="password" name="Password" id="Password" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-forms">
+												<label>Repeter le mot de passe<span class="login-danger">*</span></label>
+												<input class="form-control" type="password" name="Password" id="Password1" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="submit" class="btn btn-primary submit-form me-2">S'inscrire</button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add user-role-sec modal-->
+<div class="modal fade bd-example-modal-lg" id="add-suser-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" border="50px">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding:30px;  ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>S'inscrire </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Avec un role secretaire !</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row" style="background-image: url('~/wwwroot/assets/img/morning-img-03.png');">
+					<div class="col-sm-12">
+						<div class="card" style="margin-bottom: 0px;">
+							<div class="card-body">
+								<form asp-controller="Account" asp-action="AddSec_User" id="add-suser-form" method="post">
+									<div class="row">
+										<input type="hidden" id="addontime" value="true">
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Nom d'utilisateur<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="UserName" id="UserName" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Nom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Nom" id="Nom" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Prenom<span class="login-danger">*</span></label>
+												<input class="form-control" type="text" name="Prenom" id="Prenom" placeholder="" required>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-6">
+											<div class="form-group local-forms">
+												<label>Email <span class="login-danger">*</span></label>
+												<input class="form-control" type="email" name="Email" id="Email" required>
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-xl-6">
@@ -399,9 +496,9 @@
 				<!-- /Page Header -->
 				<div class="row" style="background-image: url('~/wwwroot/assets/img/morning-img-03.png');">
 					<div class="col-sm-12">
-						<div class="card">
+						<div class="card" style="margin-bottom: 0px;">
 							<div class="card-body">
-								<form asp-controller="Account" asp-action="AddAdmin_User" id="add-auser-form" method="post">
+								<form asp-controller="Admin" asp-action="AddAdmin_User" id="add-auser-form" method="post">
 									<div class="row">
 										<input type="hidden" id="addontime" value="true">
 										<div class="col-12 col-md-6 col-xl-6">
@@ -450,4 +547,3 @@
 		</div>
 	</div>
 </div>
-*@

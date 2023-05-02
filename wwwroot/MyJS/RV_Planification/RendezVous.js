@@ -5,7 +5,7 @@ function Add_RendezVous_Btn()
 {
     var pattern = /^[A-Za-zÀ-ÿ0-9\s]{4,}$/;
     var User_Id = localStorage.getItem("Id");
-    if (localStorage.getItem("Role") === "Admin") {
+    if (localStorage.getItem("Role") === ( "Admin" ) ) {
         User_Id = 0;
     };
     var selectedAffectation = $('#Affectation option:selected').text();
@@ -25,11 +25,7 @@ function Add_RendezVous_Btn()
                             {
                                 Nom: $('#Type_Operation').val()
                             },
-                            Examen: $('#Description').val(),
-                            doctor: doctor =
-                            {
-                                Id: 2
-                            },
+                            Examen: $('#Description').val(),               
                             patient: patient =
                             {
                                 Id: $('#select_patient').val()
@@ -38,10 +34,6 @@ function Add_RendezVous_Btn()
                             {
                                 Id: User_Id
                             },
-                            technicien: technicien =
-                            {
-                                Id: 2
-                            }
                         }
                         $.ajax({
                             url: '/Appointment/SubmitAddAppointment',
@@ -51,6 +43,12 @@ function Add_RendezVous_Btn()
                                 if (response.success) {
                                     $('#success-modal-text').text(response.message);
                                     $('#success-modal').modal('show');
+                                    var Hoursdiv = $('#div_select');
+                                    Hoursdiv.hide();
+                                    var Hoursdiv = $('#div_select_date');
+                                    Hoursdiv.hide();
+                                    var Hoursdiv = $('#Hoursdiv');
+                                    Hoursdiv.hide();
                                     setTimeout(function () {
                                         $('#success-modal').modal('hide');
                                     }, 1500);
@@ -152,8 +150,8 @@ function Submit_Delete_RendezVous(id) {
     });
 }
 
-function Edit_RendezVous_btn(nom_op,id_op)
-{
+function Edit_RendezVous_btn(nom_op, id) {
+    $("#edit-RendezVous-modal #Id").text(id);
     flatpickr("#myDatepicker_edit", {
         minDate: "today",
         onChange: function (selectedDates, dateStr, instance) {
@@ -187,15 +185,15 @@ function Edit_RendezVous_btn(nom_op,id_op)
     $.ajax({
         url: '/Appointment/GetDisponibility',
         type: 'GET',
-        data: { operation : nom_op },
+        data: { operation: nom_op },
         success: function (dispos) {
+            var Nom_app = $('#RV-modal #Nom_app').text();
             var select = $('#edit-RendezVous-modal #Affectation_edit');
             select.empty();
             if (dispos.length != 0) {
                 for (var i = 0; i < dispos.length; i++) {
                     console.log(JSON.stringify(dispos[i].dates));
-                    if (dispos[i].typeOperation_Id == id_op)
-                    {
+                    if (Nom_app == dispos[i].nom_Appareil) {
                         var option = $('<option>');
                         option.val(JSON.stringify(dispos[i].dates));
                         select.append(option);
@@ -208,8 +206,114 @@ function Edit_RendezVous_btn(nom_op,id_op)
         error: function (xhr, status, error) {
         }
     });
+    $('#RV-modal').modal('hide');
     $('#edit-RendezVous-modal').modal('show');
 
+}
+function hide_Edit_RendezVous_btn()
+{
+    $('#edit-RendezVous-modal').modal('hide');
+    $('#RV-modal').modal('show');
+
+}
+function Submit_Edit_RendezVous_btn() {
+    event.preventDefault();
+    let Id = $('#Id_edit').val();
+    let dateValue = $('#myDatepicker_edit').val();
+    let heuresValue = $('#Heures_edit').val();
+    rendezvous =
+    {
+        Id: Id,
+        Date: dateValue + "T" + heuresValue
+    } 
+    $.ajax({
+        url: '/Appointment/EditAppointment',
+        type: 'POST',
+        data: { RV: rendezvous },
+        success: function (response) {
+            if (response.success) {
+                $('#success-modal-text').text(response.message);
+                $('#success-modal').modal('show');
+                $('#edit-RendezVous-modal').modal('hide');
+                setTimeout(function () {
+                    $('#success-modal').modal('hide');
+                    window.location.reload();
+                }, 2000);
+            }
+            else {
+                $('#edit-RendezVous-modal').modal('hide');
+                $('#error-modal-text').text(response.message);
+                $('#error-modal').modal('show');
+                setTimeout(function () {
+                    $('#error-modal').modal('hide');
+                    $('#edit-RendezVous-modal').modal('show');
+                }, 2000);
+            }
+        },
+        error: function (xhr, status, error) {
+            $('#error-modal-text').text("Erreur du serveur !");
+            $('#error-modal').modal('show');
+            setTimeout(function () {
+                $('#error-modal').modal('hide');
+            }, 1500);
+        }
+    });
+
+
+
+}
+
+function event_details(object, date) {
+    const formattedDate = date.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+    $("#RV-modal #Examen").text(object.examen);
+    $("#RV-modal #Nom_patient").text(object.patient.nom + ' ' + object.patient.prenom);
+    $("#RV-modal #Nom_doc").text(object.doctor.nom + ' ' + object.doctor.prenom);
+    if (object.secretaire.nom != null) {
+        $("#RV-modal #Nom_sec").text(object.secretaire.nom + ' ' + object.secretaire.prenom);
+    }
+    else {
+        $("#RV-modal #Nom_sec").text("( Administrateur )");
+    }
+    $("#RV-modal #Nom_app").text(object.appareil_NumSerie);
+    $("#RV-modal #Nom_tec").text(object.technicien.nom + ' ' + object.technicien.prenom);
+    $("#RV-modal #Nom_op").text(object.typeOperation.nom);
+    $("#RV-modal #Date").text(formattedDate);
+    var button_del = document.getElementById("Delete_RendezVous");
+    var button_edit = document.getElementById("Edit_RendezVous");
+    if (!(localStorage.getItem("Role") === "Admin" || localStorage.getItem("Role") === "Secretaire")) {
+        button_del.style.display = "none";
+        button_edit.style.display = "none";
+    }
+    if (object.status === "Planifié") {
+        $("#RV-modal #Status").text(object.status).css("color", "#d3a600");
+    }
+    else if (object.status === "Annulé") {
+        $("#RV-modal #Status").text(object.status).css("color", "#d00000");
+        button_del.style.display = "none";
+    }
+    else if (object.status === 'Terminé') {
+        $("#RV-modal #Status").text(object.status).css("color", "#16ac00");
+            button_del.style.display = "none";
+            button_edit.style.display = "none";
+    }
+    else if (object.status === 'En cours') {
+        $("#RV-modal #Status").text(object.status).css("color", "#2200ad");
+            button_del.style.display = "none";
+            button_edit.style.display = "none";
+    }
+    $('#RV-modal').modal('show');
+    var button_del = document.getElementById("Delete_RendezVous");
+    var button_edit = document.getElementById("Edit_RendezVous");
+    button_del.style.display = "none";
+    button_edit.style.display = "none";
 }
 
 //Fonction qui initialise le select option des patient disponible
@@ -260,7 +364,7 @@ $(document).ready(function () {
                     for (var i = 0; i < dispos.length; i++) {
                         var option = $('<option>');
                         option.val(JSON.stringify(dispos[i].dates));
-                        console.log(JSON.stringify(dispos[i].dates));
+                        console.log(JSON.stringify(dispos[i]));
                         option.text('Appareil : ' + dispos[i].nom_Appareil + ' | Salle : ' + dispos[i].nom_Salle + ' | Medecin : ' + dispos[i].nom_Doctor);
                         select.append(option);
                         div.show();

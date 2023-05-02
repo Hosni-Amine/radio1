@@ -7,7 +7,6 @@ namespace radio1.Models.DAL.Connection
     public class Migration
     {
         
-
         public static void CreateRendezVousTableIfNotExists()
         {
             SqlConnection connection = DbConnection.GetConnection();
@@ -17,7 +16,7 @@ namespace radio1.Models.DAL.Connection
 			DbConnection.NonQueryRequest(sqlstrTypeR, connection);
 			sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Secretaire') BEGIN CREATE TABLE dbo.Secretaire ( Id INT IDENTITY(1,1) PRIMARY KEY, [Prenom] NVARCHAR(50) NOT NULL, [Nom] NVARCHAR(50) NOT NULL , [Email] NVARCHAR(50) NOT NULL , [Sexe] NVARCHAR(50) NOT NULL ,[DateCreation] datetime NOT NULL , [User_Id] INT ,CONSTRAINT unq_email1 UNIQUE (Email), FOREIGN KEY (User_Id) REFERENCES Users(Id) ) END";
 			DbConnection.NonQueryRequest(sqlstrTypeR, connection);
-			sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL , [Responsable] INT  NULL ,[Emplacement] NVARCHAR(100) NOT NULL,[DateCreation] datetime NOT NULL ,CONSTRAINT unq_Salle UNIQUE(Nom),CONSTRAINT fk_Responsable FOREIGN KEY (Responsable) REFERENCES dbo.Doctor(Id) ON DELETE SET NULL,CONSTRAINT unq_Emplacement UNIQUE(Emplacement)) END";
+			sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL , [Responsable] INT  NULL [technicien_id] INT NULL,[Emplacement] NVARCHAR(100) NOT NULL,[DateCreation] datetime NOT NULL ,CONSTRAINT unq_Salle UNIQUE(Nom),CONSTRAINT fk_Responsable FOREIGN KEY (Responsable) REFERENCES dbo.Doctor(Id) ON DELETE SET NULL,CONSTRAINT fk_technicien_id FOREIGN KEY (technicien_id) REFERENCES dbo.Technicien(Id) ON DELETE SET NULL,CONSTRAINT unq_Emplacement UNIQUE(Emplacement)) END";
 			DbConnection.NonQueryRequest(sqlstrTypeR, connection);
 			sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'AppareilRadio') BEGIN CREATE TABLE dbo.AppareilRadio ( Id INT IDENTITY(1,1) PRIMARY KEY, [NumSerie] NVARCHAR(50) NOT NULL,[Maintenance] INT NOT NULL,[DateCreation] datetime NOT NULL , [SalleId] INT NOT NULL ,CONSTRAINT unq_NumSerie UNIQUE(NumSerie), CONSTRAINT FK_Salle FOREIGN KEY (SalleId) REFERENCES Salle (Id) ) END";
 			DbConnection.NonQueryRequest(sqlstrTypeR, connection);
@@ -62,7 +61,7 @@ namespace radio1.Models.DAL.Connection
         public static void CreateSalleIfNotExists()
         {
             SqlConnection connection = DbConnection.GetConnection();
-            string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL , [Responsable] INT  NULL ,[Emplacement] NVARCHAR(100) NOT NULL,[DateCreation] datetime NOT NULL ,CONSTRAINT unq_Salle UNIQUE(Nom),CONSTRAINT fk_Responsable FOREIGN KEY (Responsable) REFERENCES dbo.Doctor(Id) ON DELETE SET NULL,CONSTRAINT unq_Emplacement UNIQUE(Emplacement)) END";
+            string sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Salle') BEGIN CREATE TABLE dbo.Salle ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL , [Responsable] INT  NULL [technicien_id] INT NULL,[Emplacement] NVARCHAR(100) NOT NULL,[DateCreation] datetime NOT NULL ,CONSTRAINT unq_Salle UNIQUE(Nom),CONSTRAINT fk_Responsable FOREIGN KEY (Responsable) REFERENCES dbo.Doctor(Id) ON DELETE SET NULL,CONSTRAINT fk_technicien_id FOREIGN KEY (technicien_id) REFERENCES dbo.Technicien(Id) ON DELETE SET NULL,CONSTRAINT unq_Emplacement UNIQUE(Emplacement)) END";
             DbConnection.NonQueryRequest(sqlstrTypeR, connection);
         }
         public static void CreateTypeOperationTableIfNotExists()

@@ -27,11 +27,16 @@ namespace radio1.Controllers
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
 		public IActionResult AddAdmin_User(Users user)
-	{
-		var msg = UsersBLL.AddAdmin_User(user);
-		return Json(new { Success = msg.Verification, Message = msg.Msg });
-	}
-	
+		{
+			var msg = UsersBLL.AddAdmin_User(user);
+			return Json(new { Success = msg.Verification, Message = msg.Msg });
+		}
+		public IActionResult AddSec_User(Secretaire secretaire, Users user)
+		{
+			var msg = UsersBLL.AddSec_User(secretaire,user);
+			return Json(new { Success = msg.Verification, Message = msg.Msg });
+		}
+
 		/// <summary>
 		/// A changer !!!!!
 		/// </summary>

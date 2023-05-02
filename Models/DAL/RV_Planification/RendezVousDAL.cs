@@ -1,8 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.VisualBasic;
-using NuGet.Protocol.Plugins;
-using Org.BouncyCastle.Asn1.X509;
-using radio1.Models.DAL.Connection;
+﻿using radio1.Models.DAL.Connection;
 using radio1.Models.Entities;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,6 +8,52 @@ namespace radio1.Models.DAL.RV_Planification
 {
 	public class RendezVousDAL
 	{
+		/// <summary>
+		/// Methode permet de ajouter un un rendez-vous a la base de donnees 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns>Message personaliser de resultat</returns>
+		public static Message EditRendezVous(RendezVous rendezVous)
+		{
+			try
+			{
+				using (SqlConnection connection = DbConnection.GetConnection())
+				{
+					string sql = "UPDATE [dbo].[RendezVous] SET Date = @Date WHERE Id = @id ";
+					SqlCommand command = new SqlCommand(sql, connection);
+					command.Parameters.AddWithValue("@Id", rendezVous.Id);
+					command.Parameters.AddWithValue("@Date", rendezVous.Date);
+					DbConnection.NonQueryRequest(command);
+				}
+				return new Message(true, "Rendez-Vous replanifier avec succes !");
+			}
+			catch (Exception ex)
+			{
+				return Message.HandleException(ex, "la modification !");
+			}
+		}
+
+		/// <summary>
+		/// Fonctions qui peut retirer un Rendez-Vous avec le Id
+		/// </summary>
+		/// <returns>liste des medecins</returns>
+		public static RendezVous GetById(int Id)
+		{
+			SqlConnection connection = DbConnection.GetConnection();
+			connection.Open();
+			string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName ,type_op.Id AS TypeOperation_Id, p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail, a.numserie AS AppareilRadioNumSerie FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id LEFT JOIN AppareilRadio a ON type_op.AppareilRadioId = a.Id WHERE rv.Id = @Id";
+			SqlCommand command = new SqlCommand(sqlstr, connection);
+			command.Parameters.AddWithValue("@Id", Id);
+			DataTable table = new DataTable();
+			SqlDataReader reader = command.ExecuteReader();
+			table.Load(reader);
+			connection.Close();
+			if (table != null && table.Rows.Count != 0)
+				return Get(table.Rows[0]);
+			else
+				return null;
+		}
+
 		/// <summary>
 		/// Fonctions qui peut retirer la listes des Rendez-Vous avec les données nécessaire
 		/// </summary>
@@ -30,13 +72,13 @@ namespace radio1.Models.DAL.RV_Planification
 			}
 			else if (user.Role == "Technicien")
 			{
-				string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName ,type_op.Id AS TypeOperation_Id, p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail, a.numserie AS AppareilRadioNumSerie FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id LEFT JOIN AppareilRadio a ON type_op.AppareilRadioId = a.Id rv.TechnicienId IN (SELECT Id FROM Technicien WHERE User_Id = @UserId) ";
+				string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName ,type_op.Id AS TypeOperation_Id, p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail, a.numserie AS AppareilRadioNumSerie FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id LEFT JOIN AppareilRadio a ON type_op.AppareilRadioId = a.Id WHERE rv.TechnicienId IN (SELECT Id FROM Technicien WHERE User_Id = @UserId) ";
 				command = new SqlCommand(sqlstr, connection);
 				command.Parameters.AddWithValue("@UserId", user.Id);
 			}
 			else if (user.Role == "Patient")
 			{
-				string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName ,type_op.Id AS TypeOperation_Id, p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail, a.numserie AS AppareilRadioNumSerie FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id LEFT JOIN AppareilRadio a ON type_op.AppareilRadioId = a.Id WHERE rv.PatientId IN (SELECT Id FROM Patient WHERE User_Id = @UserId)";
+				string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName ,type_op.Id AS TypeOperation_Id, p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail, a.numserie AS AppareilRadioNumSerie FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id LEFT JOIN AppareilRadio a ON type_op.AppareilRadioId = a.Id WHERE rv.PatientId IN (SELECT Id FROM Patient WHERE Id = @UserId)";
 				command = new SqlCommand(sqlstr, connection);
 				command.Parameters.AddWithValue("@UserId", user.Id);
 			}
@@ -46,11 +88,11 @@ namespace radio1.Models.DAL.RV_Planification
 				command = new SqlCommand(sqlstr, connection);
 			}
 			DataTable table = new DataTable();
-			SqlDataReader reader = command.ExecuteReader();	
+			SqlDataReader reader = command.ExecuteReader();
 			table.Load(reader);
 			connection.Close();
 			return GetAll(table);
-		}	 
+		}
 		public static List<RendezVous> GetAll(DataTable table)
 		{
 			try
@@ -81,13 +123,13 @@ namespace radio1.Models.DAL.RV_Planification
 				DateTime utcTime = DateTime.UtcNow;
 				TimeZoneInfo cetTimeZone = TimeZoneInfo.Local;
 				DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-				rendezvous.Status = ChangeStatus(rendezvous.Date, cetTime );
+				rendezvous.Status = ChangeStatus(rendezvous.Date, cetTime);
 				rendezvous.Appareil_NumSerie = Convert.ToString(raw["AppareilRadioNumSerie"]);
 				rendezvous.Examen = Convert.ToString(raw["Examen"]);
 				// Données relative au Patient
 				rendezvous.patient.Id = Convert.ToInt32(raw["PatientId"]);
-				rendezvous.patient.Nom = raw["PatientName"].ToString(); 
-				rendezvous.patient.Prenom = raw["PatientName2"].ToString(); 
+				rendezvous.patient.Nom = raw["PatientName"].ToString();
+				rendezvous.patient.Prenom = raw["PatientName2"].ToString();
 				rendezvous.patient.Telephone = raw["PatientPhone"].ToString();
 				// Données relative au Medecin
 				rendezvous.doctor.Id = Convert.ToInt32(raw["DoctorId"]);
@@ -118,7 +160,7 @@ namespace radio1.Models.DAL.RV_Planification
 				return null;
 			}
 		}
-	
+
 		/// <summary>
 		/// Methode permet de supprimer un medecin de la base de donnees
 		/// </summary>
@@ -158,7 +200,7 @@ namespace radio1.Models.DAL.RV_Planification
 					DateTime utcTime = DateTime.UtcNow;
 					TimeZoneInfo cetTimeZone = TimeZoneInfo.Local;
 					DateTime cetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, cetTimeZone);
-					string sqlstr = "INSERT INTO [dbo].[RendezVous] ([Date], [Status], [Examen], [PatientId], [TypeOperationId], [DoctorId], [TechnicienId], [SecretaireId]) VALUES (@Date, @Status, @Examen, @PatientId, @TypeOperationId, @DoctorId, @TechnicienId, (SELECT [Id] FROM [dbo].[Secretaire] WHERE [User_Id] = @SecretaireId))";
+					string sqlstr = "INSERT INTO [dbo].[RendezVous] ([Date], [Status], [Examen], [PatientId], [TypeOperationId], [DoctorId], [TechnicienId], [SecretaireId]) VALUES (@Date, @Status, @Examen, @PatientId, @TypeOperationId, @DoctorId, @TechnicienId, (SELECT [Id] FROM [dbo].[Secretaire] WHERE [User_Id] = @SecretaireId))"; 
 					SqlCommand command = DbConnection.CommandCreate(connection, sqlstr, RendezVous);
 					DbConnection.NonQueryRequest(command);
 				}
@@ -167,7 +209,7 @@ namespace radio1.Models.DAL.RV_Planification
 			catch (Exception ex)
 			{
 				return Message.HandleException(ex, "l'ajout");
-			}	
+			}
 		}
 
 		/// <summary>
@@ -189,14 +231,15 @@ namespace radio1.Models.DAL.RV_Planification
 					SqlDataReader reader = command.ExecuteReader();
 					tablereferences.Load(reader);
 					Migration.CreateRendezVousTableIfNotExists();
-					sqlstr = "SELECT RendezVous.Date AS Date ,AppareilRadio.NumSerie AS AppareilRadio_Nom FROM TypeOperation JOIN AppareilRadio ON TypeOperation.AppareilRadioId = AppareilRadio.id JOIN Rendezvous ON Rendezvous.TypeOperationId = TypeOperation.id WHERE TypeOperation.nom = @TypeOperation AND TypeOperation.AppareilRadioId IS NOT NULL ORDER BY AppareilRadio_Nom ASC";
+					sqlstr = "SELECT RendezVous.Date AS Date ,AppareilRadio.NumSerie AS AppareilRadio_Nom FROM TypeOperation JOIN AppareilRadio ON TypeOperation.AppareilRadioId = AppareilRadio.id JOIN Rendezvous ON Rendezvous.TypeOperationId = TypeOperation.id WHERE TypeOperation.AppareilRadioId IN ( SELECT TypeOperation.AppareilRadioId FROM TypeOperation WHERE TypeOperation.nom = @TypeOperation ) ORDER BY AppareilRadio_Nom ASC";
+					//sqlstr = "SELECT RendezVous.Date AS Date ,AppareilRadio.NumSerie AS AppareilRadio_Nom FROM TypeOperation JOIN AppareilRadio ON TypeOperation.AppareilRadioId = AppareilRadio.id JOIN Rendezvous ON Rendezvous.TypeOperationId = TypeOperation.id WHERE TypeOperation.nom = @TypeOperation AND TypeOperation.AppareilRadioId IS NOT NULL ORDER BY AppareilRadio_Nom ASC";
 					command = new SqlCommand(sqlstr, connection);
 					command.Parameters.AddWithValue("@TypeOperation", typeoperation);
 					DataTable tablerendervous = new DataTable();
 					reader = command.ExecuteReader();
 					tablerendervous.Load(reader);
 					connection.Close();
-					return GetAllDisponibilite(tablereferences,tablerendervous);
+					return GetAllDisponibilite(tablereferences, tablerendervous);
 				}
 			}
 			catch (Exception ex)
@@ -211,27 +254,27 @@ namespace radio1.Models.DAL.RV_Planification
 			{
 				int i = 0;
 				List<Disponibilite> disponibilites = new List<Disponibilite>();
-					foreach (DataRow rawref in tablereferences.Rows)
+				foreach (DataRow rawref in tablereferences.Rows)
+				{
+					Disponibilite disponibilite = new Disponibilite();
+					disponibilite.Dates = new List<DateTime>();
+					disponibilite.TypeOperation_Id = Convert.ToInt32(rawref["TypeOperation_Id"]);
+					disponibilite.Nom_Doctor = Convert.ToString(rawref["nom_Doctor"]) + ' ' + Convert.ToString(rawref["prenom_Doctor"]);
+					disponibilite.Nom_Appareil = Convert.ToString(rawref["AppareilRadio_Nom"]);
+					disponibilite.Nom_Salle = Convert.ToString(rawref["nom_salle"]);
+					disponibilites.Add(disponibilite);
+				}
+				foreach (DataRow rawrv in tablerendervous.Rows)
+				{
+					if (disponibilites[i].Nom_Appareil == Convert.ToString(rawrv["AppareilRadio_Nom"]))
 					{
-						Disponibilite disponibilite = new Disponibilite();
-						disponibilite.Dates = new List<DateTime>();
-						disponibilite.TypeOperation_Id = Convert.ToInt32(rawref["TypeOperation_Id"]);
-						disponibilite.Nom_Doctor = Convert.ToString(rawref["nom_Doctor"]) + ' ' + Convert.ToString(rawref["prenom_Doctor"]);
-						disponibilite.Nom_Appareil = Convert.ToString(rawref["AppareilRadio_Nom"]);
-						disponibilite.Nom_Salle = Convert.ToString(rawref["nom_salle"]);
-						disponibilites.Add(disponibilite);
+						disponibilites[i].Dates.Add(Convert.ToDateTime(rawrv["Date"]));
 					}
-					foreach (DataRow rawrv in tablerendervous.Rows)
+					else
 					{
-						if (disponibilites[i].Nom_Appareil == Convert.ToString(rawrv["AppareilRadio_Nom"]))
-						{
-							disponibilites[i].Dates.Add(Convert.ToDateTime(rawrv["Date"]));
-						}
-						else
-						{
-							i++;
-							disponibilites[i].Dates.Add(Convert.ToDateTime(rawrv["Date"]));
-						}
+						i++;
+						disponibilites[i].Dates.Add(Convert.ToDateTime(rawrv["Date"]));
+					}
 				}
 				return disponibilites;
 			}
@@ -240,14 +283,14 @@ namespace radio1.Models.DAL.RV_Planification
 				return null;
 			}
 		}
-	
+
 		public static string ChangeStatus(DateTime RV_date, DateTime CT)
 		{
 			if (RV_date.AddHours(1) >= CT && RV_date <= CT)
 			{
 				return "En cours";
 			}
-			
+
 			else if (RV_date <= CT)
 			{
 				return "Terminé";
@@ -267,33 +310,3 @@ namespace radio1.Models.DAL.RV_Planification
 		}
 	}
 }
-
-
-
-
-
-
-/// <summary>
-/// Methode permet de modifier un medecin de la base de donnees
-/// </summary>
-/// <param name="id"></param>
-/// <returns>Message personaliser de resultat</returns>
-//public static Message UpdateRendezVous(RendezVous RendezVous)
-//{
-//	try
-//	{
-//		using (SqlConnection connection = Connection.DbConnection.GetConnection())
-//		{
-//			string sqlstr = "UPDATE RendezVous SET Prenom = @Prenom, Nom = @Nom, Matricule = @Matricule, Telephone = @Telephone, Email = @Email, DateN = @DateN, LieuN = @LieuN, SituationC = @SituationC, Sexe = @Sexe, Adresse = @Adresse, Ville = @Ville, CodePostal = @CodePostal WHERE id = @id";
-//			SqlCommand command = Connection.DbConnection.CommandCreate(connection, sqlstr, RendezVous);
-//			command.Parameters.AddWithValue("@Id", RendezVous.Id);
-//			Connection.DbConnection.NonQueryRequest(command);
-//		}
-//		return new Message(true, "Element modifier avec succés");
-//	}
-//	catch (Exception ex)
-//	{
-//		return Message.HandleException(ex, "le modification");
-//	}
-//}
-

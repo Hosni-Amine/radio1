@@ -24,6 +24,11 @@ namespace radio1.Controllers
 			var techniciens = TechnicienBLL.GetAll();
 			return View(techniciens);
 		}
+		public IActionResult TechnicienListJson()
+		{
+			var techniciens = TechnicienBLL.GetAll();
+			return Json(techniciens);
+		}
 
 		/// <summary>
 		/// La methode DeleteTechnicien pour supprimer un Technicien de database

@@ -154,8 +154,9 @@ function submit_edit_app(app_id, salle_id) {
 						$('#success-modal').modal('show');
 						setTimeout(function () {
 							$('#success-modal').modal('hide');
+							window.location.href = '/AppareilRadio/AppareilRadioList';
+
 						}, 1500);
-						window.location.href = '/AppareilRadio/AppareilRadioList';
 					}
 					else {
 						$('#error-modal-text').text(response.message);
