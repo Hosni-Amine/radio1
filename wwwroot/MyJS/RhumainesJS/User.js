@@ -3,7 +3,7 @@
 var UserName = localStorage.getItem("UserName");
 var Id = localStorage.getItem("Id");
 var Role = localStorage.getItem("Role");
-document.getElementById("Id").textContent = "Utilisateur : " + UserName;
+document.getElementById("Id_user").textContent = "Utilisateur : " + UserName;
 document.getElementById("Role").textContent = "Designation : " + Role;
 if (Role = "Admin") {
 	if (window.location.href.includes('/Account/HomePage')) {

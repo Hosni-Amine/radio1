@@ -19,6 +19,8 @@ namespace radio1.Controllers
 		{
 			_config = configuration;
 		}
+		
+		
 		[HttpGet]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Auth()

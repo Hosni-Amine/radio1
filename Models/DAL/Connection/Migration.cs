@@ -24,11 +24,19 @@ namespace radio1.Models.DAL.Connection
 			DbConnection.NonQueryRequest(sqlstrTypeR, connection);
 			sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TypeOperation') BEGIN CREATE TABLE dbo.TypeOperation ( Id INT IDENTITY(1,1) PRIMARY KEY, [Nom] NVARCHAR(50) NOT NULL,[SalleId] INT NOT NULL ,[AppareilRadioId] INT ,CONSTRAINT FK_Salle_two FOREIGN KEY (SalleId) REFERENCES Salle (Id),CONSTRAINT FK_AppareilRadio FOREIGN KEY (AppareilRadioId) REFERENCES AppareilRadio (Id)) END";
 			DbConnection.NonQueryRequest(sqlstrTypeR, connection);
-			sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RendezVous') BEGIN CREATE TABLE RendezVous (Id INT IDENTITY(1,1) PRIMARY KEY, Date DATETIME, Status NVARCHAR(10) , Examen NVARCHAR(50), PatientId INT NULL , TypeOperationId INT NULL, DoctorId INT NULL, TechnicienId INT NULL, SecretaireId INT NULL, FOREIGN KEY(TypeOperationId) REFERENCES TypeOperation(Id) ON DELETE SET NULL, FOREIGN KEY(DoctorId) REFERENCES Doctor(Id) ON DELETE SET NULL, FOREIGN KEY(PatientId) REFERENCES Patient(Id) ON DELETE SET NULL , FOREIGN KEY(TechnicienId) REFERENCES Technicien(Id) ON DELETE SET NULL, FOREIGN KEY(SecretaireId) REFERENCES Secretaire(Id) ON DELETE SET NULL,CONSTRAINT uc_RendezVous UNIQUE(Date, PatientId )) END";
-            DbConnection.NonQueryRequest(sqlstrTypeR, connection);
+			sqlstrTypeR = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RendezVous') BEGIN CREATE TABLE RendezVous (Id INT IDENTITY(1,1) PRIMARY KEY, Date DATETIME, Status NVARCHAR(10) , Examen NVARCHAR(50), Image_Name NVARCHAR(50) NULL, PatientId INT NULL , TypeOperationId INT NULL, DoctorId INT NULL, TechnicienId INT NULL, SecretaireId INT NULL, FOREIGN KEY(TypeOperationId) REFERENCES TypeOperation(Id) ON DELETE SET NULL, FOREIGN KEY(DoctorId) REFERENCES Doctor(Id) ON DELETE SET NULL, FOREIGN KEY(PatientId) REFERENCES Patient(Id) ON DELETE SET NULL , FOREIGN KEY(TechnicienId) REFERENCES Technicien(Id) ON DELETE SET NULL, FOREIGN KEY(SecretaireId) REFERENCES Secretaire(Id) ON DELETE SET NULL, CONSTRAINT uc_RendezVous UNIQUE(Date, PatientId, Image_Name)) END";
+			DbConnection.NonQueryRequest(sqlstrTypeR, connection);
         }
 
-        public static void CreateDoctorTableIfNotExists()
+
+		public static void CreateDicomReffTableIfNotExists()
+		{
+			SqlConnection connection = DbConnection.GetConnection();
+			string sqlstr = " IF NOT EXISTS(SELECT* FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DicomReff') BEGIN CREATE TABLE DicomReff(Id INT IDENTITY(1,1), PatientId INT NOT NULL, Image_Name VARCHAR(50) NOT NULL, CONSTRAINT fk_DicomReff FOREIGN KEY(PatientId) REFERENCES Patient(Id)) END";
+			DbConnection.NonQueryRequest(sqlstr, connection);
+		}
+
+		public static void CreateDoctorTableIfNotExists()
         {
             SqlConnection connection = DbConnection.GetConnection();
             string sqlstr = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Doctor') BEGIN CREATE TABLE dbo.Doctor ( Id INT IDENTITY(1,1) PRIMARY KEY, [Prenom] NVARCHAR(50) NOT NULL, [Nom] NVARCHAR(50) NOT NULL, [Matricule] NVARCHAR(50) NOT NULL, [Telephone] NVARCHAR(50) NOT NULL, [Email] NVARCHAR(50) NOT NULL, [DateN] NVARCHAR(50) NOT NULL, [LieuN] NVARCHAR(50) NOT NULL, [SituationC] NVARCHAR(50) NOT NULL, [Sexe] NVARCHAR(50) NOT NULL, [Adresse] NVARCHAR(50) NOT NULL, [Ville] NVARCHAR(50) NOT NULL, [CodePostal] INT NOT NULL , [DateCreation] NVARCHAR(50) NOT NULL, [User_Id] INT , FOREIGN KEY (User_Id) REFERENCES Users(Id) , CONSTRAINT unq_email UNIQUE (Email), CONSTRAINT unq_matricule UNIQUE (Matricule), CONSTRAINT unq_telephone UNIQUE (Telephone) ) END";

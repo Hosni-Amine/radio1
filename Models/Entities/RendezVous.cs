@@ -19,5 +19,7 @@
 		public Technicien? technicien { get; set; }
 		public Secretaire? secretaire { get; set; }
 		public string? Appareil_NumSerie { get; set; }
+		public string? Image_Name { get; set; }
+
 	}
 }

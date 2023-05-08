@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using Leadtools;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,12 @@ builder.Services.AddCors(options =>
 								"http://www.contoso.com");
 		});
 });
-  
+
+builder.Services.Configure<FormOptions>(options =>
+{
+	options.MultipartBodyLengthLimit = 104837600; // 50 MB
+});
+
 builder.Services.AddAuthentication(Options =>
 {
 	Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,8 +76,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-app.UseRouting();
+
 app.UseCors();
+
+app.UseRouting();
 
 
 

@@ -78,6 +78,7 @@ $(document).ready(function () {
 		});
 	});
 });
+
 function event_details_patient(id) {
 	$.ajax({
 		url: "/Appointment/GetById/" + id,
@@ -120,10 +121,8 @@ function event_details_patient(id) {
 				$("#RV-modal #Status").text(object.status).css("color", "#2200ad");
 			}
 			$('#RV-modal').modal('show');
-			var button_del = document.getElementById("Delete_RendezVous");
-			var button_edit = document.getElementById("Edit_RendezVous");
-			button_del.style.display = "none";
-			button_edit.style.display = "none";
+			var buttons = document.getElementById("RV_Buttons");
+			buttons.style.display = "none";
 		},
 		error: function (xhr) {
 			$('#delete_modal').modal('hide');

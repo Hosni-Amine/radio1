@@ -49,6 +49,7 @@ function Add_RendezVous_Btn()
                                     Hoursdiv.hide();
                                     var Hoursdiv = $('#Hoursdiv');
                                     Hoursdiv.hide();
+                                    refresh_notification();
                                     setTimeout(function () {
                                         $('#success-modal').modal('hide');
                                     }, 1500);
@@ -151,7 +152,7 @@ function Submit_Delete_RendezVous(id) {
 }
 
 function Edit_RendezVous_btn(nom_op, id) {
-    $("#edit-RendezVous-modal #Id").text(id);
+    $("#edit-RendezVous-modal #Id_edit").val(id);
     flatpickr("#myDatepicker_edit", {
         minDate: "today",
         onChange: function (selectedDates, dateStr, instance) {
@@ -258,12 +259,11 @@ function Submit_Edit_RendezVous_btn() {
             }, 1500);
         }
     });
-
-
-
 }
 
 function event_details(object, date) {
+    var buttons = document.getElementById("RV_Buttons");
+    buttons.style.display = "block";
     const formattedDate = date.toLocaleDateString('fr-FR', {
         year: 'numeric',
         month: '2-digit',
@@ -286,34 +286,28 @@ function event_details(object, date) {
     $("#RV-modal #Nom_tec").text(object.technicien.nom + ' ' + object.technicien.prenom);
     $("#RV-modal #Nom_op").text(object.typeOperation.nom);
     $("#RV-modal #Date").text(formattedDate);
-    var button_del = document.getElementById("Delete_RendezVous");
-    var button_edit = document.getElementById("Edit_RendezVous");
     if (!(localStorage.getItem("Role") === "Admin" || localStorage.getItem("Role") === "Secretaire")) {
-        button_del.style.display = "none";
-        button_edit.style.display = "none";
+        buttons.style.display = "none";
     }
     if (object.status === "Planifié") {
         $("#RV-modal #Status").text(object.status).css("color", "#d3a600");
     }
     else if (object.status === "Annulé") {
         $("#RV-modal #Status").text(object.status).css("color", "#d00000");
-        button_del.style.display = "none";
     }
     else if (object.status === 'Terminé') {
         $("#RV-modal #Status").text(object.status).css("color", "#16ac00");
-            button_del.style.display = "none";
-            button_edit.style.display = "none";
+        buttons.style.display = "none";
     }
     else if (object.status === 'En cours') {
         $("#RV-modal #Status").text(object.status).css("color", "#2200ad");
-            button_del.style.display = "none";
-            button_edit.style.display = "none";
+        buttons.style.display = "none";
     }
-    $('#RV-modal').modal('show');
-    var button_del = document.getElementById("Delete_RendezVous");
     var button_edit = document.getElementById("Edit_RendezVous");
-    button_del.style.display = "none";
-    button_edit.style.display = "none";
+    button_edit.setAttribute("onclick", "Edit_RendezVous_btn('" + object.typeOperation.nom + "', '" + object.id + "')");
+    var button_del = document.getElementById("Delete_RendezVous");
+    button_del.setAttribute("onclick", "Delete_RendezVous_btn('" + object.id + "')");
+    $('#RV-modal').modal('show');
 }
 
 //Fonction qui initialise le select option des patient disponible

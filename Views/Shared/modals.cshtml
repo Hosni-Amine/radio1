@@ -547,3 +547,59 @@
 		</div>
 	</div>
 </div>
+
+<!-- Add admin-user modal-->
+<div class="modal fade bd-example-modal-lg" id="attache-dicom-modal" style="z-index: 9993;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Rendez-Vous </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Ajouter une image médicale</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form id="dicom_form" method="post" action="/AzurePacs/AzureUpLoadStudy" enctype="multipart/form-data">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h5 style="margin-bottom : 25px ; color: #e96060;" id="image_name_for">NB : Vérifier Le nom de l'image choisis, ce nom va étre une référence</h5>
+											</div>
+										</div>
+										<input type="hidden" id="RendezVous_Id" name="RendezVous_Id">
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-top-form">
+												<label class="local-top">Image Médicale<span class="login-danger">*</span></label>
+												<div class="settings-btn upload-files-avator">
+													<input type="file" value="Choisir un fichier " accept=".dcm" name="dicom" id="file-dicom" onchange="displayFileNameDicom()" class="hide-input">
+													<label style="width:-webkit-fill-available;" name="dicom" for="file-dicom" class="upload">Choisir un fichier</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="button" class="btn btn-primary" id="add_dicom_btn" style="margin-right: 10px;">Ajouter </button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

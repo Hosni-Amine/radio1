@@ -1,6 +1,4 @@
 ﻿
-
-
 var calendarEl = document.getElementById('calendar');
 var currentDate = new Date();
 var calendar = new FullCalendar.Calendar(calendarEl, {

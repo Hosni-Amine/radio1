@@ -84,7 +84,7 @@ namespace radio1.Models.DAL.RV_Planification
 			}
 			else
 			{
-				string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName ,type_op.Id AS TypeOperation_Id, p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail, a.numserie AS AppareilRadioNumSerie FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id LEFT JOIN AppareilRadio a ON type_op.AppareilRadioId = a.Id ";
+				string sqlstr = "SELECT rv.* , type_op.Nom AS TypeOperationName ,type_op.Id AS TypeOperation_Id, p.Nom AS PatientName ,p.Prenom AS PatientName2 , p.Telephone AS PatientPhone ,  d.Nom AS DoctorName ,d.Prenom AS DoctorName2 , d.Email AS DoctorEmail , t.Nom AS TechnicienName , t.Prenom AS TechnicienName2 , t.Email AS TechnicienEmail , s.Nom AS SecretaireName , s.Prenom AS SecretaireName2  , s.Email AS SecretaireEmail, a.numserie AS AppareilRadioNumSerie FROM RendezVous rv LEFT JOIN Doctor d ON rv.DoctorId = d.Id LEFT JOIN Technicien t ON rv.TechnicienId = t.Id LEFT JOIN Patient p ON rv.PatientId = p.Id LEFT JOIN TypeOperation type_op ON rv.TypeOperationId = type_op.Id LEFT JOIN Secretaire s ON rv.SecretaireId = s.Id LEFT JOIN AppareilRadio a ON type_op.AppareilRadioId = a.Id ORDER BY rv.Date ASC;";
 				command = new SqlCommand(sqlstr, connection);
 			}
 			DataTable table = new DataTable();
@@ -152,6 +152,10 @@ namespace radio1.Models.DAL.RV_Planification
 					rendezvous.secretaire.Nom = Convert.ToString(raw["SecretaireName"]);
 					rendezvous.secretaire.Prenom = Convert.ToString(raw["SecretaireName2"]);
 					rendezvous.secretaire.Email = Convert.ToString(raw["SecretaireEmail"]);
+				}
+				if (!string.IsNullOrEmpty(raw["Image_Name"].ToString()))
+				{
+					rendezvous.Image_Name = Convert.ToString(raw["Image_Name"]);
 				}
 				return rendezvous;
 			}
