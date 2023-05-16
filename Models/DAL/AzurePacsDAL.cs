@@ -3,11 +3,11 @@ using Microsoft.Health.Dicom.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Azure.Storage.Blobs;
 using radio1.Models.DAL.Connection;
-using radio1.Models.Entities;
 using System.Data.SqlClient;
-
+	
 namespace radio1.Models.DAL
 {
+	
 	public class AzurePacsDAL
 	{
 		/// <summary>
@@ -35,7 +35,6 @@ namespace radio1.Models.DAL
 		{
 			try
 			{
-				string tenantId = "5121a861-51c1-4d61-a4ca-ed11c8097a22";
 				string clientId = "e4312849-54b8-4995-9992-f4d53c6d8039";
 				string clientSecret = "dmn8Q~jH.oWAtszifmUot6ayjSDCxl_vZ203jaNI";
 				string resource = "https://login.microsoftonline.com/";
@@ -148,7 +147,6 @@ namespace radio1.Models.DAL
 				return new Message (false,ex.Message+"erreur de check !");
 			}
 		}
-
 		public static Message AddImageReff(string Image_Name , int RendezVous_Id)
 		{
 			try
@@ -174,32 +172,45 @@ namespace radio1.Models.DAL
 		/// </summary>
 		/// <param name="Image_Name"></param>
 		/// <returns></returns>
-		public async Task<Message> GetStudy(DicomReff dicomReff)
+		public async Task<Message> GetStudy(int RendezVous_Id , string Path)
 		{
-			dicomReff.Reff = dicomReff.PatientId + "_" + dicomReff.Image_Name;
-			try
+			var Msg = CheckImage(RendezVous_Id);
+            var directory = new DirectoryInfo(Path);
+            var file = directory.GetFiles();
+            var filename = file[0].Name;
+            if ((Msg.Verification) && !(filename.Contains(Msg.Msg)))
 			{
-				// Create a BlobServiceClient object using the connection string
-				BlobServiceClient blobServiceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=dicoms;AccountKey=PVh3WY2Dybc4TZAy+qMenUl/vS1JVa8hbdUYrljka8UcLm6J9/SbPTyVnv05hvi/TqF1iNK7CRUn+AStLL0E2w==;EndpointSuffix=core.windows.net");
-				// Get a reference to the container
-				BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("dicomcontainer");
-				// Get a reference to the blob
-				BlobClient blobClient = containerClient.GetBlobClient(dicomReff.Reff);
-				string filename = dicomReff.Reff + ".dcm";
-				using FileStream downloadFileStream = File.OpenWrite("C:/Users/Amine/Desktop/radio1/wwwroot/assets/DICOM/" + filename);
-				await blobClient.DownloadToAsync(downloadFileStream);
-				downloadFileStream.Close();
-				// Open the downloaded DICOM file
-				DicomFile dicomFile = await DicomFile.OpenAsync("DICOM");
-				return new Message(true, "Fichier bien telecharger !");
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-				return new Message(false, "Erreur de telechargement !");
+				file[0].Delete();
+                try
+				{
+					// Create a BlobServiceClient object using the connection string
+					BlobServiceClient blobServiceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=dicoms;AccountKey=PVh3WY2Dybc4TZAy+qMenUl/vS1JVa8hbdUYrljka8UcLm6J9/SbPTyVnv05hvi/TqF1iNK7CRUn+AStLL0E2w==;EndpointSuffix=core.windows.net");
+					// Get a reference to the container
+					BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("dicomcontainer");
+					// Get a reference to the blob
+					BlobClient blobClient = containerClient.GetBlobClient(Msg.Msg);
+					Path += "\\" + Msg.Msg + ".dcm";
+					using FileStream downloadFileStream = File.OpenWrite(Path);
+					await blobClient.DownloadToAsync(downloadFileStream);
+					downloadFileStream.Close();
+					return new Message(true , Path );
+				} 
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+					return new Message(false, "Erreur de telechargement !");
 
+				}
 			}
+			else if (filename.Contains(Msg.Msg))
+			{
+                return new Message(true, Path);
+            }
+			else
+			{
+				return null;
+			}
+
 		}
-
 	}
 }

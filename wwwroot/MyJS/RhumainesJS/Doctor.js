@@ -147,7 +147,6 @@ function submit_add_doctor()
 		}, 1500);
 	}
 }
-
 function edit_doctor_btn(id) {
 	console.log(id);
 	$.ajax({

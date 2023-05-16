@@ -8,9 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
+    <PackageReference Include="Cornerstone" Version="1.0.2" />
+    <PackageReference Include="EvilDICOM" Version="2.0.6.5" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
-    <PackageReference Include="Leadtools.Dicom.Pacs.Scp" Version="22.0.0.7" />
-    <PackageReference Include="Leadtools.Image.Processing" Version="22.0.0.7" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
@@ -40,16 +40,24 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
     <PackageReference Include="System.Reactive.Windows.Forms" Version="5.0.0" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="5.1.18.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="PACS\" />
     <Folder Include="wwwroot\assets\dicom\" />
+    <Folder Include="wwwroot\assets\Interpretation_PDF\" />
     <Folder Include="wwwroot\fullcalendar\" />
   </ItemGroup>
 
   <ItemGroup>
     <NativeLibs Remove="Microsoft.Health.Dicom.Client.10.0.267.nupkg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Leadtools">
+      <HintPath>bin\Debug\net6.0\Leadtools.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

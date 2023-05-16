@@ -76,6 +76,18 @@ function CheckAuth(location) {
 			}
 		});
 	}
+	else if (location === 'Patient') {
+		$.ajax({
+			type: "GET",
+			url: "/Patient/PatientListJson",
+			success: function (result) {
+					window.location.href = url;
+			},
+			error: function (xhr, status, error) {
+				CheckError(xhr);
+			}
+		});
+	}
 	else {
 		$.ajax({
 			type: "GET",

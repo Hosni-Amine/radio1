@@ -11,7 +11,6 @@ using radio1.Models.BLL;
 
 namespace radio1.Controllers
 {
-	
 	public class AccountController : Controller
 	{
 		private readonly IConfiguration _config; 

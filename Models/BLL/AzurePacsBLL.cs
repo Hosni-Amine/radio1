@@ -1,5 +1,4 @@
 ﻿using radio1.Models.DAL;
-using radio1.Models.Entities;
 
 namespace radio1.Models.BLL
 {
@@ -10,10 +9,10 @@ namespace radio1.Models.BLL
 			AzurePacsDAL azurePacsDAL = new AzurePacsDAL();
 			return await azurePacsDAL.UploadStudy( dicom, RendezVous_Id);
 		}
-		public async Task<Message> GetStudy(DicomReff dicomReff)
+		public async Task<Message> GetStudy(int RendezVous_Id ,string Path)
 		{
 			AzurePacsDAL azurePacsDAL = new AzurePacsDAL();
-			return await azurePacsDAL.GetStudy(dicomReff);
+			return await azurePacsDAL.GetStudy(RendezVous_Id, Path);
 		}
 
 	}

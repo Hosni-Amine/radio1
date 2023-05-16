@@ -1,0 +1,234 @@
+﻿@Model IEnumerable<radio1.Models.Entities.RendezVous>
+	@{
+    DateTime now = DateTime.Now;
+	string thiscolor = "background-color:#ffffff;";
+	}
+	@{
+		Layout = "_HomePageLayout";
+	}
+	<head>
+		<title>Preclinic - Gestionnaire des Rendez-Vous</title>
+	</head>
+	<body>
+		@Html.Partial("PatientApiModal")
+		<div class="main-wrapper">
+			<div class="page-wrapper">
+				<div class="content">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a>Patient </a></li>
+									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+									<li class="breadcrumb-item active">Liste des Rendez-Vous par patient</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card card-table show-entire" style="background-color: #e4e8ee;">
+								<div class="card-body" style="padding-bottom: 13px;">
+									<!-- Table Header -->
+									<div class="page-table-header mb-2">
+										<div class="row align-items-center">
+											<div class="col">
+												<div class="doctor-table-blk">
+													<h3>liste de Rendez-Vous Pour le Patient << @Model[0].patient.Nom @Model[0].patient.Prenom >> </h3>
+													<div class="doctor-search-blk">
+														<div class="top-nav-search table-search-blk">
+															<div class="top-nav-search table-search-blk">
+																<input type="text" id="search-patient-input" class="form-control" placeholder="Recherche...">
+															</div>
+														</div>
+														<div class="add-group">
+															<button type="submit" class="btn btn-primary doctor-refresh ms-2" onclick="search_patient()">
+																<img src="~/assets/img/icons/search.svg" alt="">
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /Table Header -->
+									<div class="table-responsive" id="RVpp-table" style="padding: 0px 15px;">
+										<table class="table border-0 custom-table comman-table datatable mb-0">
+											<thead>
+												<tr style=" background: linear-gradient(to bottom, #96acc9 0%, #f5f5f6 100%);">
+													<th>Examen</th>
+													<th>Date</th>
+													<th>Interprétation Textuelle</th>
+													<th>Interprétation Vocale</th>
+													<th>Interprétation PDF</th>
+													<th></th>
+												</tr>
+											</thead>
+											@if (Model != null)
+											{
+												<tbody>
+													@foreach (var item in Model)
+													{
+														@if (now > item.Date)
+														{
+															@if (@item.Image_Name != null)
+															{
+																thiscolor = "background-color:#cbffcb;";
+															}
+															else
+															{
+																thiscolor = "background-color:#fffcd3;";
+															}
+															<tr style=@thiscolor>
+																<td>@item.Examen (@item.TypeOperation.Nom)</td>
+																<td>@item.Date</td>
+																@if (@item.Image_Name != null)
+																{
+																	@if (@item.Interpretation != null)
+																	{
+																		<td class="text">
+																			<div class="dropdown">
+																				<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																					@if (item.Interpretation.Length > 15)
+																					{
+																						@item.Interpretation.Substring(0, Math.Min(item.Interpretation.Length, 25))
+																						@Html.Raw(".....")
+																					}
+																					else
+																					{
+																						@item.Interpretation
+																					}
+																				</a>
+																				<div class="dropdown-menu dropdown-menu-center">
+																					<a class="dropdown-item" href="#">
+																						@{
+																							string interpretation = item.Interpretation;
+																							var lines = interpretation.Split(new[] { ". ", ".\r\n", ".\n", "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+																							.Select(line => line.Trim())
+																							.Where(line => !string.IsNullOrEmpty(line))
+																							.Select(line => string.Join(" ", line.Split().Take(30)))
+																							.ToList();
+																							interpretation = string.Join("<br>", lines);
+																						}
+																						<p style="font-size: 15px;">@Html.Raw(interpretation)</p>
+																					</a>
+																					<a class="dropdown-item" href="#" onclick="show(@item.Id,'text')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier </a>
+																				</div>
+																			</div>
+																		</td>
+																	}
+																	else
+																	{
+																		<td class="text">
+																			<div class="dropdown">
+																				<a href="#" onclick="show(@item.Id,'text')" class=" dropdown-toggle" aria-expanded="false">
+																					<i class="fa-solid fa-pen-to-square m-r-5"></i>Ajouter
+																				</a>
+																			</div>
+																		</td>
+																	}
+																	@if (@item.Inter_Vocal != null)
+																	{
+																		<td class="text">
+																			<div class="dropdown">
+																				<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																					@if (item.Interpretation.Length > 15)
+																					{
+																						@item.Interpretation.Substring(0, Math.Min(item.Interpretation.Length, 15))
+																						@Html.Raw(".....")
+																					}
+																					else
+																					{
+																						@item.Interpretation
+																					}
+																				</a>
+																				<div class="dropdown-menu dropdown-menu-center">
+																					<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Afficher </a>
+																					<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier </a>
+																				</div>
+																			</div>
+																		</td>
+																	}
+																	else
+																	{
+																		<td class="text">
+																			<div class="dropdown">
+																				<a href="#" onclick="show(@item.Id,'vocal')" class=" dropdown-toggle" aria-expanded="false">
+																					<i class="fa-solid fa-pen-to-square m-r-5"></i>Ajouter
+																				</a>
+																			</div>
+																		</td>
+																	}
+																	@if (@item.Inter_PDF != null)
+																	{
+																		<td class="text">
+																			<div class="dropdown">
+																				<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+																					@if (@item.Inter_PDF.Length > 15)
+																					{
+																						@item.Inter_PDF.Substring(0, Math.Min(item.Inter_PDF.Length, 25))
+																						@Html.Raw(".....")
+																					}
+																					else
+																					{
+																						@item.Inter_PDF
+																					}
+																				</a>
+																				<div class="dropdown-menu dropdown-menu-center">
+																					<a class="dropdown-item" href="#" onclick="Show_PDF('@item.Inter_PDF')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Afficher </a>
+																					<a class="dropdown-item" href="#" onclick="show(@item.Id,'PDF','@item.Inter_PDF')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier </a>
+																				</div>
+																			</div>
+																		</td>
+																	}
+																	else
+																	{
+																		<td class="text">
+																			<div class="dropdown">
+																				<a href="#" onclick="show(@item.Id,'PDF')" class=" dropdown-toggle" aria-expanded="false">
+																					<i class="fa-solid fa-pen-to-square m-r-5"></i>Ajouter
+																				</a>
+																			</div>
+																		</td>
+																	}
+																}
+																else
+																{
+																	<td>Aucune image n'a encore été chargée.</td>
+																	<td></td>
+																	<td></td>
+																}
+																<td class="text-end">
+																	<div class="dropdown dropdown-action">
+																		<a class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+																		<div class="dropdown-menu dropdown-menu-end">
+																			<a class="dropdown-item" href="#" onclick="event_details_patient(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Details</a>
+																			@if (now > @item.Date && @item.Image_Name != null)
+																			{
+																				<a class="dropdown-item" href="#" onclick="View_Image(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Visualiser l'image</a>
+																			}
+																			@if (now > @item.Date && @item.Image_Name == null)
+																			{
+																				<a class="dropdown-item" href="#" onclick="event_details_for_add(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ajouter une image</a>
+																			}
+																		</div>
+																	</div>
+																</td>
+															</tr>
+														}
+													}
+												</tbody>
+											}
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="~/MyJS/RhumainesJS/Patient.js"></script>
+	</body>

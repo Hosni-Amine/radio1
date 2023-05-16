@@ -32,40 +32,25 @@ $(document).ready(function () {
 
 //Fonction Rendez-Vous list pour un patient 
 function EventsListPatient(id) {
+
 	$.ajax({
-		url: "/Appointment/EventsListPatient/",
+		url: "/Patient/EventsListPatientjson/",
 		type: 'GET',
 		data: { patient_Id: id },
-		success: function (operations) {
-			if (operations.length !== 0) {
-				$('#Patient_Name').text("Liste des Rendez-Vous (" + operations[0].patient.nom + "" + operations[0].patient.prenom + ") ");
-				var tbody = $('#RVS-table-body');
-				tbody.empty();
-				$.each(operations, function (index, operation) {
-					var row = $('<tr id="' + operation.patient.nom + "" + operation.patient.prenom + '" style="background-color: #f4f5fa;">');
-					row.append($('<td id="name" class="text-center" style="padding: 15px;">').text(operation.typeOperation.nom + " | " + operation.examen));
-					row.append($('<td id="Date" class="text-center" style="padding: 15px;">').text(operation.date));
-					row.append('<td id="action" class="text-center"></a><a href="#" onclick="event_details_patient(' + operation.id +')" id=""><i class="fa-solid fa-pen-to-square m-r-5"></i> Afficher</a></td>');
-					tbody.append(row);
-				});
-				$('#RVS-modal').modal('show');
+		success: function (response) {
+			if (response.verification) {
+				window.location.href = "/Patient/EventsListPatient?patient_Id=" + id;
 			}
 			else {
-				$('#success-modal-text').text("pas de Rendez-Vous trouvée !");
+				$('#success-modal-text').text("Aucun Rendez-Vous pour ce patient !");
 				$('#success-modal').modal('show');
 				setTimeout(function () {
 					$('#success-modal').modal('hide');
-				}, 2500);
-			}
-		},
-		error: function (xhr, status, error) {
-			if (xhr.status == 403) {
-				$('#error-modal-text').text("Tu n'a pas l'autorisation !");
-				$('#error-modal').modal('show');
-				setTimeout(function () {
-					$('#error-modal').modal('hide');
 				}, 1500);
 			}
+		},
+		error: function (xhr, jqXHR, status, error) {
+			CheckError(xhr);
 		}
 	});
 }
@@ -94,7 +79,6 @@ function event_details_patient(id) {
 				second: '2-digit',
 				hour12: false
 			}).format(new Date(dateStr));
-			
 			$("#RV-modal #Examen").text(object.examen);
 			$("#RV-modal #Nom_patient").text(object.patient.nom + ' ' + object.patient.prenom);
 			$("#RV-modal #Nom_doc").text(object.doctor.nom + ' ' + object.doctor.prenom);
@@ -120,9 +104,9 @@ function event_details_patient(id) {
 			else if (object.status === 'En cours') {
 				$("#RV-modal #Status").text(object.status).css("color", "#2200ad");
 			}
+			$("#RV-modal #RV_Buttons").css("display", "none");
 			$('#RV-modal').modal('show');
-			var buttons = document.getElementById("RV_Buttons");
-			buttons.style.display = "none";
+
 		},
 		error: function (xhr) {
 			$('#delete_modal').modal('hide');
@@ -161,8 +145,10 @@ function Submit_Delete_Patient(id) {
 				$('#error-modal').modal('show');
 			}
 		},
-		error: function (error) {
-			console.log(error);
+		error: function (xhr,error) {
+			CheckError(xhr);
+			$('#delete_modal').modal('hide');
+
 		}
 	});
 }
@@ -311,9 +297,7 @@ function edit_patient_btn(id) {
 			}
 		},
 		error: function (xhr, status, error) {
-			console.log('Error:', xhr, status, error);
-			$('#error-modal-text').text('An error occurred: ' + error);
-			$('#error-modal').modal('show');
+			CheckError(xhr);
 		}
 	});
 }

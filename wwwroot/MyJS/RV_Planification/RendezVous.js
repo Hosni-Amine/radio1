@@ -151,7 +151,7 @@ function Submit_Delete_RendezVous(id) {
     });
 }
 
-function Edit_RendezVous_btn(nom_op, id) {
+function Edit_RendezVous_btn(nom_op,id) {
     $("#edit-RendezVous-modal #Id_edit").val(id);
     flatpickr("#myDatepicker_edit", {
         minDate: "today",
@@ -261,9 +261,7 @@ function Submit_Edit_RendezVous_btn() {
     });
 }
 
-function event_details(object, date) {
-    var buttons = document.getElementById("RV_Buttons");
-    buttons.style.display = "block";
+function event_details(object, date){
     const formattedDate = date.toLocaleDateString('fr-FR', {
         year: 'numeric',
         month: '2-digit',
@@ -287,22 +285,24 @@ function event_details(object, date) {
     $("#RV-modal #Nom_op").text(object.typeOperation.nom);
     $("#RV-modal #Date").text(formattedDate);
     if (!(localStorage.getItem("Role") === "Admin" || localStorage.getItem("Role") === "Secretaire")) {
-        buttons.style.display = "none";
+        $("#RV-modal #RV_Buttons").css("display", "none");
     }
     if (object.status === "Planifié") {
         $("#RV-modal #Status").text(object.status).css("color", "#d3a600");
+        $("#RV-modal #RV_Buttons").css("display", "block");
     }
     else if (object.status === "Annulé") {
         $("#RV-modal #Status").text(object.status).css("color", "#d00000");
+        $("#RV-modal #RV_Buttons").css("display", "block");
     }
     else if (object.status === 'Terminé') {
         $("#RV-modal #Status").text(object.status).css("color", "#16ac00");
-        buttons.style.display = "none";
-    }
+        $("#RV-modal #RV_Buttons").css("display", "none");
+    }  
     else if (object.status === 'En cours') {
         $("#RV-modal #Status").text(object.status).css("color", "#2200ad");
-        buttons.style.display = "none";
-    }
+        $("#RV-modal #RV_Buttons").css("display", "none");
+    }  
     var button_edit = document.getElementById("Edit_RendezVous");
     button_edit.setAttribute("onclick", "Edit_RendezVous_btn('" + object.typeOperation.nom + "', '" + object.id + "')");
     var button_del = document.getElementById("Delete_RendezVous");

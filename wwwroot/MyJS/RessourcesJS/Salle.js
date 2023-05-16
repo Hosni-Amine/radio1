@@ -395,7 +395,6 @@ function Submit_Delete_Operation(op_id, salle_id) {
 //**//
 
 
-
 //**//Fonction d'affectaion de medecin
 function changer_affectation(salle_id)
 {

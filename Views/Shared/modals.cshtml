@@ -1,4 +1,247 @@
-﻿<!-- Success Modal -->
+﻿<!-- Add dicom modal-->
+<div class="modal fade bd-example-modal-lg" id="attache-dicom-modal" style="z-index: 9993;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a>Rendez-Vous </a></li>
+								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+								<li class="breadcrumb-item active">Ajouter une image médicale</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card">
+							<div class="card-body">
+								<form id="dicom_form" method="post" action="/AzurePacs/AzureUpLoadStudy" enctype="multipart/form-data">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-heading">
+												<h5 style="margin-bottom : 25px ; color: #e96060;" id="image_name_for">NB : Vérifier Le nom de l'image choisis, ce nom va étre une référence</h5>
+											</div>
+										</div>
+										<input type="hidden" id="RendezVous_Id" name="RendezVous_Id">
+										<div class="col-12 col-md-12 col-xl-12">
+											<div class="form-group local-top-form">
+												<label class="local-top">Image Médicale<span class="login-danger">*</span></label>
+												<div class="settings-btn upload-files-avator">
+													<input type="file" value="Choisir un fichier " accept=".dcm" name="dicom" id="file-dicom" onchange="displayFileNameDicom()" class="hide-input">
+													<label style="width:-webkit-fill-available;" name="dicom" for="file-dicom" class="upload">Choisir un fichier</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="doctor-submit text-end">
+												<button type="button" class="btn btn-primary" id="add_dicom_btn" style="margin-right: 10px;">Ajouter </button>
+												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- RV details pour l'image modal-->
+<div id="interpret-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="doctor-personals-grp">
+							<div class="card" style="background-color: #f5f5f6;">
+								<div class="card-body">
+									<div class="tab-content-set">
+										<ul class="nav" style="justify-content: center;">
+											<li>
+												<a href="#" class="active"><span class="set-about-icon me-2"><img src="~/assets/img/icons/health-img.svg" alt=""></span>Détails du rendez-vous </a>
+											</li>
+										</ul>
+									</div>
+									<div class="personal-list-out" style=" margin-bottom: 0px; ">
+										<div class="row">
+											<input type="hidden" id="Id_RV_VW" />
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Examen : </h2>
+													<h2 style="margin-top: 3px;" id="Examen"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Type d'operation : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_op"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Appareil : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_app"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Patient : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_patient"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Nom de Radioligue : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_doc"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Nom de Technicien : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_tec"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Planifié par : </h2>
+													<h2 style="margin-top: 3px;" id="Nom_sec"></h2>
+												</div>
+											</div>
+											<div class="col-xl-12 col-md-12">
+												<div class="detail-personal">
+													<h2 style=" font-size: 18px; ">Date : </h2>
+													<h2 style="margin-top: 3px;" id="Date"></h2>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12" id="RV_Buttons" style="margin-bottom: 15px;">
+						<div class="doctor-submit text-end">
+							<button type="button" class="btn btn-primary cancel-form " onclick="Open_Viewer()">Visualiser l'image</button>
+							<button type="button" class="btn btn-primary cancel-form " data-bs-dismiss="modal">Annuler</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	h2 {
+		display: inline-block;
+		vertical-align: top;
+		font-size: 18px;
+	}
+</style>
+<!-- edit interpretation modal-->
+<div id="edit-interpret-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="content" style="padding: 30px 30px 0px 30px; ">
+				<div class="row">
+					<form method="POST">
+					<div class="col-lg-12">
+						<div class="doctor-personals-grp">
+							<div class="card">
+								<div class="card-body">
+									<div id="inter_vocal" style="display:none;">
+										<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a><span class="set-about-icon me-2"><img src="~/assets/img/icons/microphone.svg" alt=""></span>Interpretation vocal</a>
+											</li>
+										</ul>
+									</div>
+										<div class="personal-list-out" style=" margin-bottom: 0px;">
+										<div class="row">
+											<input type="hidden" id="Id_RV_VW"/>
+											<div class="col-12 col-xl-12 col-lg-12 col-sm-12" style="margin-bottom: 20px; margin-top: 15px;">
+												<div class="form-group local-forms" style="margin-bottom: 0px; margin-top: 15px;">
+													<audio style="margin-bottom: 15px;" id="audioPlayer" controls></audio>
+													<div class="doctor-submit text-end">
+																<button type="button" style="margin:10px" class="btn btn-sm btn-outline-success" id="start_Recording" onclick="startRecording()">Commencer l'enregistrement</button>
+														<button type="button" style="margin:10px" class="btn btn-sm btn-outline-danger" onclick="stopRecording()">Arrêter l'enregistrement</button>
+													</div>
+													<input type="hidden" name="recordedVoice" id="recordedVoice">
+												</div>
+											</div>
+										</div>
+									</div>
+									</div>
+									<div id="inter_papier" style="display:none;">
+										<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a><span class="set-about-icon me-2"><img src="~/assets/img/icons/letter-from.svg" alt=""></span>Interpretation sur papier</a>
+											</li>
+										</ul>
+									</div>
+										<div class="personal-list-out" style=" margin-bottom: 0px;">
+										<div class="row">
+											<div class="col-12 col-xl-12 col-lg-12 col-sm-12" style="margin-top: 15px;">
+												<div class="form-group local-top-form">
+													<label class="local-forms" style="font-size: 15px; background: white;">Ajouter un PDF</label>
+													<div class="settings-btn upload-files-avator">
+														<input type="file" value="Choisir un fichier " accept=".pdf" name="pdf" id="file-inter" onchange="display_PDF_inter()" class="hide-input">
+																<label id="pdf_upload_label" style="width:-webkit-fill-available;" for="file-inter" class="upload">Choisir une interpretation</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									</div>
+									<div id="inter_text" style="display:none;">
+										<div class="tab-content-set">
+										<ul class="nav">
+											<li>
+												<a><span class="set-about-icon me-2"><img src="~/assets/img/icons/keyboard.svg" alt=""></span>Interpretation textuelle</a>
+											</li>
+										</ul>
+									</div>
+										<div class="personal-list-out" style=" margin-bottom: 0px;">
+										<div class="row">
+											<input type="hidden" id="Id_RV_VW" />
+											<div class="col-12 col-sm-12" style=" margin-bottom: -30px; margin-top: 16px;">
+												<div class="form-group local-forms">
+													<label style="font-size: 15px; background: white;">Rédiger une interprétation</label>
+													<textarea class="form-control" name="Interpretation" id="Interpretation" rows="15" cols="40" required></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12" id="RV_Buttons" style="margin-bottom: 15px;">
+						<div class="doctor-submit text-end">
+							<button type="button" class="btn btn-primary cancel-form " id="Add_Inter">Enregister</button>
+							<button type="button" class="btn btn-primary cancel-form " onclick="Open_Viewer()">Visualiser l'image</button>
+							<button type="button" class="btn btn-primary cancel-form " data-bs-dismiss="modal">Annuler</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Success Modal -->
 <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="success-modal-label" style=" z-index: 9992;" aria-hidden="true">
 	<div class="modal-dialog" role="document" style="max-width: fit-content;">
 		<div class="modal-content" style="background-color: #7aff9747;">
@@ -11,7 +254,6 @@
         </div>
     </div>
 </div>
-
 <!--Error Modal -->
 <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style=" z-index: 9991;" aria-hidden="true">
 	<div class="modal-dialog" role="document" style="max-width: fit-content;">
@@ -25,7 +267,6 @@
         </div>
     </div>
 </div>
-
 <!-- Signin modal-->
 <div class="modal fade bd-example-modal-lg" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" border="50px">
 	<div class="modal-dialog modal-md">
@@ -70,7 +311,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Delete modal-->
 <div id="delete_modal" class="modal fade delete-modal" style="z-index: 9999;" role="dialog">
 	<div class="modal-dialog modal-dialog-centered">
@@ -85,7 +325,6 @@
 			</div>
 		</div>
 	</div>
-
 <!-- PDFview modal-->
 <div class="modal fade bd-example-modal-lg" id="pdf-modal" tabindex="-1" role="dialog" style=" z-index: 9900;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -94,7 +333,6 @@
 		</div>
 	</div>
 </div>
-
 <!--All-Operation-list-Modal -->
 <div class="modal fade bd-example-modal-lg" id="operation-list-modal" tabindex="-1" role="dialog" style=" z-index: 9702;" ;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">
@@ -289,7 +527,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Add user-role-tech modal-->
 <div class="modal fade bd-example-modal-lg" id="add-tuser-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" border="50px">
 	<div class="modal-dialog modal-lg">
@@ -382,7 +619,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Add user-role-sec modal-->
 <div class="modal fade bd-example-modal-lg" id="add-suser-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" border="50px">
 	<div class="modal-dialog modal-lg">
@@ -475,7 +711,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Add admin-user modal-->
 <div class="modal fade bd-example-modal-lg" id="add-auser-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" border="50px">
 	<div class="modal-dialog modal-lg">
@@ -534,62 +769,6 @@
 										<div class="col-12">
 											<div class="doctor-submit text-end">
 												<button type="submit" class="btn btn-primary submit-form me-2">S'inscrire</button>
-												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
-											</div>
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Add admin-user modal-->
-<div class="modal fade bd-example-modal-lg" id="attache-dicom-modal" style="z-index: 9993;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="content" style="padding: 30px 30px 0px 30px; ">
-				<!-- Page Header -->
-				<div class="page-header">
-					<div class="row">
-						<div class="col-sm-12">
-							<ul class="breadcrumb">
-								<li class="breadcrumb-item"><a>Rendez-Vous </a></li>
-								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-								<li class="breadcrumb-item active">Ajouter une image médicale</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- /Page Header -->
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="card">
-							<div class="card-body">
-								<form id="dicom_form" method="post" action="/AzurePacs/AzureUpLoadStudy" enctype="multipart/form-data">
-									<div class="row">
-										<div class="col-12">
-											<div class="form-heading">
-												<h5 style="margin-bottom : 25px ; color: #e96060;" id="image_name_for">NB : Vérifier Le nom de l'image choisis, ce nom va étre une référence</h5>
-											</div>
-										</div>
-										<input type="hidden" id="RendezVous_Id" name="RendezVous_Id">
-										<div class="col-12 col-md-12 col-xl-12">
-											<div class="form-group local-top-form">
-												<label class="local-top">Image Médicale<span class="login-danger">*</span></label>
-												<div class="settings-btn upload-files-avator">
-													<input type="file" value="Choisir un fichier " accept=".dcm" name="dicom" id="file-dicom" onchange="displayFileNameDicom()" class="hide-input">
-													<label style="width:-webkit-fill-available;" name="dicom" for="file-dicom" class="upload">Choisir un fichier</label>
-												</div>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="doctor-submit text-end">
-												<button type="button" class="btn btn-primary" id="add_dicom_btn" style="margin-right: 10px;">Ajouter </button>
 												<button type="button" class="btn btn-primary cancel-form" data-bs-dismiss="modal">Annuler</button>
 											</div>
 										</div>

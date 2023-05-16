@@ -20,6 +20,11 @@
 		public Secretaire? secretaire { get; set; }
 		public string? Appareil_NumSerie { get; set; }
 		public string? Image_Name { get; set; }
+        public string? Interpretation { get; set; }
+		public string? Inter_PDF { get; set; }
+		public string? Inter_Vocal { get; set; }
+
+
 
 	}
 }

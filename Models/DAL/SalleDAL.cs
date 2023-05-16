@@ -1,6 +1,5 @@
 ﻿using radio1.Models.DAL.Connection;
 using radio1.Models.Entities;
-using radio1.Models.DAL;
 using System.Data;
 
 using System.Data.SqlClient;
@@ -58,7 +57,7 @@ namespace radio1.Models.DAL
 					command.Parameters.AddWithValue("@Nom", salle.Nom);
 					command.Parameters.AddWithValue("@id", salle.Id);
 					command.Parameters.AddWithValue("@Emplacement", salle.Emplacement);
-					Connection.DbConnection.NonQueryRequest(command);
+					DbConnection.NonQueryRequest(command);
 				}
 				return new Message(true, "salle modifié avec succes !");
 			}

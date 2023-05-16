@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using radio1.Models.BLL;
 using radio1.Models.DAL;
 using radio1.Models.Entities;
-using System.IO;
-using System.Web;
 
 
 namespace radio1.Controllers
@@ -61,13 +59,13 @@ namespace radio1.Controllers
 			var msg = SalleBLL.SalleAffectation(salle_id,id);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
-		
 		public IActionResult SalleAffectationtech(int salle_id, int id)
 		{
 			var msg = SalleBLL.SalleAffectationtech(salle_id, id);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 
 		}
+
 		/// <summary>
 		/// Fonction qui retourn le view pour ajouter une salle 
 		/// </summary>

@@ -3,7 +3,6 @@ using radio1.Models.Entities;
 using System.Data;
 using System.Data.SqlClient;
 
-
 namespace radio1.Models.DAL.RV_Planification
 {
 	public class RendezVousDAL
@@ -19,19 +18,32 @@ namespace radio1.Models.DAL.RV_Planification
 			{
 				using (SqlConnection connection = DbConnection.GetConnection())
 				{
-					string sql = "UPDATE [dbo].[RendezVous] SET Date = @Date WHERE Id = @id ";
-					SqlCommand command = new SqlCommand(sql, connection);
-					command.Parameters.AddWithValue("@Id", rendezVous.Id);
-					command.Parameters.AddWithValue("@Date", rendezVous.Date);
-					DbConnection.NonQueryRequest(command);
-				}
-				return new Message(true, "Rendez-Vous replanifier avec succes !");
+					SqlCommand command = new SqlCommand();
+                    if (rendezVous.Interpretation == null)
+                    {
+                        string sql = "UPDATE [dbo].[RendezVous] SET Date = @Date WHERE Id = @id ";
+                        command = new SqlCommand(sql, connection);
+                        command.Parameters.AddWithValue("@Id", rendezVous.Id);
+                        command.Parameters.AddWithValue("@Date", rendezVous.Date);
+                        DbConnection.NonQueryRequest(command);
+						return new Message(true, "Rendez-Vous replanifier avec succes !");
+                    }
+                    else
+					{
+                        string sql = "UPDATE [dbo].[RendezVous] SET Interpretation= @Interpretation WHERE Id = @id ";
+                        command = new SqlCommand(sql, connection);
+                        command.Parameters.AddWithValue("@Id", rendezVous.Id);
+                        command.Parameters.AddWithValue("@Interpretation", rendezVous.Interpretation);
+                        DbConnection.NonQueryRequest(command);
+						return new Message(true, "Image interpreter avec succes !");
+                    }
+                }
 			}
 			catch (Exception ex)
 			{
 				return Message.HandleException(ex, "la modification !");
 			}
-		}
+		} 
 
 		/// <summary>
 		/// Fonctions qui peut retirer un Rendez-Vous avec le Id
@@ -156,6 +168,18 @@ namespace radio1.Models.DAL.RV_Planification
 				if (!string.IsNullOrEmpty(raw["Image_Name"].ToString()))
 				{
 					rendezvous.Image_Name = Convert.ToString(raw["Image_Name"]);
+				}
+                if (!string.IsNullOrEmpty(raw["Interpretation"].ToString()))
+                {
+                    rendezvous.Interpretation = Convert.ToString(raw["Interpretation"]);
+                }
+				if (!string.IsNullOrEmpty(raw["Inter_PDF"].ToString()))
+				{
+					rendezvous.Inter_PDF = Convert.ToString(raw["Inter_PDF"]);
+				}
+				if (!string.IsNullOrEmpty(raw["Inter_Vocal"].ToString()))
+				{
+					rendezvous.Inter_Vocal = Convert.ToString(raw["Inter_Vocal"]);
 				}
 				return rendezvous;
 			}
@@ -287,7 +311,6 @@ namespace radio1.Models.DAL.RV_Planification
 				return null;
 			}
 		}
-
 		public static string ChangeStatus(DateTime RV_date, DateTime CT)
 		{
 			if (RV_date.AddHours(1) >= CT && RV_date <= CT)
