@@ -1,4 +1,6 @@
-﻿function Show_PDF(Name) {
+﻿
+//Fonctions pour le display de l'ancien contenu
+function Show_PDF(Name) {
     var pdfUrl = '../assets/Interpretation_PDF/' + Name;
     var PDFiframe = document.getElementById("PDFiframe");
     PDFiframe.setAttribute("src", pdfUrl);
@@ -14,9 +16,12 @@ function display_PDF_inter() {
         new_Emplacement.innerHTML = 'Choisir une interpretation';
     }
 }
+function display_Vocal(audioBlob_str) {
+    var audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.src = "/Appointment/Get_Inter_Vocal?audioBlob_str=" + encodeURIComponent(audioBlob_str);
+}
 
-
-//Interpretation API
+//Fonction pour afficher la modal de l'ajout et l'edit
 function show(id, str) {
     $.ajax({
         url: "/Appointment/GetById/" + id,
@@ -36,9 +41,9 @@ function show(id, str) {
                 $("#inter_vocal").css("display", "block");
                 $("#inter_papier").css("display", "none");
                 $("#inter_text").css("display", "none");
-                $("#Add_Inter").one("click", function () {
-                    Add_inter_vocal_btn();
-                });
+                if ( object.inter_Vocal != null ) {
+                    display_Vocal(object.inter_Vocal);
+                }
             } else {
                 $("#inter_vocal").css("display", "none");
                 $("#inter_papier").css("display", "block");
@@ -47,7 +52,8 @@ function show(id, str) {
                     Add_inter_pdf_btn(id);
                 });
             }
-            Inter_btn(id);
+            $('#edit-interpret-modal #Id_RV_VW').val(id);
+            $('#edit-interpret-modal').modal('show');
         },
         error: function (xhr) {
             $('#delete_modal').modal('hide');
@@ -55,14 +61,6 @@ function show(id, str) {
             CheckError(xhr);
         }
     });
-}
-
-
-//Fonction pour afficher la modal de l'ajout et edit
-function Inter_btn(id)
-{
-    $('#edit-interpret-modal #Id_RV_VW').val(id);
-    $('#edit-interpret-modal').modal('show');
 }
 
 //Fonctions pour Ajouter les différent types d'interprétation
@@ -88,18 +86,22 @@ function Add_inter_pdf_btn() {
                 }, 1500);
             },
             error: function (xhr, status, error) {
-                console.log(status);
-                $('#error-modal-text').text("Erreur ! ");
-                $('#error-modal').modal('show');
-                setTimeout(function () {
-                    $('#edit-interpret-modal').modal('show');
-                    $('#error-modal').modal('hide');
-                }, 1500);
+                $('#edit-interpret-modal').modal('hide');
+                if ((xhr.status === 403) || (xhr.status === 401)) {
+                    CheckError(xhr);
+                }
+                else {
+                    $('#error-modal-text').text("Erreur ! ");
+                    $('#error-modal').modal('show');
+                    setTimeout(function () {
+                        $('#error-modal').modal('hide');
+                    }, 1500);
+                }
             }
         });
     }
     else {
-        $('#error-modal-text').text("Pas de fichier choisis !");
+        $('#error-modal-text').text("Vous devez choisir un fichier PDF !");
         $('#edit-interpret-modal').modal('hide');
         $('#error-modal').modal('show');
         setTimeout(function () {
@@ -143,12 +145,13 @@ function Add_inter_text_btn() {
                 } 
             },
             error: function (xhr, status, error) {
-                CheckError(xhr);
+            $('#edit-interpret-modal').modal('hide');
+            CheckError(xhr);
             }
         });
     }
     else {
-        $('#error-modal-text').text("Tu dois choisir au moin 4 Caractéres pour l'interpretation !");
+        $('#error-modal-text').text("Vous devez choisir au moin 4 Caractéres pour l'interpretation !");
         $('#error-modal').modal('show');
         $('#edit-interpret-modal').modal('hide');
         setTimeout(function () {
@@ -157,10 +160,70 @@ function Add_inter_text_btn() {
         }, 2000);
     }
 }
-function Add_inter_vocal_btn() {
-}    
+function Add_inter_vocal_btn(audioBlob) {
+    if ((audioBlob.type == 'audio/mp3') && (audioBlob.size >= 10000))
+    {
+        let Id = $('#edit-interpret-modal #Id_RV_VW').val();
+        let filename = Id + "_recording.mp3";
+        const record = new FormData();
+        record.append("audio", audioBlob, filename);
+        record.append("Id", Id);
+        $.ajax({
+            url: "/Appointment/Add_Inter_Vocal",
+            type: "POST",
+            data: record,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    $('#success-modal-text').text(response.message);
+                    $('#success-modal').modal('show');
+                    $('#edit-interpret-modal').modal('hide');
+                    setTimeout(function () {
+                        $('#success-modal').modal('hide');
+                        window.location.reload();
+                    }, 2000);
+                }
+                else {
+                    $('#edit-RendezVous-modal').modal('hide');
+                    $('#edit-interpret-modal').modal('hide');
+                    $('#error-modal-text').text(response.message);
+                    $('#error-modal').modal('show');
+                    setTimeout(function () {
+                        $('#error-modal').modal('hide');
+                        $('#edit-interpret-modal').modal('show');
+                    }, 2000);
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#edit-interpret-modal').modal('hide');
+                if ((xhr.status === 403) || (xhr.status === 401)) {
+                    CheckError(xhr);
+                }
+                else {
+                    $('#error-modal-text').text("Erreur ! ");
+                    $('#error-modal').modal('show');
+                    setTimeout(function () {
+                        $('#edit-interpret-modal').modal('show');
+                        $('#error-modal').modal('hide');
+                    }, 1500);
+                }
+            }
+        });
+    }
+    else
+    {
+        $('#error-modal-text').text("Vous devez enregistrer une vocale plus longue et nette !");
+        $('#error-modal').modal('show');
+        $('#edit-interpret-modal').modal('hide');
+        setTimeout(function () {
+            $('#error-modal').modal('hide');
+            $('#edit-interpret-modal').modal('show');
+        }, 2000);
+    }
+}
 
-//Fonction pour le record
+//Fonction pour l'enregistrement vocal
 let mediaRecorder;
 let chunks = [];
 function startRecording() {
@@ -183,7 +246,7 @@ function stopRecording() {
         chunks = [];
         const audioUrl = URL.createObjectURL(audioBlob);
         audioPlayer.src = audioUrl;
-        const sendAudioBtn = document.createElement("Add_Inter");
+        const sendAudioBtn = document.getElementById("Add_Inter");
         sendAudioBtn.addEventListener("click", function () {
             Add_inter_vocal_btn(audioBlob);
         });

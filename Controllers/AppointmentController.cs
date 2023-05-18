@@ -4,6 +4,7 @@ using radio1.Models.BLL;
 using radio1.Models.DAL.RV_Planification;
 using radio1.Models.Entities;
 using System.Security.Claims;
+using System.Web;
 
 namespace radio1.Controllers
 {
@@ -15,13 +16,53 @@ namespace radio1.Controllers
 		{
 			_env = env;
 		}
+		[Authorize(Roles = "Doctor")]
+		[HttpPost]
+		public async Task<IActionResult> Add_Inter_Vocal(IFormFile audio)
+		{
+			if (audio == null || audio.Length == 0)
+			{
+				return Ok("ERROR");
+			}
+			var fileName = audio.FileName;
+			string pdfPath = Path.Combine(_env.ContentRootPath, "wwwroot", "assets", "Interpretation_Record", fileName);
+			if (System.IO.File.Exists(pdfPath))
+			{
+				System.IO.File.Delete(pdfPath);
+			}
+			using (var stream = new FileStream(pdfPath, FileMode.Create))
+			{
+				await audio.CopyToAsync(stream);
+			}
+			string[] fileNameParts = fileName.Split('_');
+			RendezVous RV = new RendezVous();
+			RV.Id = Int32.Parse(fileNameParts[0]);
+			RV.Inter_Vocal = fileName;
+			var msg = InterpretationDAL.Add_Inter_Vocal(RV);
+			return Json(new { Success = msg.Verification, Message = msg.Msg });
+		}
+		[Authorize(Roles = "Doctor , Secretaire , Technicien ,Admin")]
+		[HttpGet]
+		public IActionResult Get_Inter_Vocal(string audioBlob_str)
+		{
+			string audioFilePath = Path.Combine(_env.ContentRootPath, "wwwroot", "assets", "Interpretation_Record", audioBlob_str);
+			if (System.IO.File.Exists(audioFilePath))
+			{
+				var stream = new FileStream(audioFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+				return File(stream, "audio/mpeg");
+			}
+			else
+			{
+				return BadRequest();
+			}
+		}
 
 		/// <summary>
 		/// Fonctions les Interprétations textuelle
 		/// </summary>
 		/// <param></param>
 		/// <returns></returns>
-		[Authorize(Roles = "Doctor,Technicien")]
+		[Authorize(Roles = "Doctor")]
 		[HttpPost]
 		public IActionResult Edit_Inter_Text(RendezVous RV)
 		{
@@ -34,7 +75,7 @@ namespace radio1.Controllers
 		/// </summary>
 		/// <param name="pdf"></param>
 		/// <returns></returns>
-		[Authorize(Roles = "Doctor,Technicien")]
+		[Authorize(Roles = "Doctor")]
 		[HttpPost]
 		public async Task<IActionResult> AddPDF(IFormFile pdf)
 		{
@@ -59,6 +100,8 @@ namespace radio1.Controllers
 			var msg = InterpretationDAL.Add_Inter_PDF(RV);
 			return Json(new { Success = msg.Verification, Message = msg.Msg });
 		}
+		[Authorize(Roles = "Doctor")]
+		[HttpDelete]
 		public IActionResult DelPDF(string PdfName)
 		{
 			if (PdfName != null)
@@ -98,12 +141,14 @@ namespace radio1.Controllers
 			var rendezvous = RendezVousBLL.GetById(Id);
 			return Json(rendezvous);
 		}
+		
 		[HttpHead]
 		[HttpGet]
 		public IActionResult AppointmentList()
 		{
 			return View();
 		}
+
 		[Authorize(Roles="Admin,Secretaire")]
 		[HttpPost]
 		public IActionResult EditAppointment(RendezVous RV)

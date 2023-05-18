@@ -150,7 +150,7 @@ function submit_edit_app(app_id, salle_id) {
 				data: { appareilradio: app },
 				success: function (response) {
 					if (response.success) {
-						$('#success-modal-text').text(response.message);
+						$('#success-modal-text').text("Appareil modifié avec succès");
 						$('#success-modal').modal('show');
 						setTimeout(function () {
 							$('#success-modal').modal('hide');
@@ -294,8 +294,6 @@ function submit_add_app(salle_id) {
 		}, 1500);
 	}
 }
-
-
 
 
 function Cancel_Appareil_Btn() {

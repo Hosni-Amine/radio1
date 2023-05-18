@@ -1,7 +1,7 @@
 ﻿@Model IEnumerable<radio1.Models.Entities.RendezVous>
 	@{
-    DateTime now = DateTime.Now;
 	string thiscolor = "background-color:#ffffff;";
+    DateTime now = DateTime.Now;
 	}
 	@{
 		Layout = "_HomePageLayout";
@@ -19,7 +19,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<ul class="breadcrumb">
-									<li class="breadcrumb-item"><a>Patient </a></li>
+									<li class="breadcrumb-item"><a>Patients </a></li>
 									<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
 									<li class="breadcrumb-item active">Liste des Rendez-Vous par patient</li>
 								</ul>
@@ -71,7 +71,7 @@
 												<tbody>
 													@foreach (var item in Model)
 													{
-														@if (now > item.Date)
+														@if (now >= item.Date)
 														{
 															@if (@item.Image_Name != null)
 															{
@@ -134,23 +134,14 @@
 																		<td class="text">
 																			<div class="dropdown">
 																				<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-																					@if (item.Interpretation.Length > 15)
-																					{
-																						@item.Interpretation.Substring(0, Math.Min(item.Interpretation.Length, 15))
-																						@Html.Raw(".....")
-																					}
-																					else
-																					{
-																						@item.Interpretation
-																					}
+																						@item.Inter_Vocal
 																				</a>
 																				<div class="dropdown-menu dropdown-menu-center">
-																					<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Afficher </a>
-																					<a class="dropdown-item" href="#" onclick="changer_affectation(@item.Id)"><i class="fa-solid fa-pen-to-square m-r-5"></i> Modifier </a>
+																					<a class="dropdown-item" href="#" onclick="show(@item.Id,'vocal')"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ecouter / Modifier</a>
 																				</div>
 																			</div>
 																		</td>
-																	}
+																	}   
 																	else
 																	{
 																		<td class="text">
@@ -230,5 +221,6 @@
 				</div>
 			</div>
 		</div>
+		<script src="~/MyJS/RV_Planification/Interpretation.js"></script>
 		<script src="~/MyJS/RhumainesJS/Patient.js"></script>
 	</body>

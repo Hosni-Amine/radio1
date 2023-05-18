@@ -26,7 +26,7 @@ namespace radio1.Models.DAL.RV_Planification
                         command.Parameters.AddWithValue("@Id", rendezVous.Id);
                         command.Parameters.AddWithValue("@Date", rendezVous.Date);
                         DbConnection.NonQueryRequest(command);
-						return new Message(true, "Rendez-Vous replanifier avec succes !");
+						return new Message(true, "Rendez-Vous replanifie avec succes!");
                     }
                     else
 					{
@@ -35,7 +35,7 @@ namespace radio1.Models.DAL.RV_Planification
                         command.Parameters.AddWithValue("@Id", rendezVous.Id);
                         command.Parameters.AddWithValue("@Interpretation", rendezVous.Interpretation);
                         DbConnection.NonQueryRequest(command);
-						return new Message(true, "Image interpreter avec succes !");
+						return new Message(true, "Interpretation ajoute avec succes !");
                     }
                 }
 			}

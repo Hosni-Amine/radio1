@@ -10,8 +10,8 @@ namespace radio1.Models.DAL.Connection
 {
     public class DbConnection
     {
-        //static string CS = "workstation id=radiologie.mssql.somee.com;packet size=4096;user id=hosniamine_SQLLogin_1;pwd=kkke54dsdo;data source=radiologie.mssql.somee.com;persist security info=False;initial catalog=radiologie";
-        static string CS = "data source=(localdb)\\mssqllocaldb;initial catalog=radio;integrated security=true";
+        static string CS = "workstation id=radiologie.mssql.somee.com;packet size=4096;user id=hosniamine_SQLLogin_1;pwd=kkke54dsdo;data source=radiologie.mssql.somee.com;persist security info=False;initial catalog=radiologie";
+        //static string CS = "data source=(localdb)\\mssqllocaldb;initial catalog=radio;integrated security=true";
 
         public static SqlConnection? GetConnection()
         {

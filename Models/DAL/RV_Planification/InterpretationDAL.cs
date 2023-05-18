@@ -1,7 +1,6 @@
 ﻿using radio1.Models.Entities;
 using System.Data.SqlClient;
 using radio1.Models.DAL.Connection;
-using System.Data;
 
 namespace radio1.Models.DAL.RV_Planification
 {

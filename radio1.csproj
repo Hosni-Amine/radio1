@@ -47,6 +47,7 @@
     <Folder Include="PACS\" />
     <Folder Include="wwwroot\assets\dicom\" />
     <Folder Include="wwwroot\assets\Interpretation_PDF\" />
+    <Folder Include="wwwroot\assets\Interpretation_Record\" />
     <Folder Include="wwwroot\fullcalendar\" />
   </ItemGroup>
 
