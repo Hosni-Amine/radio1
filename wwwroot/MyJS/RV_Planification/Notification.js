@@ -15,10 +15,16 @@ function refresh_notification() {
             if (data.length != 0) {
                 for (var i = 0; i < data.length; i++) {
                     const image_name = data[i].image_Name;
-                    const inter = data[i].interpretation;
+                    let inter; 
+                    if (data[i].interpretation === null || data[i].inter_Vocal === null || data[i].inter_PDF === null) {
+                        inter = null;
+                    }
+                    else {
+                        inter = data[i].interpretation;
+                    }   
                     const Role = localStorage.getItem("Role");
+                    const User_Id = localStorage.getItem("Id");
                     var clonedElement = elementToClone.clone();
-
                     //date format and check 
                     var currentDate = new Date();
                     var formattedcurrentDate = currentDate.toLocaleDateString('fr-FR', {
@@ -44,36 +50,44 @@ function refresh_notification() {
                     //adding details to the notification element
                     clonedElement.find("#noti_time").text("Le : " + formattedRV);
                     var patient = data[i].patient.nom + " " + data[i].patient.prenom;
-                    if (data[i].secretaire.nom === null) {
-                        clonedElement.find("#noti_owner").text("L'administrateur ");
+                    if (data[i].secretaire.user_Id != User_Id) {
+                        if (data[i].secretaire.nom === null) {
+                            clonedElement.find("#noti_owner").text("L'administrateur a");
+                        }
+                        else {
+                            clonedElement.find("#noti_owner").text(data[i].secretaire.nom + " " + data[i].secretaire.prenom + " a");
+                        }
                     }
-                    else {
-                        clonedElement.find("#noti_owner").text(data[i].secretaire.nom + " " + data[i].secretaire.prenom);
-                    }
-                    clonedElement.find("#noti_details").text(data[i].typeOperation.nom + " : " + data[i].examen);
                     clonedElement.find("#noti_for").text(patient);
+                    clonedElement.find("#noti_details").text(data[i].typeOperation.nom + " : " + data[i].examen);
                     var add = clonedElement.find("#event_details_for_add");
-                    if (image_name === null && ( (Role === "Doctor") || (Role === "Technicien") ) ) {
+
+                    if (image_name != null && inter != null && ((Role === "Doctor") || (Role === "Technicien"))) {
+                        clonedElement.css("background-color", "#5dff002e");
+                        add.css("background-color", "#00cb44bf");
+                        add.text("Details");
+                        add.attr("onclick", "EventsListPatient('" + data[i].id + "')");
+                    }
+                    else if (image_name != null && ((Role === "Doctor") || (Role === "Technicien"))) {
+                        clonedElement.css("background-color", "#5dff002e");
+                        add.css("background-color", "#00cb44bf");
+                        add.text("Ajouter interprétation");
+                        add.attr("onclick", "EventsListPatient('" + data[i].id + "')");
+                    }
+                    else if (image_name === null && ((Role === "Doctor") || (Role === "Technicien"))) {
                         clonedElement.css("background-color", "#ffe0002e");
-                        add.css("background-color", "#cb6d00bf");
+                        add.css("background-color", "#cb6b00bf");
                         add.text("Ajouter une image");
                         add.attr("onclick", "event_details_for_add('" + data[i].id + "')");
                     }
+                    else if (image_name) {
+                        clonedElement.css("background-color", "#5dff002e");
+                        clonedElement.find("#notification_button").hide();
+                    }
                     else if (image_name === null) {
-                        clonedElement.css("background-color", "#ffe0002e");
+                        clonedElement.css("background-color", "c");
                         clonedElement.find("#notification_button").hide();
                     } 
-                    else if (image_name != null && inter != null && ((Role === "Doctor") || (Role === "Technicien"))) {
-                        clonedElement.css("background-color", "#54db763d");
-                        add.css("background-color", "#1ed641b8");
-                        add.text("Visualiser l'image");
-                        add.attr("onclick", "View_Image('" + data[i].id + "')");
-                    }
-                    else if (image_name != null && ((Role === "Doctor") || (Role === "Technicien")) ) {
-                        add.css("background-color", "#648fcc");
-                        add.text("Visualiser l'image");
-                        add.attr("onclick", "View_Image('" + data[i].id + "', true)");
-                    }
                     else {
                         clonedElement.find("#notification_button").hide();
                     }
@@ -284,6 +298,29 @@ function RendezVous_Delails_Image(id) {
             setTimeout(function () {
                 $('#error-modal').modal('hide');
             }, 2000);
+        }
+    });
+}
+
+function EventsListPatient(id) {
+    $.ajax({
+        url: "/Patient/EventsListPatientjson/",
+        type: 'GET',
+        data: { patient_Id: id },
+        success: function (response) {
+            if (response.verification) {
+                window.location.href = "/Patient/EventsListPatient?patient_Id=" + id;
+            }
+            else {
+                $('#success-modal-text').text("Aucun Rendez-Vous pour ce patient !");
+                $('#success-modal').modal('show');
+                setTimeout(function () {
+                    $('#success-modal').modal('hide');
+                }, 1500);
+            }
+        },
+        error: function (xhr, jqXHR, status, error) {
+            CheckError(xhr);
         }
     });
 }

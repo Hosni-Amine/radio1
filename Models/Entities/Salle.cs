@@ -10,7 +10,6 @@
 		public List<TypeOperation>? Operations { get; set; }
 		public List<AppareilRadio>? AppareilRadios { get; set; }
 		public DateTime? DateCreation { get; set; }
-
 		public Salle() { }
 	}
 }

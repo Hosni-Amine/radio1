@@ -8,6 +8,8 @@
 		public string? Email { get; set; }
 		public string? Sexe { get; set; }
 		public DateTime? DateCreation { get; set; }
+		public string? User_Id { get; set; }
+
 
 		public Secretaire() { }
 	}

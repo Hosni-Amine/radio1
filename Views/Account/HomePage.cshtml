@@ -3,6 +3,8 @@
 @{
 	Layout = "_HomePageLayout";
 }
+<link rel="stylesheet" type="text/css" href="~/MyCSS/HomePage.css"/>
+
 
 <div class="page-wrapper">
 	<div class="content">
@@ -246,8 +248,40 @@
 							</div>
 						</div>
 					</div>
+				</div>		
+				<div class="col-12 col-md-12 col-lg-9 col-xl-7">
+					<div class="card">
+						<div class="card-body" style="background-color: #e4e8ee; position: relative;">
+							<div id="activity-chart" style="min-height: 245px;">
+								<svg xmlns="http://www.w3.org/2000/svg" class="apexcharts-inner apexcharts-graphical" transform="translate(39.25, 30)">
+									<defs>
+										<linearGradient id="SvgjsLinearGradient1250" x1="0" y1="0" x2="0" y2="1">
+											<stop id="SvgjsStop1251" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)" offset="0"></stop>
+											<stop id="SvgjsStop1252" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop>
+										</linearGradient>
+										<clipPath id="gridRectMask9xwubq0m">
+											<rect id="SvgjsRect1255" width="638.75" height="150.348" x="-5" y="-3" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+										</clipPath>
+										<clipPath id="gridRectMarkerMask9xwubq0m">
+											<rect id="SvgjsRect1256" width="632.75" height="148.348" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+										</clipPath>
+									</defs>
+									<rect id="SvgjsRect1254" width="15.71875" height="144.348" x="307.8409090909091" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke-dasharray="3" fill="url(#SvgjsLinearGradient1250)" class="apexcharts-xcrosshairs" y2="144.348" filter="none" fill-opacity="0.9" x1="307.8409090909091" x2="307.8409090909091"></rect>
+									<g id="SvgjsG1284" class="apexcharts-xaxis" transform="translate(0, 0)">
+										<g id="SvgjsG1285" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)">
+											<text id="SvgjsText1287" font-family="Helvetica, Arial, sans-serif" x="26.197916666666668" y="173.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1288">Jan</tspan><title>Jan</title></text>
+											<text id="SvgjsText1290" font-family="Helvetica, Arial, sans-serif" x="78.59375" y="173.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1291">Feb</tspan><title>Feb</title></text>
+											<text id="SvgjsText1293" font-family="Helvetica, Arial, sans-serif" x="130.98958333333334" y="173.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1294">Mar</tspan><title>Mar</title></text>
+											<!-- Add more <text> elements for the remaining months as needed -->
+										</g>
+										<line id="SvgjsLine1296" x1="7" y1="0" x2="7" y2="150.348" stroke-dasharray="0" class="apexcharts-xaxis-line" opacity="1" stroke-width="1" stroke="#e4e9eb" fill="none"></line>
+									</g>
+								</svg>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex">
+				<div class="col-12 col-md-12 col-lg-3 col-xl-5 d-flex">
 					<div class="struct-point">
 						<div class="card patient-structure" style="background-color: #e4e8ee;">
 							<div class="card-body">
@@ -267,5 +301,3 @@
 		}
 	</div>
 </div>
-
-

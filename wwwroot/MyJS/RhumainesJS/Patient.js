@@ -32,7 +32,6 @@ $(document).ready(function () {
 
 //Fonction Rendez-Vous list pour un patient 
 function EventsListPatient(id) {
-
 	$.ajax({
 		url: "/Patient/EventsListPatientjson/",
 		type: 'GET',
@@ -115,7 +114,6 @@ function event_details_patient(id) {
 		}
 	});
 }
-
 
 //Fonction API pour un patient
 function delete_patient_btn(id) { 
