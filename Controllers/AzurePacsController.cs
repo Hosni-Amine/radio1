@@ -43,9 +43,10 @@ public class AzurePacsController : Controller
 	{
 		try
 		{
-            string pathToExe = @"C:\Users\Amine\Desktop\dicom_viewer\bin\Debug\net6.0-windows\Dicom_Viewer.exe";
-            Process.Start(pathToExe);
-            return Ok();
+			string basePath = AppContext.BaseDirectory;
+			string relativePath = "dicom_viewer\\bin\\Debug\\net6.0-windows\\Dicom_Viewer.exe";
+			string fullPath = Path.Combine(basePath, relativePath);
+			return Ok();
         }
 		catch(Exception ex) 
 		{
